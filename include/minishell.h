@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/07/12 01:06:10 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/08/25 18:50:59 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,8 @@ typedef enum e_toke
 	RED_OUT,
 	RED_APPEND,
 	HEREDOC,
-	OR,
-	AND,
-	L_BRACKET,
-	R_BRACKET,
 	ASSIGNEMENT,
 	EQUALS,
-	PRE_WILDCARD,
-	AFTER_WILDCARD,
-	WILDCARD
 }	t_token_typ;
 
 typedef struct s_token_list

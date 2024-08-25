@@ -6,11 +6,11 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 19:06:24 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/07/13 02:55:41 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/08/25 20:37:22 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 int	ft_isspace(char c)
 {
@@ -119,7 +119,7 @@ t_token_list	*ft_create_list(char *input)
 			}
 			continue ;
 		}
-		
+1`
 		if (input[i] == '>')
 		{
 			if (word_len > 0)
@@ -137,7 +137,7 @@ t_token_list	*ft_create_list(char *input)
 				ft_append_list(&tokens, RED_OUT, ">");
 			continue ;
 		}
-		
+
 		if (input[i] == '<')
 		{
 			if (word_len > 0)
@@ -155,48 +155,6 @@ t_token_list	*ft_create_list(char *input)
 				ft_append_list(&tokens, RED_IN, "<");
 			continue ;
 		}
-		
-		if (input[i] == '|')
-		{
-			if (word_len > 0)
-			{
-				current[word_len] = '\0';
-				ft_append_list(&tokens, WORD, current);
-				word_len = 0;
-			}
-			if (input[i + 1] == '|')
-			{
-				ft_append_list(&tokens, OR, "||");
-				i++;
-			}
-			else
-				ft_append_list(&tokens, PIPE, "|");
-			continue ;
-		}
-
-		if (input[i] == '(')
-		{
-			if (word_len > 0)
-			{
-				current[word_len] = '\0';
-				ft_append_list(&tokens, WORD, current);
-				word_len = 0;
-			}
-			ft_append_list(&tokens, L_BRACKET, "(");
-			continue ;
-		}
-
-		if (input[i] == ')')
-		{
-			if (word_len > 0)
-			{
-				current[word_len] = '\0';
-				ft_append_list(&tokens, WORD, current);
-				word_len = 0;
-			}
-			ft_append_list(&tokens, R_BRACKET, ")");
-			continue ;
-		}
 
 		if (input[i] == '=')
 		{
@@ -209,27 +167,7 @@ t_token_list	*ft_create_list(char *input)
 			ft_append_list(&tokens, EQUALS, "=");
 			continue ;
 		}
-		
-		if (input[i] == '*')
-		{
-			if (word_len > 0)
-			{
-				current[word_len] = '\0';
-				ft_append_list(&tokens, PRE_WILDCARD, current);
-				word_len = 0;
-			}
-			ft_append_list(&tokens, WILDCARD, "*");
-			if (input[i + 1] && !ft_isspace(input[i + 1]))
-			{
-				while (input[++i] && !ft_isspace(input[i]))
-					current[word_len++] = input[i];
-				current[word_len] = '\0';
-				ft_append_list(&tokens, AFTER_WILDCARD, current);
-				word_len = 0;
-				i--;
-			}
-			continue ;
-		}
+
 		current[word_len++] = input[i];
 	}
 	if (word_len > 0)
@@ -238,6 +176,7 @@ t_token_list	*ft_create_list(char *input)
 		ft_append_list(&tokens, WORD, current);
 		word_len = 0;
 	}
+	ft_append_list(&tokens, END, NULL);
 	t_token_list	*temp;
 	temp = tokens;
 	while (temp)
@@ -246,4 +185,5 @@ t_token_list	*ft_create_list(char *input)
 		temp = temp->next;
 	}
 	ft_cleantoken(&tokens);
+	return(tokens);
 }

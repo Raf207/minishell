@@ -4,7 +4,8 @@ BONUS_NAME = pipex_bonus
 LIBFT = ./libft/libft.a
 
 CC = gcc -fsanitize=address -g
-CFLAGS = -Wall -Wextra -lreadline -L /Users/rafnasci/homebrew/opt/readline/lib -I /Users/rafnasci/homebrew/opt/readline/include
+CFLAGS = -Wall -Wextra
+LINK = -lreadline -L /Users/$(shell whoami)/homebrew/opt/readline/lib -I /Users/$(shell whoami)/homebrew/opt/readline/include
 
 RM = rm -rf
 
@@ -23,16 +24,16 @@ BONUS_SRC = $(addprefix $(BONUS_SRC_DIR), $(addsuffix _bonus.c, $(BONUS_SRC_FILE
 
 HEAD = ./include/
 
-all : $(LIBFT) $(NAME)
+all : $(NAME)
 
-$(NAME) : $(OBJ)
+$(NAME) : $(OBJ) $(LIBFT)
 	@echo "\033[0;33m\nCOMPILING MINISHELL...\n"
-	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(LINK) -o $(NAME)
 	@echo "\033[1;32m./minishell created\n"
 
 $(BONUS_NAME) : $(BONUS_OBJ) $(LIBFT)
 	@echo "\033[0;33m\nCOMPILING PIPEX_BONUS...\n"
-	@$(CC) $(CFLAGS) $(BONUS_OBJ) $(LIBFT) -o $(BONUS_NAME)
+	@$(CC) $(CFLAGS) $(BONUS_OBJ) $(LIBFT) $(LINK)-o $(BONUS_NAME)
 	@echo "\033[1;32m./pipex_bonus created\n"
 
 $(LIBFT)	:
@@ -42,7 +43,7 @@ $(LIBFT)	:
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c
 	@mkdir -p $(OBJ_DIR)
-	@$(CC) $(CFLAGS) -I $(HEAD) -c $< -o $@
+	@$(CC) $(CFLAGS) $(LINK) -I $(HEAD) -c $< -o $@
 
 $(BONUS_OBJ_DIR)%.o : $(BONUS_SRC_DIR)%.c
 	@mkdir -p $(BONUS_OBJ_DIR)

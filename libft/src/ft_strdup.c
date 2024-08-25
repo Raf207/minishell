@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:33:10 by rafnasci          #+#    #+#             */
-/*   Updated: 2023/10/14 17:05:51 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/07/30 10:58:25 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ char	*ft_strdup(const char *s)
 {
 	char	*dst;
 
+	if (!s)
+		return (NULL);
 	dst = (char *) malloc((ft_strlen(s) + 1) * sizeof(char));
 	if (!dst)
 		return (NULL);

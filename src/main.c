@@ -6,11 +6,11 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:16:16 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/07/08 19:16:36 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/08/25 18:33:17 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 void	ft_sig_handler(int sig)
 {
@@ -33,8 +33,7 @@ char	*ft_input(void)
 
 void	ft_read_input(void)
 {
-	char	*input;
-	t_token_list	*token;
+	char			*input;
 
 	signal(SIGINT, ft_sig_handler);
 	while (1)
@@ -42,6 +41,7 @@ void	ft_read_input(void)
 		input = ft_input();
 		if (!input)
 		{
+			write(4, "exit", 1);
 			printf("exit\n");
 			break ;
 		}
@@ -49,7 +49,8 @@ void	ft_read_input(void)
 		free(input);
 	}
 }
-int	main(void)
+
+int	main(int g, char **te, char **lsdkfj)
 {
 	ft_read_input();
 	return (0);
