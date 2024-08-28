@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 19:28:09 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/08/28 04:33:09 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/08/28 05:11:19 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@ static void	ft_free(char **tabl)
 	free(tabl);
 }
 
+/*
+	trouve ou se trouve le PATH dans le valeurs d'environnement
+*/
 static int	ft_findpath(char **envp)
 {
 	int	i;
@@ -44,6 +47,12 @@ static int	ft_findpath(char **envp)
 	return (-1);
 }
 
+/*
+	cree le tableau avec la commande et ses arguments/parametres
+	je compte combien de token WORD il y a avant un token diff
+	tous ces tokens sont consideres comme un commande et ses arguments/parametres
+	puis je copie chaque valeur qu'il y a dans le token dans le tableau
+*/
 char	**split_cmd(t_token_list *tokens)
 {
 	int				args;
@@ -73,6 +82,13 @@ char	**split_cmd(t_token_list *tokens)
 	return (split);
 }
 
+/*
+	execute une commande (je fork pas encore alors ca va direct arreter ton programme) 
+	cmd : le tableau avec la commande et ses arguments/parametres ex: ["cat", "-e", "red", 0]
+	path : les differents chemins vers la commande teste ex: /bin/cat ou /usr/bin/cat ....
+	path_envp : contient une ligne avec tous les chemins possible vers une commande | tu peux faire "echo $PATH" pour les voir
+	all_paths : contient tous les chemins possible vers une commande mais cette fois ci dans un tableau
+*/
 void	exec_cmd(t_token_list *tokens, char **envp)
 {
 	char	**cmd;
@@ -102,6 +118,10 @@ void	exec_cmd(t_token_list *tokens, char **envp)
 	exit(EXIT_FAILURE);
 }
 
+/*
+	cree une node de l'AST en indiquant son type qu'on copie juste dans une str et ce que contient la node
+	elle contient un pointer vers la node du la liste de token comme on l'avait dit
+*/
 static t_AST	*createnode(char *type, t_token_list **value)
 {
 	t_AST			*node;
@@ -118,6 +138,12 @@ static t_AST	*createnode(char *type, t_token_list **value)
 	return (node);
 }
 
+/*
+	la fonction est pas du tout complete je voulais juste essayer de creer une node de l'ast pour la commande
+	et puis exectuer la commande avec exec_cmd
+	tu peux essayer de le faire, en gros tape juste une commande avec des arguments et des options normalement ca doit fonctionner
+	si je tape "cat red < blue" ca prend bien que "cat red" et pour l'instant je fais rien avec le reste de l'input
+*/
 t_AST	*parsecmd(t_token_list *tokens, t_env *env)
 {
 	t_AST	*top;

@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 21:04:10 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/08/28 04:18:08 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/08/28 04:56:32 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ static t_env	*ft_last_node(t_env *list)
 		list = list->next;
 	return (list);
 }
-
+/*
+	petite fonction pour chercher un carctere, principalement utilisee pour trouver le = dans l'environnement 
+	pour pouvoir separer ce qu'il y a avant et apres
+*/
 static int	find_char(const char	*str, int c)
 {
 	int	i;
@@ -30,7 +33,9 @@ static int	find_char(const char	*str, int c)
 		;
 	return (i);
 }
-
+/*
+	ajoute une ligne de l'environnement en tant que node dans la liste
+*/
 static void	append_list(t_env **env_list, char *str)
 {
 	t_env	*node;
@@ -46,7 +51,6 @@ static void	append_list(t_env **env_list, char *str)
 	len = find_char(str, '=');
 	node->name = ft_substr(str, 0, len);
 	node->value = ft_substr(str, len + 1, INT_MAX);
-	printf("%s=%s\n", node->name, node->value);
 	if (!(*env_list))
 		*env_list = node;
 	else
@@ -55,7 +59,9 @@ static void	append_list(t_env **env_list, char *str)
 		last_node->next = node;
 	}
 }
-
+/*
+	cree un tableau de la liste de l'environnement donne
+*/
 char	**build_env(t_env	**env)
 {
 	t_env	*node;
@@ -77,7 +83,7 @@ char	**build_env(t_env	**env)
 	{
 		tmp = ft_strjoin(node->name, "=");
 		envp[len] = ft_strjoin(tmp, node->value);
-		if (!tmp || !envp[len++])
+		if (!tmp || !envp[len++]) // ici il faut free tmp seulement si envp[len] retourne NULL mais j'ai pas les lignes faudra voir comment faire;
 			return (NULL);
 		free(tmp);
 		node = node->next;
@@ -85,6 +91,9 @@ char	**build_env(t_env	**env)
 	return (envp);
 }
 
+/*
+	cree une liste chainee de l'environnement comme on l'avait dit
+*/
 t_env	*make_envlist(char	**env)
 {
 	t_env	*env_list = NULL;
