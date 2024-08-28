@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 19:06:24 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/08/25 20:37:22 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/08/28 03:39:40 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_isspace(char c)
 		|| c == '\f' || c == '\v' || c == '\t');
 }
 
-t_token_list	*ft_last_token(t_token_list *list)
+static t_token_list	*ft_last_token(t_token_list *list)
 {
 	if (!list)
 		return (NULL);
@@ -119,7 +119,7 @@ t_token_list	*ft_create_list(char *input)
 			}
 			continue ;
 		}
-1`
+
 		if (input[i] == '>')
 		{
 			if (word_len > 0)
@@ -177,13 +177,13 @@ t_token_list	*ft_create_list(char *input)
 		word_len = 0;
 	}
 	ft_append_list(&tokens, END, NULL);
-	t_token_list	*temp;
-	temp = tokens;
-	while (temp)
-	{
-		printf("%s\n", temp->value);
-		temp = temp->next;
-	}
-	ft_cleantoken(&tokens);
+	// t_token_list	*temp;
+	// temp = tokens;
+	// while (temp)
+	// {
+	// 	printf("%s\n", temp->value);
+	// 	temp = temp->next;
+	// }
+	// ft_cleantoken(&tokens);
 	return(tokens);
 }

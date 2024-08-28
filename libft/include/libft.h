@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 13:28:15 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/07/08 19:00:26 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/08/27 22:49:51 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void		ft_lstiter(t_list *lst, void (*f)(void *));
 t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 char		*get_next_line(int fd);
 int			ft_createlist(t_gnllist **list, int fd);
-t_gnllist	*ft_lastnode(t_gnllist *list);
+t_gnllist	*ft_lAST(t_gnllist *list);
 void		ft_addlist(t_gnllist **list, char *str);
 int			ft_find_nl(t_gnllist *list);
 char		*ft_getline(t_gnllist	*list);

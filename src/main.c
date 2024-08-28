@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:16:16 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/08/25 18:33:17 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/08/28 04:17:36 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,11 @@ char	*ft_input(void)
 	return (input);
 }
 
-void	ft_read_input(void)
+void	ft_read_input(t_env **env)
 {
 	char			*input;
+	t_token_list	*tokens;
+	t_AST			*ast;
 
 	signal(SIGINT, ft_sig_handler);
 	while (1)
@@ -45,13 +47,17 @@ void	ft_read_input(void)
 			printf("exit\n");
 			break ;
 		}
-		ft_create_list(input);
+		tokens = ft_create_list(input);
+		ast = parsecmd(tokens, *env);
 		free(input);
 	}
 }
 
-int	main(int g, char **te, char **lsdkfj)
+int	main(int ac, char **av, char **envp)
 {
-	ft_read_input();
+	t_env	*env;
+
+	env = make_envlist(envp);
+	ft_read_input(&env);
 	return (0);
 }

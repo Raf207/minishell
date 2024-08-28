@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/08/25 18:50:59 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/08/28 03:37:53 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <term.h>
 # include <stdlib.h>
 # include <string.h>
+# include <limits.h>
 # include <signal.h>
 # include "../libft/include/libft.h"
 
@@ -46,6 +47,24 @@ typedef struct s_token_list
 	char				*value;
 }	t_token_list;
 
+typedef struct s_ast_node
+{
+	struct s_ast_node	*left_child;
+	struct s_ast_node	*right_child;
+	char				*type;
+	t_token_list		*value;
+}	t_AST;
+
+typedef struct s_env
+{
+	struct s_env	*next;
+	char			*name;
+	char			*value;
+}	t_env;
+
 t_token_list	*ft_create_list(char *input);
+t_AST			*parsecmd(t_token_list *tokens, t_env *env);
+t_env			*make_envlist(char	**env);
+char			**build_env(t_env	**env);
 
 #endif
