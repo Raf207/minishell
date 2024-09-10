@@ -6,11 +6,21 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 16:57:28 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/10 15:22:07 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/10 16:19:00 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/minishell.h"
+#include "../include/minishell.h"
+
+void	ft_free(char **s)
+{
+	int	i;
+
+	i = -1;
+	while (s[++i])
+		free(s[i]);
+	free(s);
+}
 
 void	ft_panic(char *s)
 {
@@ -48,7 +58,7 @@ t_AST	*ft_pipenode(t_AST *right, t_AST *left)
 
 	cmd = malloc (sizeof(*cmd));
 	ft_memset(cmd, 0, sizeof(*cmd));
-	cmd->type = PIPE;
+	cmd->type = NPIPE;
 	cmd->left = left;
 	cmd->right = right;
 	return (cmd);
@@ -66,7 +76,9 @@ t_AST	*ft_parseredir(t_AST *cmd, t_token_list **list)
 		if ((*list)->type != WORD)
 			ft_panic("missing file for redirection");
 		if (tok == RED_IN)
+		{
 			cmd = ft_redirnode(cmd, (*list)->value, O_RDONLY, 0);
+		}
 		else if (tok == RED_OUT)
 			cmd = ft_redirnode(cmd, (*list)->value,
 					O_WRONLY | O_CREAT | O_TRUNC, 1);
@@ -122,7 +134,6 @@ t_AST	*ft_parseexec(t_token_list **list)
 	while ((*list)->type != PIPE)
 	{
 		tok = (*list)->type;
-		(*list) = (*list)->next;
 		if (tok == END)
 			break ;
 		if (tok != WORD)
@@ -151,6 +162,6 @@ t_AST	*ft_parsing(t_token_list *list)
 {
 	t_AST	*cmd;
 
-	cmd = ft_parsepipe(list);
+	cmd = ft_parsepipe(&list);
 	return (cmd);
 }
