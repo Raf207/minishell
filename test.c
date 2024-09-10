@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 18:26:18 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/09 21:56:51 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/10 19:22:54 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,17 +109,19 @@ int	main(void)
 {
 	t_AST	*ast;
 
-	ast = malloc(sizeof(*ast));
-	ft_memset(ast, 0, sizeof(*ast));
-	ast->argv = ft_addargv(ast->argv, "salut");
-	ast->argv = ft_addargv(ast->argv, "cava");
-	ast->argv = ft_addargv(ast->argv, "je suis une bete");
-	printf("mot : %s\n", ast->argv[0]);
-	printf("mot : %s\n", ast->argv[1]);
-	printf("mot : %s\n", ast->argv[2]);
-	free(ast->argv[0]);
-	free(ast->argv[1]);
-	free(ast->argv[2]);
-	free(ast->argv);
-	system("leaks a.out");
+	(void) ast;
+	printf("mode : %d\n", O_WRONLY | O_TRUNC | O_CREAT);
+	// ast = malloc(sizeof(*ast));
+	// ft_memset(ast, 0, sizeof(*ast));
+	// ast->argv = ft_addargv(ast->argv, "salut");
+	// ast->argv = ft_addargv(ast->argv, "cava");
+	// ast->argv = ft_addargv(ast->argv, "je suis une bete");
+	// printf("mot : %s\n", ast->argv[0]);
+	// printf("mot : %s\n", ast->argv[1]);
+	// printf("mot : %s\n", ast->argv[2]);
+	// free(ast->argv[0]);
+	// free(ast->argv[1]);
+	// free(ast->argv[2]);
+	// free(ast->argv);
+	// system("leaks a.out");
 }

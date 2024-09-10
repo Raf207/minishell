@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:16:16 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/10 21:38:05 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/11 00:43:12 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ void	ft_read_input(t_env **env)
 		input = ft_input();
 		if (!input)
 		{
-			write(4, "exit", 1);
 			printf("exit\n");
 			break ;
 		}

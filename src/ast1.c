@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 16:57:28 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/10 19:24:12 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/11 00:35:30 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,8 @@ t_AST	*ft_parseexec(t_token_list **list)
 		if (tok == END)
 			break ;
 		if (tok != WORD)
-			ft_panic("syntax");		cmd->argv = ft_addargv(cmd->argv, (*list)->value);
+			ft_panic("syntax");
+		cmd->argv = ft_addargv(cmd->argv, (*list)->value);
 		(*list) = (*list)->next;
 		top = ft_parseredir(top, list);
 	}
@@ -227,7 +228,6 @@ void ft_runcmd(t_AST *ast, char **envp)
 	}
 	else if (ast->type == REDIR)
 	{
-		printf("mode : %d\n", ast->mode);
 		close(ast->fd);
 		fd = open(ast->file, ast->mode, 0777);
 		if (fd < 0)
@@ -247,7 +247,7 @@ void ft_runcmd(t_AST *ast, char **envp)
 			dup(p[1]);
 			close(p[0]);
 			close(p[1]);
-			ft_runcmd(ast->left, envp);
+			ft_runcmd(ast->right, envp);
 		}
 		if (ft_fork1() == 0)
 		{
@@ -255,7 +255,7 @@ void ft_runcmd(t_AST *ast, char **envp)
 			dup(p[0]);
 			close(p[0]);
 			close(p[1]);
-			ft_runcmd(ast->right, envp);
+			ft_runcmd(ast->left, envp);
 		}
 		close(p[0]);
 		close(p[1]);
