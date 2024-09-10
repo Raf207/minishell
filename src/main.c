@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:16:16 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/09 20:21:07 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/09/10 20:12:44 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void	ft_read_input(t_env **env)
 				ft_builtins(tokens);
 		else
 			printf("ko\n");
-		printf("token %s\n", tokens->next->value);
 		//ast = parsecmd(tokens, *env);
 		free(input);
 	}
