@@ -3,28 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/08/28 03:37:53 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/10 17:42:15 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <unistd.h>
-# include <stdlib.h>
+# include "../libft/include/libft.h"
 # include <curses.h>
-# include <term.h>
+# include <limits.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
-# include <limits.h>
-# include <signal.h>
-# include "../libft/include/libft.h"
+# include <term.h>
+# include <unistd.h>
 
 typedef enum e_toke
 {
@@ -37,7 +36,7 @@ typedef enum e_toke
 	HEREDOC,
 	ASSIGNEMENT,
 	EQUALS,
-}	t_token_typ;
+}						t_token_typ;
 
 typedef struct s_token_list
 {
@@ -45,7 +44,7 @@ typedef struct s_token_list
 	struct s_token_list	*next;
 	t_token_typ			type;
 	char				*value;
-}	t_token_list;
+}						t_token_list;
 
 typedef struct s_ast_node
 {
@@ -53,18 +52,23 @@ typedef struct s_ast_node
 	struct s_ast_node	*right_child;
 	char				*type;
 	t_token_list		*value;
-}	t_AST;
+}						t_AST;
 
 typedef struct s_env
 {
-	struct s_env	*next;
-	char			*name;
-	char			*value;
-}	t_env;
+	struct s_env		*next;
+	char				*name;
+	char				*value;
+}						t_env;
 
-t_token_list	*ft_create_list(char *input);
-t_AST			*parsecmd(t_token_list *tokens, t_env *env);
-t_env			*make_envlist(char	**env);
-char			**build_env(t_env	**env);
+t_token_list			*ft_create_list(char *input);
+t_AST					*parsecmd(t_token_list *tokens, t_env *env);
+t_env					*make_envlist(char **env);
+char					**build_env(t_env **env);
+
+// mucabrin
+int						ft_builtins(t_token_list *token);
+void					pwd(void);
+void					cd(t_token_list *token);
 
 #endif

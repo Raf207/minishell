@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:16:16 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/08/28 04:17:36 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/09 20:21:07 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,12 @@ void	ft_read_input(t_env **env)
 			break ;
 		}
 		tokens = ft_create_list(input);
-		ast = parsecmd(tokens, *env);
+		if (tokens->type == WORD)
+				ft_builtins(tokens);
+		else
+			printf("ko\n");
+		printf("token %s\n", tokens->next->value);
+		//ast = parsecmd(tokens, *env);
 		free(input);
 	}
 }
@@ -56,7 +61,8 @@ void	ft_read_input(t_env **env)
 int	main(int ac, char **av, char **envp)
 {
 	t_env	*env;
-
+	(void) ac;
+	(void) av;
 	env = make_envlist(envp);
 	ft_read_input(&env);
 	return (0);

@@ -5,7 +5,7 @@ LIBFT = ./libft/libft.a
 
 CC = gcc -fsanitize=address -g
 CFLAGS = -Wall -Wextra
-LINK = -lreadline -L /Users/$(shell whoami)/homebrew/opt/readline/lib -I /Users/$(shell whoami)/homebrew/opt/readline/include
+LINK = -lreadline -L /Users/$(shell whoami)/.brew/opt/readline/lib -I /Users/$(shell whoami)/.brew/opt/readline/include
 
 RM = rm -rf
 
@@ -14,7 +14,7 @@ OBJ_DIR = obj/
 BONUS_SRC_DIR = src_bonus/
 BONUS_OBJ_DIR = obj_bonus/
 
-SRC_FILES = main lexer ast env
+SRC_FILES = main lexer ast env builtins cd pwd
 BONUS_SRC_FILES = main
 
 OBJ = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))

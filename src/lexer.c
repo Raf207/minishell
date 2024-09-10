@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 19:06:24 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/08/28 03:39:40 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/09 19:46:20 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,18 @@ t_token_list	*ft_create_list(char *input)
 			continue ;
 		}
 
+		if (input[i] == '|')
+		{
+			if (word_len > 0)
+			{
+				current[word_len] = '\0';
+				ft_append_list(&tokens, WORD, current);
+				word_len = 0;
+			}
+			ft_append_list(&tokens, PIPE, "|");
+			continue ;
+		}
+
 		if (input[i] == '>')
 		{
 			if (word_len > 0)
@@ -164,7 +176,7 @@ t_token_list	*ft_create_list(char *input)
 				ft_append_list(&tokens, ASSIGNEMENT, current);
 				word_len = 0;
 			}
-			ft_append_list(&tokens, EQUALS, "=");
+			ft_append_list(&tokens, EQUALS, "="); 
 			continue ;
 		}
 
@@ -177,13 +189,13 @@ t_token_list	*ft_create_list(char *input)
 		word_len = 0;
 	}
 	ft_append_list(&tokens, END, NULL);
-	// t_token_list	*temp;
-	// temp = tokens;
-	// while (temp)
-	// {
-	// 	printf("%s\n", temp->value);
-	// 	temp = temp->next;
-	// }
+	 t_token_list	*temp;
+	 temp = tokens;
+	 while (temp)
+	 {
+	 	printf("%s\n", temp->value);
+	 	temp = temp->next;
+	 }
 	// ft_cleantoken(&tokens);
 	return(tokens);
 }
