@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 16:57:28 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/10 16:19:00 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/10 18:26:10 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,21 @@ void	ft_free(char **s)
 		free(s[i]);
 	free(s);
 }
-
 void	ft_panic(char *s)
 {
 	ft_putendl_fd(s, 2);
 	exit (1);
+}
+
+int	ft_findpath(char **envp)
+{
+	int	i;
+
+	i = -1;
+	while (envp[++i])
+		if (ft_strncmp("PATH", envp[i], 4) == 0)
+			return (i);
+	return (-1);
 }
 
 t_AST	*ft_execnode(void)
@@ -165,3 +175,4 @@ t_AST	*ft_parsing(t_token_list *list)
 	cmd = ft_parsepipe(&list);
 	return (cmd);
 }
+
