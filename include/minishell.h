@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/08/28 03:37:53 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/09 18:33:13 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <string.h>
 # include <limits.h>
 # include <signal.h>
+# include <fcntl.h>
 # include "../libft/include/libft.h"
 
 typedef enum e_toke
@@ -39,6 +40,13 @@ typedef enum e_toke
 	EQUALS,
 }	t_token_typ;
 
+typedef enum e_node
+{
+	EXEC,
+	REDIR,
+	PIP,
+}	t_node_type;
+
 typedef struct s_token_list
 {
 	struct s_token_list	*prev;
@@ -49,10 +57,14 @@ typedef struct s_token_list
 
 typedef struct s_ast_node
 {
-	struct s_ast_node	*left_child;
-	struct s_ast_node	*right_child;
-	char				*type;
-	t_token_list		*value;
+	t_node_type			type;				;
+	struct s_ast_node	*subcmd;
+	char				*file;
+	int					mode;
+	int					fd;
+	char				**argv;
+	struct s_ast_node	*left;
+	struct s_ast_node	*right;
 }	t_AST;
 
 typedef struct s_env

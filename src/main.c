@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:16:16 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/08/28 04:17:36 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/09 16:22:17 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	ft_read_input(t_env **env)
 			break ;
 		}
 		tokens = ft_create_list(input);
-		ast = parsecmd(tokens, *env);
+		//ast = parsecmd(tokens, *env);
 		free(input);
 	}
 }

@@ -6,13 +6,12 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 19:28:09 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/08/28 05:11:19 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/08 19:15:30 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-// void	parseredirection(t_token_list	*tokens)
 void	free_split(char **split, int nb)
 {
 	int	i;
@@ -138,6 +137,14 @@ static t_AST	*createnode(char *type, t_token_list **value)
 	return (node);
 }
 
+//  void	parseredirection(t_token_list	**tokens, t_AST	*node)
+//  {
+// 	t_token_list	*node;
+
+// 	node = *tokens;
+// 	if
+//  }
+
 /*
 	la fonction est pas du tout complete je voulais juste essayer de creer une node de l'ast pour la commande
 	et puis exectuer la commande avec exec_cmd
@@ -147,13 +154,19 @@ static t_AST	*createnode(char *type, t_token_list **value)
 t_AST	*parsecmd(t_token_list *tokens, t_env *env)
 {
 	t_AST	*top;
-
+	int		pid;
+	// printf("before : %s\n", tokens->value);
+	// parseredirection(&tokens, top);
+	// printf("after : %s\n", tokens->value);
 	if (tokens->type == WORD)
 	{
 		top = createnode("CMD", &tokens);
 		while (tokens->type == WORD)
 			tokens = tokens->next;
 	}
-	exec_cmd(top->value, build_env(&env));
+	pid = fork();
+	if (pid == 0)
+		exec_cmd(top->value, build_env(&env));
 	return (top);
 }
+ 
