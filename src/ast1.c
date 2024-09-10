@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 16:57:28 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/10 18:28:00 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/10 18:28:39 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,16 @@ void	ft_panic(char *s)
 {
 	ft_putendl_fd(s, 2);
 	exit (1);
+}
+
+int	ft_fork1(void)
+{
+	int	pid;
+
+	pid = fork();
+	if (pid == -1)
+		ft_panic("fork error");
+	return (pid);
 }
 
 int	ft_findpath(char **envp)
