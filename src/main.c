@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:16:16 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/10 18:29:25 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/10 19:46:34 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,9 @@ void	ft_read_input(t_env **env)
 		// printf("-----------------------\nAST :\n");
 		// ft_display_ast(ast, 0);
 		envp = build_env(env);
-		ft_runcmd(ast, envp);
+		if (ft_fork1() == 0)
+			ft_runcmd(ast, envp);
+		wait(0);
 		//ast = parsecmd(tokens, *env);
 		free(input);
 	}

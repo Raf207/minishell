@@ -5,7 +5,7 @@ LIBFT = ./libft/libft.a
 
 CC = gcc -fsanitize=address -g
 CFLAGS = -Wall -Wextra
-LINK = -lreadline -L /Users/$(shell whoami)/homebrew/opt/readline/lib -I /Users/$(shell whoami)/homebrew/opt/readline/include
+LINK = -lreadline -L /Users/$(shell whoami)/.brew/opt/readline/lib -I /Users/$(shell whoami)/.brew/opt/readline/include
 
 RM = rm -rf
 
