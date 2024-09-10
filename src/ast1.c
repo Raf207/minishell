@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 16:57:28 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/10 18:27:08 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/10 18:28:00 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,3 +203,55 @@ t_AST	*ft_parsing(t_token_list *list)
 	return (cmd);
 }
 
+void ft_runcmd(t_AST *ast, char **envp)
+{
+	int	p[2];
+
+	if (!ast)
+		exit(1);
+	if (ast->type == EXEC)
+	{
+		if (!ast->argv[0])
+			exit(1);
+		ft_execution(ast->argv, envp);
+		ft_putendl_fd(ft_strjoin(ast->argv[0], "failed to exec"), 2);
+	}
+	else if (ast->type == REDIR)
+	{
+		close(ast->fd);
+		if (open(ast->file, ast->mode) < 0)
+		{
+			ft_putendl_fd(ft_strjoin(ast->file, "failed to open"), 2);
+			exit(1);
+		}
+		ft_runcmd(ast->subcmd, envp);
+	}
+	else if (ast->type == NPIPE)
+	{
+		if (pipe(p) < 0)
+			ft_panic("pipe");
+		if (ft_fork1() == 0)
+		{
+			close(STDOUT_FILENO);
+			dup(p[1]);
+			close(p[0]);
+			close(p[1]);
+			ft_runcmd(ast->left, envp);
+		}
+		if (ft_fork1() == 0)
+		{
+			close(STDIN_FILENO);
+			dup(p[0]);
+			close(p[0]);
+			close(p[1]);
+			ft_runcmd(ast->right, envp);
+		}
+		close(p[0]);
+		close(p[1]);
+		wait(0);
+		wait(0);
+	}
+	else
+		ft_panic("runccmd");
+	exit(0);
+}
