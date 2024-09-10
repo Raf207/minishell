@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/09 18:33:13 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/10 15:36:57 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef enum e_node
 {
 	EXEC,
 	REDIR,
-	PIP,
+	NPIPE,
 }	t_node_type;
 
 typedef struct s_token_list
@@ -78,5 +78,6 @@ t_token_list	*ft_create_list(char *input);
 t_AST			*parsecmd(t_token_list *tokens, t_env *env);
 t_env			*make_envlist(char	**env);
 char			**build_env(t_env	**env);
+t_AST			*ft_parsing(t_token_list *list);
 
 #endif
