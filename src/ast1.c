@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 16:57:28 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/10 18:28:39 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/10 19:24:12 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,14 +123,13 @@ t_AST	*ft_parseredir(t_AST *cmd, t_token_list **list)
 		if ((*list)->type != WORD)
 			ft_panic("missing file for redirection");
 		if (tok == RED_IN)
-		{
 			cmd = ft_redirnode(cmd, (*list)->value, O_RDONLY, 0);
-		}
 		else if (tok == RED_OUT)
 			cmd = ft_redirnode(cmd, (*list)->value,
 					O_WRONLY | O_CREAT | O_TRUNC, 1);
 		else if (tok == RED_APPEND)
-			cmd = ft_redirnode(cmd, (*list)->value, O_WRONLY | O_CREAT, 1);
+			cmd = ft_redirnode(cmd, (*list)->value,
+					O_WRONLY | O_CREAT | O_APPEND, 1);
 		(*list) = (*list)->next;
 	}
 	return (cmd);
@@ -184,8 +183,7 @@ t_AST	*ft_parseexec(t_token_list **list)
 		if (tok == END)
 			break ;
 		if (tok != WORD)
-			ft_panic("syntax");
-		cmd->argv = ft_addargv(cmd->argv, (*list)->value);
+			ft_panic("syntax");		cmd->argv = ft_addargv(cmd->argv, (*list)->value);
 		(*list) = (*list)->next;
 		top = ft_parseredir(top, list);
 	}
@@ -216,6 +214,7 @@ t_AST	*ft_parsing(t_token_list *list)
 void ft_runcmd(t_AST *ast, char **envp)
 {
 	int	p[2];
+	int fd;
 
 	if (!ast)
 		exit(1);
@@ -224,14 +223,16 @@ void ft_runcmd(t_AST *ast, char **envp)
 		if (!ast->argv[0])
 			exit(1);
 		ft_execution(ast->argv, envp);
-		ft_putendl_fd(ft_strjoin(ast->argv[0], "failed to exec"), 2);
+		ft_putendl_fd(ft_strjoin(ast->argv[0], " failed to exec"), 2);
 	}
 	else if (ast->type == REDIR)
 	{
+		printf("mode : %d\n", ast->mode);
 		close(ast->fd);
-		if (open(ast->file, ast->mode) < 0)
+		fd = open(ast->file, ast->mode, 0777);
+		if (fd < 0)
 		{
-			ft_putendl_fd(ft_strjoin(ast->file, "failed to open"), 2);
+			ft_putendl_fd(ft_strjoin(ast->file, " failed to open"), 2);
 			exit(1);
 		}
 		ft_runcmd(ast->subcmd, envp);

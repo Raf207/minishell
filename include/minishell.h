@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/10 15:36:57 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/10 18:43:28 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,7 @@ t_AST			*parsecmd(t_token_list *tokens, t_env *env);
 t_env			*make_envlist(char	**env);
 char			**build_env(t_env	**env);
 t_AST			*ft_parsing(t_token_list *list);
+void 			ft_runcmd(t_AST *ast, char **envp);
+int				ft_fork1(void);
 
 #endif
