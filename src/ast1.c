@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 16:57:28 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/11 18:16:40 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/11 19:42:09 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,16 +85,15 @@ t_AST	*ft_execnode(void)
 	return (cmd);
 }
 
-t_AST	*ft_heredocnode(t_AST *subcmd, char *limiter, int mode)
+t_AST	*ft_heredocnode(t_AST *subcmd, char *limiter)
 {
 	t_AST	*cmd;
 
 	cmd = malloc(sizeof(*cmd));
 	ft_memset(cmd, 0, sizeof(*cmd));
-	cmd->type = HEREDOC;
+	cmd->type = N_HEREDOC;
 	cmd->subcmd = subcmd;
 	cmd->file = limiter;
-	cmd->mode = mode;
 	return (cmd);
 }
 
@@ -118,7 +117,7 @@ t_AST	*ft_pipenode(t_AST *right, t_AST *left)
 
 	cmd = malloc (sizeof(*cmd));
 	ft_memset(cmd, 0, sizeof(*cmd));
-	cmd->type = NPIPE;
+	cmd->type = N_PIPE;
 	cmd->left = left;
 	cmd->right = right;
 	return (cmd);
@@ -129,7 +128,7 @@ t_AST	*ft_parseredir(t_AST *cmd, t_token_list **list)
 	t_token_typ	tok;
 
 	while ((*list)->type == RED_IN || (*list)->type == RED_APPEND
-		|| (*list)->type == RED_OUT)
+		|| (*list)->type == RED_OUT || (*list)->type == HEREDOC)
 	{
 		tok = (*list)->type;
 		(*list) = (*list)->next;
@@ -143,6 +142,8 @@ t_AST	*ft_parseredir(t_AST *cmd, t_token_list **list)
 		else if (tok == RED_APPEND)
 			cmd = ft_redirnode(cmd, (*list)->value,
 					O_WRONLY | O_CREAT | O_APPEND, 1);
+		else if (tok == HEREDOC)
+			cmd = ft_heredocnode(cmd, (*list)->value);
 		(*list) = (*list)->next;
 	}
 	return (cmd);
@@ -225,9 +226,33 @@ t_AST	*ft_parsing(t_token_list *list)
 	return (cmd);
 }
 
+void	ft_heredoc_input(int pipe[2], char *limiter)
+{
+	char	*line;
+
+	close(pipe[0]);
+	while (1)
+	{
+		ft_putstr_fd("pipe heredoc> ", 0);
+		line = get_next_line(0);
+		if (!line)
+			exit(EXIT_FAILURE);
+		if ((ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
+			&& (line[ft_strlen(limiter)] == '\n'))
+		{
+			close(pipe[1]);
+			free(line);
+			exit(EXIT_SUCCESS);
+		}
+		ft_putstr_fd(line, pipe[1]);
+		free(line);
+	}
+}
+
 void ft_runcmd(t_AST *ast, char **envp)
 {
 	int	p[2];
+	int p_h[2];
 	int fd;
 
 	if (!ast)
@@ -250,18 +275,26 @@ void ft_runcmd(t_AST *ast, char **envp)
 		}
 		ft_runcmd(ast->subcmd, envp);
 	}
-	else if (ast->type == NPIPE)
+	else if (ast->type == N_HEREDOC)
+	{
+		if (pipe(p_h) < 0)
+			ft_panic("pipe");
+		if (ft_fork1() == 0)
+			ft_heredoc_input(p_h, ast->file);
+		else
+		{
+			close(p_h[1]);
+			close(STDIN_FILENO);
+			dup(p_h[0]);
+			close(p_h[0]);
+			wait(NULL);
+		}
+		ft_runcmd(ast->subcmd, envp);
+	}
+	else if (ast->type == N_PIPE)
 	{
 		if (pipe(p) < 0)
 			ft_panic("pipe");
-		if (ft_fork1() == 0)
-		{
-			close(STDOUT_FILENO);
-			dup(p[1]);
-			close(p[0]);
-			close(p[1]);
-			ft_runcmd(ast->right, envp);
-		}
 		if (ft_fork1() == 0)
 		{
 			close(STDIN_FILENO);
@@ -269,6 +302,14 @@ void ft_runcmd(t_AST *ast, char **envp)
 			close(p[0]);
 			close(p[1]);
 			ft_runcmd(ast->left, envp);
+		}
+		if (ft_fork1() == 0)
+		{
+			close(STDOUT_FILENO);
+			dup(p[1]);
+			close(p[0]);
+			close(p[1]);
+			ft_runcmd(ast->right, envp);
 		}
 		close(p[0]);
 		close(p[1]);

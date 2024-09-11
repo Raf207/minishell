@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:16:16 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/11 00:43:12 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/11 18:55:42 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,13 @@ void ft_display_ast(t_AST *node, int level)
         }
         ft_display_ast(node->subcmd, level + 1);
     }
-    else if (node->type == NPIPE)
+	else if (node->type == N_HEREDOC)
+    {
+        printf("Redirection: ");
+        printf("here_doc redirection with limiter: %s\n", node->file);
+        ft_display_ast(node->subcmd, level + 1);
+    }
+    else if (node->type == N_PIPE)
     {
         printf("Pipe:\n");
         ft_display_ast(node->left, level + 1); // Left side of the pipe
@@ -96,9 +102,9 @@ void	ft_read_input(t_env **env)
 		}
 		tokens = ft_create_list(input);
 		ast = ft_parsing(tokens);
-		// printf("-----------------------\nAST :\n");
-		// ft_display_ast(ast, 0);
-		// printf("-------------------------------\n");
+		printf("-----------------------\nAST :\n");
+		ft_display_ast(ast, 0);
+		printf("-------------------------------\n");
 		envp = build_env(env);
 		if (ft_fork1() == 0)
 			ft_runcmd(ast, envp);
