@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 16:57:28 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/11 00:35:30 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/11 18:16:40 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,19 @@ t_AST	*ft_execnode(void)
 	return (cmd);
 }
 
+t_AST	*ft_heredocnode(t_AST *subcmd, char *limiter, int mode)
+{
+	t_AST	*cmd;
+
+	cmd = malloc(sizeof(*cmd));
+	ft_memset(cmd, 0, sizeof(*cmd));
+	cmd->type = HEREDOC;
+	cmd->subcmd = subcmd;
+	cmd->file = limiter;
+	cmd->mode = mode;
+	return (cmd);
+}
+
 t_AST	*ft_redirnode(t_AST *subcmd, char *file, int mode, int fd)
 {
 	t_AST	*cmd;
@@ -156,7 +169,7 @@ char	**ft_addargv(char **argv, char *arg)
 		;
 	rep = malloc(sizeof(char *) * (nb_args + 2));
 	if (!rep)
-		return (NULL);
+		return (ft_free(argv), NULL);
 	rep[nb_args + 1] = 0;
 	rep[nb_args] = ft_strdup(arg);
 	if (!rep)

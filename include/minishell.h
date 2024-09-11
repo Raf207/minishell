@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/10 18:43:28 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/11 18:15:45 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef enum e_node
 	EXEC,
 	REDIR,
 	NPIPE,
+	HEREDOC,
 }	t_node_type;
 
 typedef struct s_token_list
