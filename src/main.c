@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:16:16 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/10 20:12:44 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/09/12 19:27:57 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	ft_read_input(t_env **env)
 	char			*input;
 	t_token_list	*tokens;
 	t_AST			*ast;
+	int				pid;
 
 	signal(SIGINT, ft_sig_handler);
 	while (1)
@@ -49,10 +50,17 @@ void	ft_read_input(t_env **env)
 		}
 		tokens = ft_create_list(input);
 		if (tokens->type == WORD)
-				ft_builtins(tokens);
+		{
+			pid = fork();
+			if (pid == 0)
+			{
+				exit(ft_builtins(tokens));
+			}
+		}
 		else
 			printf("ko\n");
 		//ast = parsecmd(tokens, *env);
+		printf("check\n");
 		free(input);
 	}
 }

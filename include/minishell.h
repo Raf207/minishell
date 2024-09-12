@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/10 17:42:15 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/09/12 19:22:16 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "../libft/include/libft.h"
 # include <curses.h>
+# include <errno.h> // mucabrin
 # include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -67,8 +68,9 @@ t_env					*make_envlist(char **env);
 char					**build_env(t_env **env);
 
 // mucabrin
+
 int						ft_builtins(t_token_list *token);
 void					pwd(void);
-void					cd(t_token_list *token);
+int						cd(t_token_list *token);
 
 #endif
