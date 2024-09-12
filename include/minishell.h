@@ -6,7 +6,11 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/09/10 19:45:56 by mucabrin         ###   ########.fr       */
+=======
+/*   Updated: 2024/09/11 18:18:22 by rafnasci         ###   ########.fr       */
+>>>>>>> 3bf171290910576f335507c5f2012a337c6f89bd
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +48,8 @@ typedef enum e_node
 {
 	EXEC,
 	REDIR,
-	NPIPE,
+	N_PIPE,
+	N_HEREDOC,
 }	t_node_type;
 
 typedef struct s_token_list
@@ -79,7 +84,11 @@ t_AST			*parsecmd(t_token_list *tokens, t_env *env);
 t_env			*make_envlist(char	**env);
 char			**build_env(t_env	**env);
 t_AST			*ft_parsing(t_token_list *list);
+<<<<<<< HEAD
 void			 ft_runcmd(t_AST *ast, char **envp);
+=======
+void 			ft_runcmd(t_AST *ast, char **envp);
+>>>>>>> 3bf171290910576f335507c5f2012a337c6f89bd
 int				ft_fork1(void);
 
 #endif

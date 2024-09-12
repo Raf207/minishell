@@ -6,7 +6,11 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:16:16 by rafnasci          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/09/10 19:46:34 by mucabrin         ###   ########.fr       */
+=======
+/*   Updated: 2024/09/11 18:55:42 by rafnasci         ###   ########.fr       */
+>>>>>>> 3bf171290910576f335507c5f2012a337c6f89bd
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +73,13 @@ void ft_display_ast(t_AST *node, int level)
         }
         ft_display_ast(node->subcmd, level + 1);
     }
-    else if (node->type == NPIPE)
+	else if (node->type == N_HEREDOC)
+    {
+        printf("Redirection: ");
+        printf("here_doc redirection with limiter: %s\n", node->file);
+        ft_display_ast(node->subcmd, level + 1);
+    }
+    else if (node->type == N_PIPE)
     {
         printf("Pipe:\n");
         ft_display_ast(node->left, level + 1); // Left side of the pipe
@@ -83,6 +93,7 @@ void	ft_read_input(t_env **env)
 	t_token_list	*tokens;
 	t_AST			*ast;
 	char			**envp;
+	
 
 	signal(SIGINT, ft_sig_handler);
 	while (1)
@@ -90,19 +101,22 @@ void	ft_read_input(t_env **env)
 		input = ft_input();
 		if (!input)
 		{
-			write(4, "exit", 1);
 			printf("exit\n");
 			break ;
 		}
 		tokens = ft_create_list(input);
 		ast = ft_parsing(tokens);
-		// printf("-----------------------\nAST :\n");
-		// ft_display_ast(ast, 0);
+		printf("-----------------------\nAST :\n");
+		ft_display_ast(ast, 0);
+		printf("-------------------------------\n");
 		envp = build_env(env);
 		if (ft_fork1() == 0)
 			ft_runcmd(ast, envp);
 		wait(0);
+<<<<<<< HEAD
 		//ast = parsecmd(tokens, *env);
+=======
+>>>>>>> 3bf171290910576f335507c5f2012a337c6f89bd
 		free(input);
 	}
 }
