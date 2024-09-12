@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 16:57:28 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/12 18:50:34 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/12 20:07:53 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ t_AST	*ft_parseredir(t_AST *cmd, t_token_list **list)
 	t_token_typ	tok;
 	t_AST		**top;
 	t_AST		*temp;
+	t_AST		*temp2;
 
 	temp = cmd;
 	top = &temp;
@@ -135,9 +136,10 @@ t_AST	*ft_parseredir(t_AST *cmd, t_token_list **list)
 		|| (*list)->type == RED_OUT || (*list)->type == HEREDOC)
 	{
 		cmd = (*top);
+		temp2 = temp;
 		while (cmd->type == REDIR || cmd->type == N_HEREDOC)
 		{
-			temp = cmd;
+			temp2 = cmd;
 			cmd = cmd->subcmd;
 		}
 		tok = (*list)->type;
@@ -154,8 +156,8 @@ t_AST	*ft_parseredir(t_AST *cmd, t_token_list **list)
 					O_WRONLY | O_CREAT | O_APPEND, 1);
 		else if (tok == HEREDOC)
 			cmd = ft_heredocnode(cmd, (*list)->value);
-		if (temp->subcmd)
-			temp->subcmd = cmd;
+		if (temp2->subcmd)
+			temp2->subcmd = cmd;
 		else
 			temp = cmd;
 		(*list) = (*list)->next;
