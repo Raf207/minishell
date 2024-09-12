@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 16:57:28 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/11 19:42:09 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/12 18:50:34 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,10 +126,20 @@ t_AST	*ft_pipenode(t_AST *right, t_AST *left)
 t_AST	*ft_parseredir(t_AST *cmd, t_token_list **list)
 {
 	t_token_typ	tok;
+	t_AST		**top;
+	t_AST		*temp;
 
+	temp = cmd;
+	top = &temp;
 	while ((*list)->type == RED_IN || (*list)->type == RED_APPEND
 		|| (*list)->type == RED_OUT || (*list)->type == HEREDOC)
 	{
+		cmd = (*top);
+		while (cmd->type == REDIR || cmd->type == N_HEREDOC)
+		{
+			temp = cmd;
+			cmd = cmd->subcmd;
+		}
 		tok = (*list)->type;
 		(*list) = (*list)->next;
 		if ((*list)->type != WORD)
@@ -144,9 +154,13 @@ t_AST	*ft_parseredir(t_AST *cmd, t_token_list **list)
 					O_WRONLY | O_CREAT | O_APPEND, 1);
 		else if (tok == HEREDOC)
 			cmd = ft_heredocnode(cmd, (*list)->value);
+		if (temp->subcmd)
+			temp->subcmd = cmd;
+		else
+			temp = cmd;
 		(*list) = (*list)->next;
 	}
-	return (cmd);
+	return (*top);
 }
 
 char	**ft_addargv(char **argv, char *arg)
@@ -191,7 +205,7 @@ t_AST	*ft_parseexec(t_token_list **list)
 	top = ft_execnode();
 	cmd = top;
 	top = ft_parseredir(top, list);
-	while ((*list)->type != PIPE)
+	while ((*list)->type != PIPE && (*list)->type != END)
 	{
 		tok = (*list)->type;
 		if (tok == END)
@@ -213,6 +227,7 @@ t_AST	*ft_parsepipe(t_token_list **list)
 	if ((*list)->type == PIPE)
 	{
 		(*list) = (*list)->next;
+		printf("value :%s\n", (*list)->value);
 		cmd = ft_pipenode(cmd, ft_parsepipe(list));
 	}
 	return (cmd);
