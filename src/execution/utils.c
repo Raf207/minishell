@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:19:17 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/15 20:27:03 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/16 21:35:11 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	ft_heredoc_input(int pipe[2], char *limiter)
 	close(pipe[0]);
 	while (1)
 	{
-		ft_putstr_fd("", 0);
 		line = get_next_line(0);
 		if (!line)
 			exit(EXIT_FAILURE);

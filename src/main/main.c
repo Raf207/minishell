@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:16:16 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/16 21:18:27 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/16 21:40:05 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	ft_read_input(t_env **env)
 		printf("-------------------------------\n");
 		envp = build_env(env);
 		if (ft_fork1() == 0)
-			ft_runcmd(ast, envp, copy_in);
+			ft_runcmd(ast, envp, copy_in, copy_out);
 		wait(0);
 		free(input);
 	}

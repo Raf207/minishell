@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/16 01:10:27 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/16 21:29:19 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ char			**build_env(t_env	**env);
 int				ft_fork1(void);
 
 //execution
-void			ft_runcmd(t_AST *ast, char **envp, int copy_in);
+void			ft_runcmd(t_AST *ast, char **envp, int copy_in, int copy_out);
 void			ft_execution(char **cmd, char **envp);
 int				ft_findpath(char **envp);
 void			ft_heredoc_input(int pipe[2], char *limiter);
