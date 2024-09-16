@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/11 18:18:22 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/16 01:10:27 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,26 @@ t_token_list	*ft_create_list(char *input);
 t_AST			*parsecmd(t_token_list *tokens, t_env *env);
 t_env			*make_envlist(char	**env);
 char			**build_env(t_env	**env);
-t_AST			*ft_parsing(t_token_list *list);
-void 			ft_runcmd(t_AST *ast, char **envp);
+
 int				ft_fork1(void);
+
+//execution
+void			ft_runcmd(t_AST *ast, char **envp, int copy_in);
+void			ft_execution(char **cmd, char **envp);
+int				ft_findpath(char **envp);
+void			ft_heredoc_input(int pipe[2], char *limiter);
+
+//parsing
+t_AST			*ft_parsing(t_token_list *list);
+t_AST			*ft_pipenode(t_AST *right, t_AST *left);
+t_AST			*ft_redirnode(t_AST *subcmd, char *file, int mode, int fd);
+t_AST			*ft_heredocnode(t_AST *subcmd, char *limiter);
+t_AST			*ft_execnode(void);
+t_AST			*ft_addredir(t_AST *cmd, t_token_list **list);
+char			**ft_addargv(char **argv, char *arg);
+
+//tools
+void			ft_panic(char *s);
+void			ft_free(char **s);
 
 #endif

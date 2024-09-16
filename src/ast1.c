@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 16:57:28 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/12 20:07:53 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/15 20:38:50 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,9 +123,31 @@ t_AST	*ft_pipenode(t_AST *right, t_AST *left)
 	return (cmd);
 }
 
-t_AST	*ft_parseredir(t_AST *cmd, t_token_list **list)
+t_AST	*ft_addredir(t_AST *cmd, t_token_list **list)
 {
 	t_token_typ	tok;
+
+	tok = (*list)->type;
+	(*list) = (*list)->next;
+	if ((*list)->type != WORD)
+		ft_panic("missing file for redirection");
+	if ((*list)->type != WORD)
+		ft_panic("missing file for redirection");
+	if (tok == RED_IN)
+		cmd = ft_redirnode(cmd, (*list)->value, O_RDONLY, 0);
+	else if (tok == RED_OUT)
+		cmd = ft_redirnode(cmd, (*list)->value,
+				O_WRONLY | O_CREAT | O_TRUNC, 1);
+	else if (tok == RED_APPEND)
+		cmd = ft_redirnode(cmd, (*list)->value,
+				O_WRONLY | O_CREAT | O_APPEND, 1);
+	else if (tok == HEREDOC)
+		cmd = ft_heredocnode(cmd, (*list)->value);
+	return (cmd);
+}
+
+t_AST	*ft_parseredir(t_AST *cmd, t_token_list **list)
+{
 	t_AST		**top;
 	t_AST		*temp;
 	t_AST		*temp2;
@@ -142,20 +164,7 @@ t_AST	*ft_parseredir(t_AST *cmd, t_token_list **list)
 			temp2 = cmd;
 			cmd = cmd->subcmd;
 		}
-		tok = (*list)->type;
-		(*list) = (*list)->next;
-		if ((*list)->type != WORD)
-			ft_panic("missing file for redirection");
-		if (tok == RED_IN)
-			cmd = ft_redirnode(cmd, (*list)->value, O_RDONLY, 0);
-		else if (tok == RED_OUT)
-			cmd = ft_redirnode(cmd, (*list)->value,
-					O_WRONLY | O_CREAT | O_TRUNC, 1);
-		else if (tok == RED_APPEND)
-			cmd = ft_redirnode(cmd, (*list)->value,
-					O_WRONLY | O_CREAT | O_APPEND, 1);
-		else if (tok == HEREDOC)
-			cmd = ft_heredocnode(cmd, (*list)->value);
+		cmd = ft_addredir(cmd, list);
 		if (temp2->subcmd)
 			temp2->subcmd = cmd;
 		else
@@ -250,7 +259,7 @@ void	ft_heredoc_input(int pipe[2], char *limiter)
 	close(pipe[0]);
 	while (1)
 	{
-		ft_putstr_fd("pipe heredoc> ", 0);
+		ft_putstr_fd("", 0);
 		line = get_next_line(0);
 		if (!line)
 			exit(EXIT_FAILURE);
@@ -266,11 +275,11 @@ void	ft_heredoc_input(int pipe[2], char *limiter)
 	}
 }
 
-void ft_runcmd(t_AST *ast, char **envp)
+void ft_runcmd(t_AST *ast, char **envp, int copy_in)
 {
 	int	p[2];
-	int p_h[2];
-	int fd;
+	int	p_h[2];
+	int	fd;
 
 	if (!ast)
 		exit(1);
@@ -283,17 +292,21 @@ void ft_runcmd(t_AST *ast, char **envp)
 	}
 	else if (ast->type == REDIR)
 	{
-		close(ast->fd);
-		fd = open(ast->file, ast->mode, 0777);
+		fd = open(ast->file, ast->mode, 0644);
 		if (fd < 0)
 		{
 			ft_putendl_fd(ft_strjoin(ast->file, " failed to open"), 2);
 			exit(1);
 		}
-		ft_runcmd(ast->subcmd, envp);
+		if (dup2(fd, ast->fd) == -1)
+			ft_panic("dup2");
+		ft_runcmd(ast->subcmd, envp, copy_in);
 	}
 	else if (ast->type == N_HEREDOC)
 	{
+		if (dup2(copy_in, STDIN_FILENO) == -1)
+			ft_panic("dup2");
+		close(copy_in);
 		if (pipe(p_h) < 0)
 			ft_panic("pipe");
 		if (ft_fork1() == 0)
@@ -301,12 +314,11 @@ void ft_runcmd(t_AST *ast, char **envp)
 		else
 		{
 			close(p_h[1]);
-			close(STDIN_FILENO);
-			dup(p_h[0]);
+			dup2(p_h[0], STDIN_FILENO);
 			close(p_h[0]);
 			wait(NULL);
 		}
-		ft_runcmd(ast->subcmd, envp);
+		ft_runcmd(ast->subcmd, envp, copy_in);
 	}
 	else if (ast->type == N_PIPE)
 	{
@@ -314,19 +326,17 @@ void ft_runcmd(t_AST *ast, char **envp)
 			ft_panic("pipe");
 		if (ft_fork1() == 0)
 		{
-			close(STDIN_FILENO);
-			dup(p[0]);
+			dup2(p[1], STDOUT_FILENO);
 			close(p[0]);
 			close(p[1]);
-			ft_runcmd(ast->left, envp);
+			ft_runcmd(ast->right, envp, copy_in);
 		}
 		if (ft_fork1() == 0)
 		{
-			close(STDOUT_FILENO);
-			dup(p[1]);
+			dup2(p[0], STDIN_FILENO);
 			close(p[0]);
 			close(p[1]);
-			ft_runcmd(ast->right, envp);
+			ft_runcmd(ast->left, envp, copy_in);
 		}
 		close(p[0]);
 		close(p[1]);
