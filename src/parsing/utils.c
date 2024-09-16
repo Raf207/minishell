@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:20:40 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/16 01:07:34 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/16 21:57:12 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	**ft_addargv(char **argv, char *arg)
 	rep[nb_args + 1] = 0;
 	rep[nb_args] = ft_strdup(arg);
 	if (!rep[nb_args])
-		return (ft_free(argv), free(rep),NULL);
+		return (ft_free(argv), free(rep), NULL);
 	while (--nb_args >= 0)
 		rep[nb_args] = argv[nb_args];
 	free(argv);
