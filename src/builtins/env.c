@@ -6,11 +6,11 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 21:04:10 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/08 18:49:54 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/16 21:18:35 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 static t_env	*ft_last_node(t_env *list)
 {

@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:00:24 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/15 20:40:51 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/16 21:24:55 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ t_AST	*ft_parseexec(t_token_list **list)
 	t_AST		*cmd;
 	t_AST		*top;
 	t_token_typ	tok;
-	char		**argv;
 
 	top = ft_execnode();
 	cmd = top;

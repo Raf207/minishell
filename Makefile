@@ -4,8 +4,8 @@ BONUS_NAME = pipex_bonus
 LIBFT = ./libft/libft.a
 
 CC = gcc -fsanitize=address -g
-CFLAGS = -Wall -Wextra -Werror
-LINK = -lreadline -L /Users/$(shell whoami)/homebrew/opt/readline/lib -I /Users/$(shell whoami)/homebrew/opt/readline/include
+CFLAGS = -Wall -Wextra -Werror $(CPPFLAGS)
+LINK = -lreadline $(LDFLAGS)
 
 RM = rm -rf
 
@@ -13,19 +13,19 @@ SRC_DIR = src/
 OBJ_DIR = obj/
 
 EXECUTION = exec utils
-
 PARSING = ast parse utils
-
 TOOLS = exit fork
+LEXER = lexer
+MAIN = main
+BUILTINS = env
 
-SRC_FILES = main lexer env 
-
-OBJ = $(addprefix $(OBJ_DIR), $(notdir $(SRC:.c=.o)))
-SRC = $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))\
+OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
+SRC = $(addprefix src/lexer/, $(addsuffix .c, $(LEXER)))\
+	$(addprefix src/main/, $(addsuffix .c, $(MAIN)))\
 	$(addprefix src/execution/, $(addsuffix .c, $(EXECUTION)))\
 	$(addprefix src/parsing/, $(addsuffix .c, $(PARSING)))\
 	$(addprefix src/tools/, $(addsuffix .c, $(TOOLS)))\
-
+	$(addprefix src/builtins/, $(addsuffix .c, $(BUILTINS)))
 
 HEAD = ./include/
 
@@ -42,8 +42,8 @@ $(LIBFT)	:
 	@echo "\033[1;32mLIBFT created\n"
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c
-	@mkdir -p $(OBJ_DIR)
-	@$(CC) $(CFLAGS) $(LINK) -I $(HEAD) -c $< -o $@
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) -I $(HEAD) -c $< -o $@
 
 clean :
 	$(RM) ./libft/$(OBJ_DIR)
