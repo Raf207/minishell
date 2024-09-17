@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 19:06:24 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/16 21:18:30 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/17 21:46:12 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,74 @@ void	ft_cleantoken(t_token_list **list)
 	*list = NULL;
 }
 
-t_token_list	*ft_create_list(char *input)
+char *ft_expansion(char *str, t_env **env)
+{
+	int		i;
+	int		j;
+	t_env	*start;
+	int		tot;
+	int		len;
+	char	*rep;
+
+	i = -1;
+	tot = 0;
+	len = ft_strlen(str);
+	while (str[++i])
+	{
+		j = 0;
+		start = *env;
+		if (str[i] == '$')
+		{
+			while (str[i + j + 1] && !ft_isspace(str[i + j + 1]))
+				j++;
+			len -= j + 1;
+			while (start)
+			{
+				if (ft_strncmp(start->name, &str[i + 1], j) == 0
+					&& start->name[j] == 0)
+				{
+					len += ft_strlen(start->value);
+					break ;
+				}
+				start = start->next;
+			}
+		}
+	}
+	tot = len;
+	printf("tot : %d\n", len);
+	rep = malloc(sizeof(char) * tot + 1);
+	rep[tot] = 0;
+	i = -1;
+	tot = 0;
+	while (str[++i])
+	{
+		j = 0;
+		start = *env;
+		if (str[i] == '$')
+		{
+			while (str[i + j + 1] && !ft_isspace(str[i + j + 1]))
+				j++;
+			len -= j + 1;
+			while (start)
+			{
+				if (ft_strncmp(start->name, &str[i + 1], j) == 0
+					&& start->name[j] == 0)
+				{
+					ft_strlcpy(&rep[tot], start->value, ft_strlen(start->value) + 1);
+					tot += ft_strlen(start->value);
+					break ;
+				}
+				start = start->next;
+			}
+			i += j;
+		}
+		else
+			rep[tot++] = str[i];
+	}
+	return (rep);
+}
+
+t_token_list	*ft_create_list(char *input, t_env **env)
 {
 	t_token_list	*tokens;
 	int				i;
@@ -94,13 +161,23 @@ t_token_list	*ft_create_list(char *input)
 			{
 				in_quote++;
 				quote = input[i];
+				continue ;
 			}
 			else if (in_quote && input[i] == quote)
 			{
 				in_quote--;
+				current[word_len] = '\0';
+				if (word_len > 0)
+				{
+					if (quote == '\'')
+						ft_append_list(&tokens, WORD, current);
+					else
+						ft_append_list(&tokens, WORD, ft_expansion(current, env));
+					word_len = 0;	
+				}
 				quote = '\0';
+				continue ;
 			}
-			continue ;
 		}
 		if (in_quote)
 		{
@@ -187,6 +264,8 @@ t_token_list	*ft_create_list(char *input)
 		word_len = 0;
 	}
 	ft_append_list(&tokens, END, NULL);
+	if (in_quote)
+		printf("erreur syntax\n");
 	// t_token_list	*temp;
 	// temp = tokens;
 	// while (temp)

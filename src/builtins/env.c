@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 21:04:10 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/16 21:18:35 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/17 19:23:24 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static t_env	*ft_last_node(t_env *list)
 	petite fonction pour chercher un carctere, principalement utilisee pour trouver le = dans l'environnement 
 	pour pouvoir separer ce qu'il y a avant et apres
 */
-static int	find_char(const char	*str, int c)
+static int	find_char(const char *str, int c)
 {
 	int	i;
 

@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:19:17 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/16 21:35:11 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/17 18:04:51 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,13 @@ void	ft_heredoc_input(int pipe[2], char *limiter)
 	}
 }
 
-int	ft_findpath(char **envp)
+int	ft_findenv(char **envp, char *name)
 {
 	int	i;
 
 	i = -1;
 	while (envp[++i])
-		if (ft_strncmp("PATH", envp[i], 4) == 0)
+		if (ft_strncmp(name, envp[i], 4) == 0)
 			return (i);
 	return (-1);
 }
@@ -54,7 +54,7 @@ void	ft_execution(char **cmd, char **envp)
 
 	if (access(cmd[0], X_OK) == 0)
 		execve(cmd[0], cmd, envp);
-	path_envp = ft_substr(envp[ft_findpath(envp)], 5, 4654654);
+	path_envp = ft_substr(envp[ft_findenv(envp, "PATH")], 5, 4654654);
 	all_paths = ft_split(path_envp, ":");
 	i = -1;
 	while (all_paths[++i])
@@ -71,3 +71,4 @@ void	ft_execution(char **cmd, char **envp)
 	free(path_envp);
 	exit(EXIT_FAILURE);
 }
+

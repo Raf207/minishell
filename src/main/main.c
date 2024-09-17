@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:16:16 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/16 21:40:05 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/17 19:29:01 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,12 @@ void	ft_read_input(t_env **env)
 {
 	char			*input;
 	t_token_list	*tokens;
-	t_AST			*ast;
-	char			**envp;
+	// t_AST			*ast;
+	// char			**envp;
 	int				copy_in;
 	int				copy_out;
 
+	(void) env;
 	copy_in = dup(0);
 	copy_out = dup(1);
 	signal(SIGINT, ft_sig_handler);
@@ -103,15 +104,20 @@ void	ft_read_input(t_env **env)
 			printf("exit\n");
 			break ;
 		}
-		tokens = ft_create_list(input);
-		ast = ft_parsing(tokens);
-		printf("-----------------------\nAST :\n");
-		ft_display_ast(ast, 0);
-		printf("-------------------------------\n");
-		envp = build_env(env);
-		if (ft_fork1() == 0)
-			ft_runcmd(ast, envp, copy_in, copy_out);
-		wait(0);
+		tokens = ft_create_list(input, env);
+		while (tokens)
+		{
+			printf("token : %s\n", tokens->value);
+			tokens = tokens->next;
+		}
+		// ast = ft_parsing(tokens);
+		// printf("-----------------------\nAST :\n");
+		// ft_display_ast(ast, 0);
+		// printf("-------------------------------\n");
+		// envp = build_env(env);
+		// if (ft_fork1() == 0)
+		// 	ft_runcmd(ast, envp, copy_in, copy_out);
+		// wait(0);
 		free(input);
 	}
 }
