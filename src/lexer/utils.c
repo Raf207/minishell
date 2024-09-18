@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 14:49:38 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/18 15:17:30 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/18 21:23:59 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,21 @@ t_token_list	*ft_last_token(t_token_list *list)
 	return (list);
 }
 
-void	ft_append_list(t_token_list **list, t_token_typ	type, char *value)
+int	ft_append_list(t_token_list **list, t_token_typ	type, char *value)
 {
 	t_token_list	*node;
 	t_token_list	*last_node;
 
 	if (!list)
-		return ;
+		return (0);
 	node = malloc(sizeof(t_token_list));
 	if (!node)
-		return ;
+		return (0);
 	node->next = NULL;
 	node->type = type;
 	node->value = ft_strdup(value);
+	if (!node->value)
+		return (0);
 	if (!(*list))
 	{
 		*list = node;
@@ -51,6 +53,7 @@ void	ft_append_list(t_token_list **list, t_token_typ	type, char *value)
 		last_node->next = node;
 		node->prev = last_node;
 	}
+	return (1);
 }
 
 void	ft_cleantoken(t_token_list **list)

@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 19:06:24 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/18 17:56:20 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/18 21:23:25 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void	new_tok(t_token_list **tokens, t_env **env, t_enfin *enfin,
 	if (enfin->word_len > 0)
 	{
 		enfin->current[enfin->word_len] = '\0';
-		ft_append_list(tokens, type, ft_expansion(enfin->current, env));
+		if (!ft_append_list(tokens, type, ft_expansion(enfin->current, env)))
+			ft_exit_tokens(tokens);
 		enfin->word_len = 0;
 	}
 }
@@ -127,5 +128,8 @@ void	ft_create_list(char *input, t_env **env, t_token_list **tokens)
 	new_tok(tokens, env, &enfin, WORD);
 	ft_append_list(tokens, END, NULL);
 	if (enfin.in_quote)
+	{
+		ft_cleantoken(tokens);
 		ft_panic("syntax");
+	}
 }

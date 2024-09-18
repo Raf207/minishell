@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/18 18:06:57 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/18 21:23:10 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,9 @@ int		ft_isspace(char c);
 
 //lexer
 void	ft_create_list(char *input, t_env **env, t_token_list **tokens);
-void	ft_append_list(t_token_list **list, t_token_typ	type, char *value);
+int		ft_append_list(t_token_list **list, t_token_typ	type, char *value);
 char	*ft_expansion(char *str, t_env **env);
+void	ft_cleantoken(t_token_list **list);
 
 //execution
 void	ft_runcmd(t_AST *ast, char **envp, int copy_in, int copy_out);
@@ -114,5 +115,6 @@ char	**ft_addargv(char **argv, char *arg);
 //tools
 void	ft_panic(char *s);
 void	ft_free(char **s);
+void	ft_exit_tokens(t_token_list **tokens);
 
 #endif
