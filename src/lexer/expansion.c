@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 19:46:58 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/17 21:50:25 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/18 14:49:20 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,13 @@ static int	ft_lenexp(char *str, t_env **env)
 	return (len);
 }
 
+static int	ft_exputils(char *rep, t_env *start, int *tot)
+{
+	ft_strlcpy(&rep[(*tot)], start->value, ft_strlen(start->value) + 1);
+	(*tot) += ft_strlen(start->value);
+	return (1);
+}
+
 void	ft_newstr(char *str, t_env **env, char	*rep)
 {
 	int		i;
@@ -67,12 +74,9 @@ void	ft_newstr(char *str, t_env **env, char	*rep)
 			while (start)
 			{
 				if (ft_strncmp(start->name, &str[i + 1], ft_len(str, i)) == 0
-					&& start->name[ft_len(str, i)] == 0)
-				{
-					ft_strlcpy(&rep[tot], start->value, ft_strlen(start->value) + 1);
-					tot += ft_strlen(start->value);
+					&& start->name[ft_len(str, i)] == 0
+					&& ft_exputils(rep, start, &tot))
 					break ;
-				}
 				start = start->next;
 			}
 			i += ft_len(str, i);
@@ -82,40 +86,14 @@ void	ft_newstr(char *str, t_env **env, char	*rep)
 	}
 }
 
-char *ft_expansion(char *str, t_env **env)
+char	*ft_expansion(char *str, t_env **env)
 {
-	int		i;
-	t_env	*start;
 	int		tot;
-	int		len;
 	char	*rep;
 
 	tot = ft_lenexp(str, env);
 	rep = malloc(sizeof(char) * (tot + 1));
 	rep[tot] = 0;
-	i = -1;
-	tot = 0;
-	while (str[++i])
-	{
-		start = *env;
-		if (str[i] == '$')
-		{
-			len -= ft_len(str, i) + 1;
-			while (start)
-			{
-				if (ft_strncmp(start->name, &str[i + 1], ft_len(str, i)) == 0
-					&& start->name[ft_len(str, i)] == 0)
-				{
-					ft_strlcpy(&rep[tot], start->value, ft_strlen(start->value) + 1);
-					tot += ft_strlen(start->value);
-					break ;
-				}
-				start = start->next;
-			}
-			i += ft_len(str, i);
-		}
-		else
-			rep[tot++] = str[i];
-	}
+	ft_newstr(str, env, rep);
 	return (rep);
 }

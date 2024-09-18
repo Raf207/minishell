@@ -15,7 +15,7 @@ OBJ_DIR = obj/
 EXECUTION = exec utils
 PARSING = ast parse utils
 TOOLS = exit fork
-LEXER = lexer
+LEXER = lexer expansion utils
 MAIN = main
 BUILTINS = env
 
