@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 16:57:28 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/12 20:30:35 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/09/18 19:28:46 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,11 @@ int	ft_findpath(char **envp)
 
 	i = -1;
 	while (envp[++i])
+	{
+		//printf("envp %s\n", envp[i]);
 		if (ft_strncmp("PATH", envp[i], 4) == 0)
 			return (i);
+	}
 	return (-1);
 }
 
@@ -63,8 +66,16 @@ void	ft_execution(char **cmd, char **envp)
 	while (all_paths[++i])
 	{
 		path = ft_strjoin(ft_strjoin(all_paths[i], "/"), cmd[0]);
+		//printf("path : %s\n", path);
 		if (access(path, X_OK) == 0)
+		{
+			//printf("oioioi\n");
+			//int j;
+			//j = -1;
+			//while (envp[++j])
+			//	printf("envp j : %s\n", envp[j]);
 			execve(path, cmd, envp);
+		}
 		free(path);
 	}
 	ft_putstr_fd("pipex: command not found: ", 2);
@@ -126,10 +137,22 @@ t_AST	*ft_pipenode(t_AST *right, t_AST *left)
 t_AST	*ft_parseredir(t_AST *cmd, t_token_list **list)
 {
 	t_token_typ	tok;
+	t_AST		**top;
+	t_AST		*temp;
+	t_AST		*temp2;
 
+	temp = cmd;
+	top = &temp;
 	while ((*list)->type == RED_IN || (*list)->type == RED_APPEND
 		|| (*list)->type == RED_OUT || (*list)->type == HEREDOC)
 	{
+		cmd = (*top);
+		temp2 = temp;
+		while (cmd->type == REDIR || cmd->type == N_HEREDOC)
+		{
+			temp2 = cmd;
+			cmd = cmd->subcmd;
+		}
 		tok = (*list)->type;
 		(*list) = (*list)->next;
 		if ((*list)->type != WORD)
@@ -144,9 +167,13 @@ t_AST	*ft_parseredir(t_AST *cmd, t_token_list **list)
 					O_WRONLY | O_CREAT | O_APPEND, 1);
 		else if (tok == HEREDOC)
 			cmd = ft_heredocnode(cmd, (*list)->value);
+		if (temp2->subcmd)
+			temp2->subcmd = cmd;
+		else
+			temp = cmd;
 		(*list) = (*list)->next;
 	}
-	return (cmd);
+	return (*top);
 }
 
 char	**ft_addargv(char **argv, char *arg)
@@ -186,12 +213,11 @@ t_AST	*ft_parseexec(t_token_list **list)
 	t_AST		*cmd;
 	t_AST		*top;
 	t_token_typ	tok;
-	char		**argv;
 
 	top = ft_execnode();
 	cmd = top;
 	top = ft_parseredir(top, list);
-	while ((*list)->type != PIPE)
+	while ((*list)->type != PIPE && (*list)->type != END)
 	{
 		tok = (*list)->type;
 		if (tok == END)
@@ -213,6 +239,7 @@ t_AST	*ft_parsepipe(t_token_list **list)
 	if ((*list)->type == PIPE)
 	{
 		(*list) = (*list)->next;
+		printf("value :%s\n", (*list)->value);
 		cmd = ft_pipenode(cmd, ft_parsepipe(list));
 	}
 	return (cmd);
@@ -274,7 +301,6 @@ void ft_runcmd(t_AST *ast, char **envp)
 			exit(1);
 		}
 		ft_runcmd(ast->subcmd, envp);
-		close(fd);
 	}
 	else if (ast->type == N_HEREDOC)
 	{

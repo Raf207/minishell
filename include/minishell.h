@@ -6,10 +6,9 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/12 20:26:24 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/09/18 21:09:16 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -17,6 +16,8 @@
 # include "../libft/include/libft.h"
 # include <curses.h>
 # include <errno.h> // mucabrin
+#include <dirent.h> // mucabrin
+# include <fcntl.h>
 # include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -26,8 +27,8 @@
 # include <string.h>
 # include <term.h>
 # include <unistd.h>
-# include <fcntl.h>
-# include "../libft/include/libft.h"
+
+int			g_exitcode;
 
 typedef enum e_toke
 {
@@ -48,7 +49,7 @@ typedef enum e_node
 	REDIR,
 	N_PIPE,
 	N_HEREDOC,
-}	t_node_type;
+}						t_node_type;
 
 typedef struct s_token_list
 {
@@ -68,7 +69,7 @@ typedef struct s_ast_node
 	char				**argv;
 	struct s_ast_node	*left;
 	struct s_ast_node	*right;
-}	t_AST;
+}						t_AST;
 
 typedef struct s_env
 {
@@ -84,18 +85,17 @@ char					**build_env(t_env **env);
 
 // mucabrin
 
-
-int						ft_builtins(t_token_list *token);
+int						ft_builtins(t_token_list *token, t_env **env);
 void					pwd(void);
-int						cd(t_token_list *token);
-t_token_list	*ft_create_list(char *input);
-t_AST			*parsecmd(t_token_list *tokens, t_env *env);
-t_env			*make_envlist(char	**env);
-char			**build_env(t_env	**env);
-t_AST			*ft_parsing(t_token_list *list);
+void					cd(t_token_list *token, t_env **env);
+t_token_list			*ft_create_list(char *input);
+t_AST					*parsecmd(t_token_list *tokens, t_env *env);
+t_env					*make_envlist(char **env);
+char					**build_env(t_env **env);
+t_AST					*ft_parsing(t_token_list *list);
 
-void 			ft_runcmd(t_AST *ast, char **envp);
-int				ft_fork1(void);
-
+void					ft_runcmd(t_AST *ast, char **envp);
+int						ft_fork1(void);
+int						ft_findenv(char **envp, char *name);
 
 #endif
