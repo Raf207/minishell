@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:16:16 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/18 21:11:59 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/22 01:46:26 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	ft_read_input(t_env **env)
 		if (ft_fork1() == 0)
 		{
 			ft_create_list(input, env, &tokens);
-			ast = ft_parsing(tokens);
+			ast = ft_parsing(&tokens);
 			envp = build_env(env);
 			ft_runcmd(ast, envp, copy_in, copy_out);
 		}

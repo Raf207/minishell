@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/18 21:23:10 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/19 19:36:51 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int		ft_findenv(char **envp, char *name);
 void	ft_heredoc_input(int pipe[2], char *limiter);
 
 //parsing
-t_AST	*ft_parsing(t_token_list *list);
+t_AST	*ft_parsing(t_token_list **mlist);
 t_AST	*ft_pipenode(t_AST *right, t_AST *left);
 t_AST	*ft_redirnode(t_AST *subcmd, char *file, int mode, int fd);
 t_AST	*ft_heredocnode(t_AST *subcmd, char *limiter);

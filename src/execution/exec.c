@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:02:30 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/16 21:52:31 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/22 01:47:23 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,6 @@ void	ft_runcmd(t_AST *ast, char **envp, int copy_in, int copy_out)
 	else if (ast->type == N_PIPE)
 		ft_pipe(ast, envp, copy_in, copy_out);
 	else
-		ft_panic("runccmd");
+		ft_panic("runcmd");
 	exit(0);
 }

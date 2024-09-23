@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 14:49:38 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/18 21:23:59 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/23 16:30:18 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	ft_append_list(t_token_list **list, t_token_typ	type, char *value)
 	node->next = NULL;
 	node->type = type;
 	node->value = ft_strdup(value);
-	if (!node->value)
+	if (!node->value && type != END)
 		return (0);
 	if (!(*list))
 	{

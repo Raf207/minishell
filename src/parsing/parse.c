@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:00:24 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/16 21:24:55 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/22 01:47:53 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ t_AST	*ft_parseredir(t_AST *cmd, t_token_list **list)
 
 	temp = cmd;
 	top = &temp;
-	while ((*list)->type == RED_IN || (*list)->type == RED_APPEND
-		|| (*list)->type == RED_OUT || (*list)->type == HEREDOC)
+	while ((*list) && ((*list)->type == RED_IN || (*list)->type == RED_APPEND
+			|| (*list)->type == RED_OUT || (*list)->type == HEREDOC))
 	{
 		cmd = (*top);
 		temp2 = temp;
@@ -49,7 +49,7 @@ t_AST	*ft_parseexec(t_token_list **list)
 	top = ft_execnode();
 	cmd = top;
 	top = ft_parseredir(top, list);
-	while ((*list)->type != PIPE && (*list)->type != END)
+	while ((*list) && ((*list)->type != PIPE && (*list)->type != END))
 	{
 		tok = (*list)->type;
 		if (tok == END)
@@ -68,19 +68,18 @@ t_AST	*ft_parsepipe(t_token_list **list)
 	t_AST	*cmd;
 
 	cmd = ft_parseexec(list);
-	if ((*list)->type == PIPE)
+	if ((*list) && (*list)->type == PIPE)
 	{
 		(*list) = (*list)->next;
-		printf("value :%s\n", (*list)->value);
 		cmd = ft_pipenode(cmd, ft_parsepipe(list));
 	}
 	return (cmd);
 }
 
-t_AST	*ft_parsing(t_token_list *list)
+t_AST	*ft_parsing(t_token_list **list)
 {
 	t_AST	*cmd;
 
-	cmd = ft_parsepipe(&list);
+	cmd = ft_parsepipe(list);
 	return (cmd);
 }
