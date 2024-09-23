@@ -6,54 +6,63 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 19:06:24 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/23 16:29:50 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/23 18:20:51 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	new_tok(t_token_list **tokens, t_env **env, t_enfin *enfin,
+void	new_tok(t_token_list **tokens, char *value, t_enfin *enfin,
 			t_token_typ type)
 {
-	if (enfin->word_len > 0)
+	if (!value)
 	{
-		enfin->current[enfin->word_len] = '\0';
-		if (!ft_append_list(tokens, type, ft_expansion(enfin->current, env)))
-			ft_exit_tokens(tokens);
-		enfin->word_len = 0;
+		if (enfin->word_len > 0)
+		{
+			enfin->current[enfin->word_len] = '\0';
+			if (!ft_append_list(tokens, type,
+					ft_expansion(enfin->current, enfin->env)))
+				ft_exit_tokens(tokens, "malloc");
+			enfin->word_len = 0;
+		}
+	}
+	else
+	{
+		if (!ft_append_list(tokens, type, value))
+			ft_exit_tokens(tokens, "malloc");
 	}
 }
 
-int	new_redir(t_token_list **tokens, t_env **env, char *input, t_enfin *enfin)
+int	new_redir(t_token_list **tokens, char *input, t_enfin *enfin)
 {
 	if (input[enfin->i] == '>')
 	{
-		new_tok(tokens, env, enfin, WORD);
+		new_tok(tokens, NULL, enfin, WORD);
 		if (input[enfin->i + 1] == '>')
 		{
-			ft_append_list(tokens, RED_APPEND, ">>");
+			new_tok(tokens, ">>", enfin, RED_APPEND);
 			enfin->i++;
 		}
 		else
-			ft_append_list(tokens, RED_OUT, ">");
+			new_tok(tokens, ">", enfin, RED_OUT);
 		return (1);
 	}
 	if (input[enfin->i] == '<')
 	{
-		new_tok(tokens, env, enfin, WORD);
+		new_tok(tokens, NULL, enfin, WORD);
 		if (input[enfin->i + 1] == '<')
 		{
-			ft_append_list(tokens, HEREDOC, "<<");
+			new_tok(tokens, "<<", enfin, HEREDOC);
 			enfin->i++;
 		}
 		else
-			ft_append_list(tokens, RED_IN, "<");
+			new_tok(tokens, "<", enfin, RED_IN);
 		return (1);
 	}
 	return (0);
 }
 
-int	new_pass(t_token_list **tokens, t_env **env, char *input, t_enfin *enfin)
+int	new_pass(t_token_list **tokens, char *input, t_enfin *enfin)
 {
 	if (enfin->in_quote)
 	{
@@ -62,25 +71,27 @@ int	new_pass(t_token_list **tokens, t_env **env, char *input, t_enfin *enfin)
 	}
 	if (input[enfin->i] == '|')
 	{
-		new_tok(tokens, env, enfin, WORD);
-		ft_append_list(tokens, PIPE, "|");
+		new_tok(tokens, NULL, enfin, WORD);
+		if (!ft_append_list(tokens, PIPE, "|"))
+			ft_exit_tokens(tokens, "malloc");
 		return (1);
 	}
 	if (input[enfin->i] == '=')
 	{
-		new_tok(tokens, env, enfin, ASSIGNEMENT);
-		ft_append_list(tokens, EQUALS, "=");
+		new_tok(tokens, NULL, enfin, ASSIGNEMENT);
+		if (!ft_append_list(tokens, EQUALS, "="))
+			ft_exit_tokens(tokens, "malloc");
 		return (1);
 	}
 	if (ft_isspace(input[enfin->i]))
 	{
-		new_tok(tokens, env, enfin, WORD);
+		new_tok(tokens, NULL, enfin, WORD);
 		return (1);
 	}
 	return (0);
 }
 
-int	quotes_tok(t_token_list **tokens, t_env **env, char *input, t_enfin *enfin)
+int	quotes_tok(t_token_list **tokens, char *input, t_enfin *enfin)
 {
 	if (input[enfin->i] == '\'' || input[enfin->i] == '"')
 	{
@@ -95,9 +106,12 @@ int	quotes_tok(t_token_list **tokens, t_env **env, char *input, t_enfin *enfin)
 			enfin->in_quote--;
 			enfin->current[enfin->word_len] = '\0';
 			if (enfin->word_len > 0 && enfin->quote == '\'')
-				ft_append_list(tokens, WORD, enfin->current);
+			{
+				if (!ft_append_list(tokens, WORD, enfin->current))
+					ft_exit_tokens(tokens, "malloc");
+			}
 			else if (enfin->quote == '"')
-				new_tok(tokens, env, enfin, WORD);
+				new_tok(tokens, NULL, enfin, WORD);
 			enfin->word_len = 0;
 			enfin->quote = '\0';
 			return (1);
@@ -115,22 +129,20 @@ void	ft_create_list(char *input, t_env **env, t_token_list **tokens)
 	enfin.i = -1;
 	enfin.quote = '\0';
 	enfin.in_quote = 0;
+	enfin.env = env;
 	while (input[++enfin.i])
 	{
-		if (quotes_tok(tokens, env, input, &enfin))
+		if (quotes_tok(tokens, input, &enfin))
 			continue ;
-		if (new_pass(tokens, env, input, &enfin))
+		if (new_pass(tokens, input, &enfin))
 			continue ;
-		if (new_redir(tokens, env, input, &enfin))
+		if (new_redir(tokens, input, &enfin))
 			continue ;
 		enfin.current[enfin.word_len++] = input[enfin.i];
 	}
-	new_tok(tokens, env, &enfin, WORD);
+	new_tok(tokens, NULL, &enfin, WORD);
 	if (!ft_append_list(tokens, END, NULL))
-		ft_exit_tokens(tokens);
+		ft_exit_tokens(tokens, "malloc");
 	if (enfin.in_quote)
-	{
-		ft_cleantoken(tokens);
-		ft_panic("syntax");
-	}
+		ft_exit_tokens(tokens, "syntax");
 }

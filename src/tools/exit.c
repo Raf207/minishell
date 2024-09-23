@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:41:32 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/18 21:26:54 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/23 17:37:35 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ void	ft_panic(char *s)
 	exit (1);
 }
 
-void	ft_exit_tokens(t_token_list **tokens)
+void	ft_exit_tokens(t_token_list **tokens, char *s)
 {
-	ft_putendl_fd("malloc", 2);
+	ft_putendl_fd(s, 2);
 	ft_cleantoken(tokens);
 	exit(1);
 }

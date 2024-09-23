@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/19 19:36:51 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/23 18:10:58 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct s_enfin
 	int				word_len;
 	int				in_quote;
 	char			quote;
+	t_env			**env;
 }	t_enfin;
 
 t_AST	*parsecmd(t_token_list *tokens, t_env *env);
@@ -115,6 +116,6 @@ char	**ft_addargv(char **argv, char *arg);
 //tools
 void	ft_panic(char *s);
 void	ft_free(char **s);
-void	ft_exit_tokens(t_token_list **tokens);
+void	ft_exit_tokens(t_token_list **tokens, char *s);
 
 #endif
