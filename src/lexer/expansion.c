@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 19:46:58 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/18 14:49:20 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/23 18:25:03 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ char	*ft_expansion(char *str, t_env **env)
 
 	tot = ft_lenexp(str, env);
 	rep = malloc(sizeof(char) * (tot + 1));
+	if (!rep)
+		return (NULL);
 	rep[tot] = 0;
 	ft_newstr(str, env, rep);
 	return (rep);
