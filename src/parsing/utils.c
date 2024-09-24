@@ -20,8 +20,6 @@ t_AST	*ft_addredir(t_AST *cmd, t_token_list **list)
 	(*list) = (*list)->next;
 	if ((*list)->type != WORD)
 		ft_panic("missing file for redirection");
-	if ((*list)->type != WORD)
-		ft_panic("missing file for redirection");
 	if (tok == RED_IN)
 		cmd = ft_redirnode(cmd, (*list)->value, O_RDONLY, 0);
 	else if (tok == RED_OUT)

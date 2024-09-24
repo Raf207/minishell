@@ -50,6 +50,7 @@ void	ft_heredoc(t_AST *ast, char **envp, int copy_in, int copy_out)
 		dup2(p_h[0], STDIN_FILENO);
 		close(p_h[0]);
 		wait(NULL);
+		ft_free_ast(ast);
 	}
 	ft_runcmd(ast->subcmd, envp, copy_in, copy_out);
 }
@@ -74,6 +75,7 @@ void	ft_pipe(t_AST *ast, char **envp, int copy_in, int copy_out)
 		close(p[1]);
 		ft_runcmd(ast->left, envp, copy_in, copy_out);
 	}
+	ft_free_ast(ast);
 	close(p[0]);
 	close(p[1]);
 	wait(0);

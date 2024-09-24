@@ -22,6 +22,7 @@
 # include <term.h>
 # include <stdlib.h>
 # include <string.h>
+# include <sys/wait.h>
 # include <limits.h>
 # include <signal.h>
 # include <fcntl.h>
@@ -117,5 +118,7 @@ char	**ft_addargv(char **argv, char *arg);
 void	ft_panic(char *s);
 void	ft_free(char **s);
 void	ft_exit_tokens(t_token_list **tokens, char *s);
+void	ft_free_ast(t_AST *node);
+void	ft_free_env(t_env **list);
 
 #endif

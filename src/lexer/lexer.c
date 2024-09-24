@@ -15,10 +15,14 @@
 void	new_tok(t_token_list **tokens, char *value, t_enfin *enfin,
 			t_token_typ type)
 {
+	char	*temp;
 	if (!value)
 	{
 		if (enfin->word_len > 0)
 		{
+			temp = ft_expansion(enfin->current, enfin->env);
+			if (!temp)
+				ft_exit_tokens(tokens, "malloc");
 			enfin->current[enfin->word_len] = '\0';
 			if (!ft_append_list(tokens, type,
 					ft_expansion(enfin->current, enfin->env)))
@@ -141,6 +145,7 @@ void	ft_create_list(char *input, t_env **env, t_token_list **tokens)
 		enfin.current[enfin.word_len++] = input[enfin.i];
 	}
 	new_tok(tokens, NULL, &enfin, WORD);
+	free(enfin.current);
 	if (!ft_append_list(tokens, END, NULL))
 		ft_exit_tokens(tokens, "malloc");
 	if (enfin.in_quote)

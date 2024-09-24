@@ -32,7 +32,7 @@ int	ft_append_list(t_token_list **list, t_token_typ	type, char *value)
 	t_token_list	*node;
 	t_token_list	*last_node;
 
-	if (!list)
+	if (!list || !(*list) || !value )
 		return (0);
 	node = malloc(sizeof(t_token_list));
 	if (!node)
@@ -61,13 +61,14 @@ void	ft_cleantoken(t_token_list **list)
 	t_token_list	*temp;
 	t_token_list	*current;
 
-	if (!list)
+	if (!list || !(*list))
 		return ;
 	current = *list;
 	while (current)
 	{
 		temp = current->next;
-		free(current->value);
+		if (current->value)
+			free(current->value);
 		free(current);
 		current = temp;
 	}

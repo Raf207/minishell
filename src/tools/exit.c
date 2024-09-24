@@ -34,3 +34,52 @@ void	ft_exit_tokens(t_token_list **tokens, char *s)
 	ft_cleantoken(tokens);
 	exit(1);
 }
+
+void	ft_free_ast(t_AST *node)
+{
+    if (node == NULL)
+        return;
+    if (node->type == EXEC)
+    {
+        if (node->argv)
+            ft_free(node->argv);
+		free(node);
+    }
+    else if (node->type == REDIR)
+    {
+        ft_free_ast(node->subcmd);
+		free(node);
+    }
+	else if (node->type == N_HEREDOC)
+    {
+        ft_free_ast(node->subcmd);
+		free(node);
+    }
+    else if (node->type == N_PIPE)
+    {
+        ft_free_ast(node->left);
+        ft_free_ast(node->right);
+		free(node);
+    }
+}
+
+void	ft_free_env(t_env **list)
+{
+	t_env	*temp;
+	t_env	*current;
+
+	if (!list || !(*list))
+		return ;
+	current = *list;
+	while (current)
+	{
+		temp = current->next;
+		if (current->value)
+			free(current->value);
+		if (current->name)
+			free(current->name);
+		free(current);
+		current = temp;
+	}
+	*list = NULL;
+}
