@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:16:16 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/25 16:02:05 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:07:31 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,11 @@ int	main(int ac, char **av, char **envp)
 	(void) av;
 	(void) ac;
 	env = make_envlist(envp);
+	if (!env)
+	{
+		printf("Error env");
+		return (0);
+	}
 	ft_read_input(&env);
 	return (0);
 }
