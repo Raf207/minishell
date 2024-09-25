@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 14:49:38 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/23 16:30:18 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/25 15:32:04 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	ft_append_list(t_token_list **list, t_token_typ	type, char *value)
 	t_token_list	*node;
 	t_token_list	*last_node;
 
-	if (!list || !(*list) || !value )
+	if (!list || (!value && type != END))
 		return (0);
 	node = malloc(sizeof(t_token_list));
 	if (!node)

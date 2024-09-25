@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 19:06:24 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/23 18:20:51 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/25 15:33:00 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,10 @@
 void	new_tok(t_token_list **tokens, char *value, t_enfin *enfin,
 			t_token_typ type)
 {
-	char	*temp;
 	if (!value)
 	{
 		if (enfin->word_len > 0)
 		{
-			temp = ft_expansion(enfin->current, enfin->env);
-			if (!temp)
-				ft_exit_tokens(tokens, "malloc");
 			enfin->current[enfin->word_len] = '\0';
 			if (!ft_append_list(tokens, type,
 					ft_expansion(enfin->current, enfin->env)))

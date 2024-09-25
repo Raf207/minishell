@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:16:16 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/22 01:46:26 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/25 15:24:28 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,11 @@ void	ft_read_input(t_env **env)
 	tokens = NULL;
 	copy_in = dup(0);
 	copy_out = dup(1);
-	envp = build_env(env);
 	signal(SIGINT, ft_sig_handler);
 	while (1)
 	{
 		input = ft_input();
+		envp = build_env(env);
 		if (!input)
 		{
 			printf("exit\n");
@@ -117,10 +117,10 @@ void	ft_read_input(t_env **env)
 			ft_runcmd(ast, envp, copy_in, copy_out);
 			printf("PROUT\n");
 		}
+		ft_free(envp);
 		wait(0);
 		free(input);
 	}
-	ft_free(envp);
 	ft_free_env(env);
 }
 
