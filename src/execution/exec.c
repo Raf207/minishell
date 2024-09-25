@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:02:30 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/22 01:47:23 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/25 15:35:37 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void	ft_heredoc(t_AST *ast, char **envp, int copy_in, int copy_out)
 		dup2(p_h[0], STDIN_FILENO);
 		close(p_h[0]);
 		wait(NULL);
-		ft_free_ast(ast);
 	}
 	ft_runcmd(ast->subcmd, envp, copy_in, copy_out);
 }
