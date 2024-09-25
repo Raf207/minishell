@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 21:04:10 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/17 19:23:24 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:00:49 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,7 @@ static t_env	*ft_last_node(t_env *list)
 		list = list->next;
 	return (list);
 }
-/*
-	petite fonction pour chercher un carctere, principalement utilisee pour trouver le = dans l'environnement 
-	pour pouvoir separer ce qu'il y a avant et apres
-*/
+
 static int	find_char(const char *str, int c)
 {
 	int	i;
@@ -33,24 +30,24 @@ static int	find_char(const char *str, int c)
 		;
 	return (i);
 }
-/*
-	ajoute une ligne de l'environnement en tant que node dans la liste
-*/
-static void	append_list(t_env **env_list, char *str)
+
+static int	append_list(t_env **env_list, char *str)
 {
 	t_env	*node;
 	t_env	*last_node;
 	int		len;
 
 	if (!env_list)
-		return ;
+		return (0);
 	node = malloc(sizeof(t_env));
 	if (!node)
-		return ;
+		return (0);
 	node->next = NULL;
 	len = find_char(str, '=');
 	node->name = ft_substr(str, 0, len);
 	node->value = ft_substr(str, len + 1, INT_MAX);
+	if (!node->name || !node->value)
+		return (0);
 	if (!(*env_list))
 		*env_list = node;
 	else
@@ -58,10 +55,9 @@ static void	append_list(t_env **env_list, char *str)
 		last_node = ft_last_node(*env_list);
 		last_node->next = node;
 	}
+	return (1);
 }
-/*
-	cree un tableau de la liste de l'environnement donne
-*/
+
 char	**build_env(t_env	**env)
 {
 	t_env	*node;
@@ -73,7 +69,7 @@ char	**build_env(t_env	**env)
 	node = *env;
 	while (node && ++len)
 		node = node->next;
-	envp = malloc(sizeof(char *) * (len + 1));
+	envp = calloc(sizeof(char *), (len + 1));
 	if (!envp)
 		return (NULL);
 	envp[len] = 0;
@@ -83,24 +79,25 @@ char	**build_env(t_env	**env)
 	{
 		tmp = ft_strjoin(node->name, "=");
 		envp[len] = ft_strjoin(tmp, node->value);
-		if (!tmp || !envp[len++]) // ici il faut free tmp seulement si envp[len] retourne NULL mais j'ai pas les lignes faudra voir comment faire;
-			return (NULL);
+		if (!envp[len++])
+			return (ft_free(envp), NULL);
 		free(tmp);
 		node = node->next;
 	}
 	return (envp);
 }
 
-/*
-	cree une liste chainee de l'environnement comme on l'avait dit
-*/
 t_env	*make_envlist(char	**env)
 {
-	t_env	*env_list = NULL;
+	t_env	*env_list;
 	int		i;
 
 	i = -1;
+	env_list = NULL;
 	while (env[++i])
-		append_list(&env_list, env[i]);
+	{
+		if (!append_list(&env_list, env[i]))
+			return (ft_free_env(&env_list), NULL);
+	}
 	return (env_list);
 }

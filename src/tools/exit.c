@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:41:32 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/23 17:37:35 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/25 15:56:56 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,30 +37,30 @@ void	ft_exit_tokens(t_token_list **tokens, char *s)
 
 void	ft_free_ast(t_AST *node)
 {
-    if (node == NULL)
-        return;
-    if (node->type == EXEC)
-    {
-        if (node->argv)
-            ft_free(node->argv);
+	if (node == NULL)
+		return ;
+	if (node->type == EXEC)
+	{
+		if (node->argv)
+			ft_free(node->argv);
 		free(node);
-    }
-    else if (node->type == REDIR)
-    {
-        ft_free_ast(node->subcmd);
+	}
+	else if (node->type == REDIR)
+	{
+		ft_free_ast(node->subcmd);
 		free(node);
-    }
+	}
 	else if (node->type == N_HEREDOC)
-    {
-        ft_free_ast(node->subcmd);
+	{
+		ft_free_ast(node->subcmd);
 		free(node);
-    }
-    else if (node->type == N_PIPE)
-    {
-        ft_free_ast(node->left);
-        ft_free_ast(node->right);
+	}
+	else if (node->type == N_PIPE)
+	{
+		ft_free_ast(node->left);
+		ft_free_ast(node->right);
 		free(node);
-    }
+	}
 }
 
 void	ft_free_env(t_env **list)
