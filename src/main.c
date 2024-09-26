@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:16:16 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/17 22:15:17 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/09/26 15:20:23 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*ft_input(void)
 {
 	char	*input;
 
-	input = readline("minishell >");
+	input = readline("minishell$ ");
 	if (input && *input)
 		add_history(input);
 	return (input);
@@ -88,7 +88,7 @@ void	ft_read_input(t_env **env)
 	t_token_list	*tokens;
 	t_AST			*ast;
 	char			**envp;
-	//int i = 0;
+	int i;
 
 	signal(SIGINT, ft_sig_handler);
 	while (1)
@@ -108,8 +108,9 @@ void	ft_read_input(t_env **env)
 				// ft_display_ast(ast, 0);
 				// printf("-------------------------------\n");
 				envp = build_env(env);
-				//while (envp[i])
-				//	printf("envp : %s\n", envp[i++]);
+				i = 0;
+				while (envp[i])
+					printf("envp : %s\n", envp[i++]);
 				if (ft_fork1() == 0)
 					ft_runcmd(ast, envp);
 				wait(0);
