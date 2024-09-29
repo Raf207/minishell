@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:00:24 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/29 21:42:10 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/29 23:40:00 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ t_AST	*ft_parseredir(t_AST *cmd, t_token_list **list)
 			cmd = cmd->subcmd;
 		}
 		cmd = ft_addredir(cmd, list);
+		if (!cmd)
+			return (NULL);
 		if (temp2->subcmd)
 			temp2->subcmd = cmd;
 		else
 			temp = cmd;
-		if (!cmd)
-			return(NULL);
 		(*list) = (*list)->next;
 	}
 	return (*top);
