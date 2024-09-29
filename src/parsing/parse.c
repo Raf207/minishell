@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:00:24 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/22 01:47:53 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/29 21:42:10 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ t_AST	*ft_parseredir(t_AST *cmd, t_token_list **list)
 			temp2->subcmd = cmd;
 		else
 			temp = cmd;
+		if (!cmd)
+			return(NULL);
 		(*list) = (*list)->next;
 	}
 	return (*top);
@@ -47,9 +49,11 @@ t_AST	*ft_parseexec(t_token_list **list)
 	t_token_typ	tok;
 
 	top = ft_execnode();
+	if (!top)
+		return (NULL);
 	cmd = top;
 	top = ft_parseredir(top, list);
-	while ((*list) && ((*list)->type != PIPE && (*list)->type != END))
+	while ((*list) && ((*list)->type != PIPE && (*list)->type != END) && top)
 	{
 		tok = (*list)->type;
 		if (tok == END)
@@ -59,6 +63,8 @@ t_AST	*ft_parseexec(t_token_list **list)
 		cmd->argv = ft_addargv(cmd->argv, (*list)->value);
 		(*list) = (*list)->next;
 		top = ft_parseredir(top, list);
+		if (!top)
+			return (NULL);
 	}
 	return (top);
 }
@@ -68,10 +74,14 @@ t_AST	*ft_parsepipe(t_token_list **list)
 	t_AST	*cmd;
 
 	cmd = ft_parseexec(list);
+	if (!cmd)
+		return (NULL);
 	if ((*list) && (*list)->type == PIPE)
 	{
 		(*list) = (*list)->next;
 		cmd = ft_pipenode(cmd, ft_parsepipe(list));
+		if (!cmd)
+			return (NULL);
 	}
 	return (cmd);
 }
@@ -81,5 +91,7 @@ t_AST	*ft_parsing(t_token_list **list)
 	t_AST	*cmd;
 
 	cmd = ft_parsepipe(list);
+	if (!cmd)
+		return (NULL);
 	return (cmd);
 }

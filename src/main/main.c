@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:16:16 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/25 16:08:38 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/29 17:05:37 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*ft_input(void)
 {
 	char	*input;
 
-	input = readline("minishell >");
+	input = readline("minishell$ ");
 	if (input && *input)
 		add_history(input);
 	return (input);
@@ -108,9 +108,6 @@ void	ft_read_input(t_env **env)
 			printf("exit\n");
 			break ;
 		}
-		// printf("-----------------------\nAST :\n");
-		// ft_display_ast(ast, 0);
-		// printf("-------------------------------\n");
 		if (ft_fork1() == 0)
 		{
 			ft_create_list(input, env, &tokens);
