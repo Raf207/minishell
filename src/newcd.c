@@ -33,10 +33,13 @@ t_env	*ft_findnode(t_env *env, char *name)
 	}
 	return (NULL);
 }
-// int	diff_dir(void)
-//{
 
-//}
+int	diff_dir(const char *path)
+{
+	return (strncmp(path, "~", INT_MAX) == 0 || strncmp(path, "#", INT_MAX) == 0
+		|| strncmp(path, "-", INT_MAX) == 0 || strncmp(path, "--",
+			INT_MAX) == 0);
+}
 
 void	cd(t_token_list *token, t_env **env)
 {
@@ -44,53 +47,17 @@ void	cd(t_token_list *token, t_env **env)
 	t_env		*env_oldpwd;
 	t_env		*env_pwd;
 	char		*tmp;
-	int			fd;
-	int			fd2;
-	DIR			*dir;
 
 	env_oldpwd = ft_findnode(*env, "OLDPWD");
 	env_pwd = ft_findnode(*env, "PWD");
 	path = token->next->value;
-
-	fd = chdir(path);
-	if (fd == -1)
+	if (chdir(path) == -1 && !diff_dir(path))
 	{
-		printf("chdir : Error Number: %d\n", errno);
-		perror("Error Description:");
+		if (errno_checker(errno, path))
+		{
+			g_exitcode = 1;
+			return ;
+		}
 	}
-	else
-	{
-		printf("chdir: No error\n");
-	}
-	fd2 = access(path, F_OK);
-	if (fd2 == -1)
-	{
-		printf("access : Error Number: %d\n", errno);
-		perror("Error Description:");
-	}
-	else
-	{
-		printf("access : No error\n");
-	}
-	dir = opendir(path);
-	if (!dir)
-	{
-		printf("opendir : Error Number: %d\n", errno);
-		perror("Error Description:");
-	}
-	else
-	{
-		printf("opendir : No error\n");
-	}
-	//if (chdir(path) == -1)
-	//{
-	//	if (errno_checker(errno, path))
-	//	{
-	//		g_exitcode = 1;
-	//		return ;
-	//	}
-		// if (diff_dir(path))
-		//{
-		//}
-	//}
+	printf("check\n");
 }

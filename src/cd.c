@@ -95,5 +95,3 @@ void	newcd(t_token_list *token, t_env **env)
 /* after rm dir: if (cd ..) == cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
  if (cd then cd -) == bash: cd: /Users/mucabrin/MYgoinfre/minishell/test/test1/..: No such file or directory */
 
-// cd file
-//
