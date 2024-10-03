@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/18 21:09:16 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/10/03 13:03:08 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,15 @@ char					**build_env(t_env **env);
 // mucabrin
 
 int						ft_builtins(t_token_list *token, t_env **env);
-void					pwd(void);
+void					pwd(t_env **env);
 void					cd(t_token_list *token, t_env **env);
+t_env					*ft_findnode(t_env *env, char *name);
+
 t_token_list			*ft_create_list(char *input);
 t_AST					*parsecmd(t_token_list *tokens, t_env *env);
 t_env					*make_envlist(char **env);
 char					**build_env(t_env **env);
 t_AST					*ft_parsing(t_token_list *list);
-
 void					ft_runcmd(t_AST *ast, char **envp);
 int						ft_fork1(void);
 int						ft_findenv(char **envp, char *name);

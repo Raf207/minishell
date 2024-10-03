@@ -2,7 +2,7 @@
 
 int	ft_builtins(t_token_list *token, t_env **env) // t_env env
 {
-	t_env *node;
+	t_env	*node;
 
 	node = *env;
 	if (ft_strncmp(token->value, "cd", INT_MAX) == 0)
@@ -12,7 +12,7 @@ int	ft_builtins(t_token_list *token, t_env **env) // t_env env
 	}
 	else if (ft_strncmp(token->value, "pwd", INT_MAX) == 0)
 	{
-		pwd();
+		pwd(env);
 		return (0);
 	}
 	else if (ft_strncmp(token->value, "env", INT_MAX) == 0)
