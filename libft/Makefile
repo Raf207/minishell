@@ -18,7 +18,7 @@ SRC_FILES = ft_atoi ft_bzero ft_calloc ft_isalnum ft_isalpha ft_isascii ft_isdig
             ft_strlcpy ft_strlen ft_strmapi ft_strncmp ft_strnstr ft_strrchr ft_strtrim ft_substr \
             ft_tolower ft_toupper ft_strlcat ft_toupper ft_tolower ft_lstnew_bonus ft_lstadd_front_bonus \
 			ft_lstsize_bonus ft_lstlast_bonus ft_lstadd_back_bonus ft_lstdelone_bonus ft_lstclear_bonus \
-			ft_lstiter_bonus ft_lstmap_bonus get_next_line ft_strstr
+			ft_lstiter_bonus ft_lstmap_bonus get_next_line ft_strstr ft_printf_fd
 
 OBJ = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
 

@@ -3,14 +3,19 @@
 
 void	pwd(t_env **env)
 {
-	t_env	*pwd;
+	char	*pwd;
 	char	*tmp;
 
-	tmp = getcwd(NULL, 0);
-	pwd = ft_findnode(*env, "PWD");
-	printf("name : [%s] value : %s\n", pwd->name, pwd->value);
-	if (!pwd->value)
-		pwd->value = getcwd(NULL, 0);
-	printf("%s\n", pwd->value);
-	printf("%s\n", tmp);
+
+	pwd = getcwd(NULL, 0);
+	printf("%s\n", pwd);
+	//tmp = getcwd(NULL, 0);
+	//if(pwd)
+	//free
+	//pwd = ft_findnode(*env, "PWD");
+	//printf("name : [%s] value : %s\n", pwd->name, pwd->value);
+	//if (!pwd->value)
+	//	pwd->value = getcwd(NULL, 0);
+	//printf("%s\n", pwd->value);
+	//printf("%s\n", tmp);
 }
