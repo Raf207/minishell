@@ -77,6 +77,12 @@ void	cd(t_token_list *token, t_env **env)
 			return ;
 		}
 	}
+	if (strncmp(path, "--", INT_MAX) == 0)
+	{
+		// free(path);
+		path = token->next->next->value;
+		printf("path = %s\n", path);
+	}
 	if (!path || strncmp(path, "~", INT_MAX) == 0 || strncmp(path, "#",
 			INT_MAX) == 0 || strncmp(path, "$", INT_MAX) == 0)
 	{
@@ -96,7 +102,24 @@ void	cd(t_token_list *token, t_env **env)
 			return ;
 		}
 		tmp = env_oldpwd->value;
+		// free(env_oldpwd->value);
+		env_oldpwd->value = ft_strdup(env_pwd->value);
+		chdir(tmp);
+		env_pwd->value = getcwd(NULL, 0);
+		printf("%s\n", tmp);
+	}
+	else
+	{
+		if (!getcwd(NULL, 0))
+		{
+			ft_printf_fd(STDERR_FILENO,
+				"cd: error retrieving current directory: getcwd: cannot");
+			ft_printf_fd(STDERR_FILENO,
+				"access parent directories: No such file or directory\n");
+		}
 		free(env_oldpwd->value);
 		env_oldpwd->value = ft_strdup(env_pwd->value);
+		chdir(path);
+		env_pwd->value = getcwd(NULL, 0);
 	}
 }

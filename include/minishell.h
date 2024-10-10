@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/10/03 13:03:08 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/10/10 18:23:21 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # include <term.h>
 # include <unistd.h>
 
-int			g_exitcode;
+int			g_exitcode; // mucabrin
 
 typedef enum e_toke
 {
