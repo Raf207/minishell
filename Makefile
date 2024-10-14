@@ -14,7 +14,7 @@ OBJ_DIR = obj/
 BONUS_SRC_DIR = src_bonus/
 BONUS_OBJ_DIR = obj_bonus/
 
-SRC_FILES = main lexer ast1 env builtins newcd pwd 
+SRC_FILES = main lexer ast1 env builtins newcd pwd cd_utils
 BONUS_SRC_FILES = main
 
 OBJ = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))

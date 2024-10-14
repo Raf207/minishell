@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 21:04:10 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/17 19:05:55 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/10/14 16:37:01 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	append_list(t_env **env_list, char *str)
 	node->next = NULL;
 	len = find_char(str, '=');
 	node->name = ft_substr(str, 0, len);
-	if (strncmp(node->name, "OLDPWD", INT_MAX) != 0)
+	if (ft_strncmp(node->name, "OLDPWD", INT_MAX) != 0)
 		node->value = ft_substr(str, len + 1, INT_MAX);
 	else 
 		node->value = NULL;

@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:16:16 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/29 17:41:27 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/10/14 16:37:11 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	ft_read_input(t_env **env)
 				// printf("-------------------------------\n");
 				envp = build_env(env);
 				i = 0;
-				if (strncmp(tokens->value, "sl", 5455) == 0)
+				if (ft_strncmp(tokens->value, "sl", 5455) == 0)
 				while (envp[i])
 					printf("envp : %s\n", envp[i++]);
 				if (ft_fork1() == 0)

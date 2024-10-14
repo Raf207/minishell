@@ -41,7 +41,7 @@ void	newcd(t_token_list *token, t_env **env)
 	// printf("name : %s value : %s\n", env_oldpwd->name, env_oldpwd->value);
 	// newpwd = getcwd(NULL, 0);
 	// printf("env_oldpwd before chdir: %s\n", env_oldpwd);
-	if (!path || strncmp(path, "~", INT_MAX) == 0)
+	if (!path || ft_strncmp(path, "~", INT_MAX) == 0)
 	{
 		free(env_oldpwd->value);
 		env_oldpwd->value = getcwd(NULL, 0);
@@ -53,7 +53,7 @@ void	newcd(t_token_list *token, t_env **env)
 		printf("name : %s value : %s\n", env_pwd->name, env_pwd->value);
 		fd = chdir(env_pwd->value);
 	}
-	else if (strncmp(path, "-", INT_MAX) == 0)
+	else if (ft_strncmp(path, "-", INT_MAX) == 0)
 	{
 		if (env_oldpwd->value == NULL)
 		{

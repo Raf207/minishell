@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/10/10 18:23:21 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/10/14 21:09:31 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # include "../libft/include/libft.h"
 # include <curses.h>
-# include <errno.h> // mucabrin
-#include <dirent.h> // mucabrin
+# include <dirent.h> // mucabrin
+# include <errno.h>  // mucabrin
 # include <fcntl.h>
 # include <limits.h>
 # include <readline/history.h>
@@ -28,7 +28,7 @@
 # include <term.h>
 # include <unistd.h>
 
-int			g_exitcode; // mucabrin
+int g_exitcode; // mucabrin
 
 typedef enum e_toke
 {
@@ -78,6 +78,17 @@ typedef struct s_env
 	char				*value;
 }						t_env;
 
+// mucabrin
+typedef struct s_cd
+{
+	t_env				*env_oldpwd;
+	t_env				*env_pwd;
+	t_env				*env_home;
+	const char			*path;
+	char				*tmp;
+	DIR					*dir;
+}						t_cd;
+
 t_token_list			*ft_create_list(char *input);
 t_AST					*parsecmd(t_token_list *tokens, t_env *env);
 t_env					*make_envlist(char **env);
@@ -89,6 +100,7 @@ int						ft_builtins(t_token_list *token, t_env **env);
 void					pwd(t_env **env);
 void					cd(t_token_list *token, t_env **env);
 t_env					*ft_findnode(t_env *env, char *name);
+void					cd_home(t_env **env, t_cd *var);
 
 t_token_list			*ft_create_list(char *input);
 t_AST					*parsecmd(t_token_list *tokens, t_env *env);
