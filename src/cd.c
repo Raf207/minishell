@@ -99,3 +99,7 @@ void	newcd(t_token_list *token, t_env **env)
 
 // if cd ~mucabrin || #mucabrin || $mucabrin == HOME
 // if unset home cd || #mucabrin || $mucabrin == bash: cd: HOME not set, but "~mucabrin" && "cd - || ~" &&  work
+
+
+
+// status not good with permission

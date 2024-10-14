@@ -55,18 +55,21 @@ void	cd(t_token_list *token, t_env **env)
 	char		*tmp;
 	t_env		*envpath;
 
+	 path = token->next->value;
 	// struct stat	buffer;
 	// int			status;
-	// path = token->next->value;
-	// status = stat (ft_strjoin(path, "/"), &buffer);
-	// if (status < 0)
-	//	errno_checker(errno, path);
+	//status = stat (path, &buffer);
+	// printf("status : %d\n", status);
 	// printf("status = %d errno = %d\n", status, errno);
-	env_oldpwd = ft_findnode(*env, "OLDPWD");
-	env_pwd = ft_findnode(*env, "PWD");
-	envpath = ft_findnode(*env, "HOME");
-	path = token->next->value;
-	if (path && chdir(path) == -1 && !diff_dir(path))
+	//env_oldpwd = ft_findnode(*env, "OLDPWD");
+	//env_pwd = ft_findnode(*env, "PWD");
+	//envpath = ft_findnode(*env, "HOME");
+	DIR *dir;
+    struct dirent *dp;
+    dir = opendir (path);
+       printf("dir : %d\n", dir);
+	//path = token->next->value;
+	if (path && dir == NULL && !diff_dir(path))
 	{
 		printf("path : %s errno = %d\n", path, errno);
 		if (errno)
@@ -77,49 +80,49 @@ void	cd(t_token_list *token, t_env **env)
 			return ;
 		}
 	}
-	if (strncmp(path, "--", INT_MAX) == 0)
-	{
-		// free(path);
-		path = token->next->next->value;
-		printf("path = %s\n", path);
-	}
-	if (!path || strncmp(path, "~", INT_MAX) == 0 || strncmp(path, "#",
-			INT_MAX) == 0 || strncmp(path, "$", INT_MAX) == 0)
-	{
-		free(env_oldpwd->value);
-		env_oldpwd->value = ft_strdup(env_pwd->value);
-		free(env_pwd->value);
-		env_pwd->value = ft_strdup(envpath->value);
-		printf("name : %s value : %s\n", env_pwd->name, env_pwd->value);
-		chdir(env_pwd->value);
-	}
-	else if (strncmp(path, "-", INT_MAX) == 0)
-	{
-		if (env_oldpwd->value == NULL)
-		{
-			g_exitcode = 1;
-			printf("bash: cd: OLDPWD not set\n");
-			return ;
-		}
-		tmp = env_oldpwd->value;
-		// free(env_oldpwd->value);
-		env_oldpwd->value = ft_strdup(env_pwd->value);
-		chdir(tmp);
-		env_pwd->value = getcwd(NULL, 0);
-		printf("%s\n", tmp);
-	}
-	else
-	{
-		if (!getcwd(NULL, 0))
-		{
-			ft_printf_fd(STDERR_FILENO,
-				"cd: error retrieving current directory: getcwd: cannot");
-			ft_printf_fd(STDERR_FILENO,
-				"access parent directories: No such file or directory\n");
-		}
-		free(env_oldpwd->value);
-		env_oldpwd->value = ft_strdup(env_pwd->value);
-		chdir(path);
-		env_pwd->value = getcwd(NULL, 0);
-	}
+//	if (strncmp(path, "--", INT_MAX) == 0)
+//	{
+//		// free(path);
+//		path = token->next->next->value;
+//		printf("path = %s\n", path);
+//	}
+//	if (!path || strncmp(path, "~", INT_MAX) == 0 || strncmp(path, "#",
+//			INT_MAX) == 0 || strncmp(path, "$", INT_MAX) == 0)
+//	{
+//		free(env_oldpwd->value);
+//		env_oldpwd->value = ft_strdup(env_pwd->value);
+//		free(env_pwd->value);
+//		env_pwd->value = ft_strdup(envpath->value);
+//		printf("name : %s value : %s\n", env_pwd->name, env_pwd->value);
+//		chdir(env_pwd->value);
+//	}
+//	else if (strncmp(path, "-", INT_MAX) == 0)
+//	{
+//		if (env_oldpwd->value == NULL)
+//		{
+//			g_exitcode = 1;
+//			printf("bash: cd: OLDPWD not set\n");
+//			return ;
+//		}
+//		tmp = env_oldpwd->value;
+//		// free(env_oldpwd->value);
+//		env_oldpwd->value = ft_strdup(env_pwd->value);
+//		chdir(tmp);
+//		env_pwd->value = getcwd(NULL, 0);
+//		printf("%s\n", tmp);
+//	}
+//	else
+//	{
+//		if (!getcwd(NULL, 0))
+//		{
+//			ft_printf_fd(STDERR_FILENO,
+//				"cd: error retrieving current directory: getcwd: cannot");
+//			ft_printf_fd(STDERR_FILENO,
+//				"access parent directories: No such file or directory\n");
+//		}
+//		free(env_oldpwd->value);
+//		env_oldpwd->value = ft_strdup(env_pwd->value);
+//		chdir(path);
+//		env_pwd->value = getcwd(NULL, 0);
+//	}
 }
