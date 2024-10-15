@@ -1,5 +1,38 @@
 #include "../include/minishell.h"
 
+void	cd_dir(t_env **env, t_cd *var)
+{
+	free(var->env_oldpwd->value);
+	var->env_oldpwd->value = ft_strdup(var->env_pwd->value);
+	chdir(var->path);
+	if (!getcwd(NULL, 0))
+	{
+		ft_printf_fd(STDERR_FILENO,
+			"cd: error retrieving current directory: getcwd: cannot");
+		ft_printf_fd(STDERR_FILENO,
+			"access parent directories: No such file or directory\n");
+		var->env_pwd->value = ft_strjoin(var->env_pwd->value, "/..");
+	}
+	else
+		var->env_pwd->value = getcwd(NULL, 0);
+}
+
+void	cd_oldpwd(t_env **env, t_cd *var)
+{
+	if (var->env_oldpwd->value == NULL)
+	{
+		g_exitcode = 1;
+		printf("bash: cd: OLDPWD not set\n");
+		return ;
+	}
+	var->tmp = var->env_oldpwd->value;
+	// free(var->env_oldpwd->value);
+	var->env_oldpwd->value = ft_strdup(var->env_pwd->value);
+	chdir(var->tmp);
+	var->env_pwd->value = getcwd(NULL, 0);
+	printf("%s\n", var->tmp);
+}
+
 void	cd_home(t_env **env, t_cd *var)
 {
 	free(var->env_oldpwd->value);
@@ -10,10 +43,8 @@ void	cd_home(t_env **env, t_cd *var)
 	chdir(var->env_pwd->value);
 }
 
-// int	diff_dir(const char *path)
-//{
-//	return (NULL || ft_strncmp(path, "~", INT_MAX) == 0 || ft_strncmp(path, "#",
-//			INT_MAX) == 0 || ft_strncmp(path, "$", INT_MAX) == 0
-				//|| ft_strncmp(path,
-//			"-", INT_MAX) == 0 || ft_strncmp(path, "--", INT_MAX) == 0);
-//}
+int	diff_dir(const char *path)
+{
+	return (NULL || ft_strncmp(path, "~", INT_MAX) == 0 || ft_strncmp(path, "#",
+			INT_MAX) == 0 || ft_strncmp(path, "-", INT_MAX) == 0);
+}

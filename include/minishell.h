@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/10/14 21:09:31 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/10/15 11:00:05 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,9 @@ void					pwd(t_env **env);
 void					cd(t_token_list *token, t_env **env);
 t_env					*ft_findnode(t_env *env, char *name);
 void					cd_home(t_env **env, t_cd *var);
+void					cd_oldpwd(t_env **env, t_cd *var);
+void					cd_dir(t_env **env, t_cd *var);
+int						diff_dir(const char *path);
 
 t_token_list			*ft_create_list(char *input);
 t_AST					*parsecmd(t_token_list *tokens, t_env *env);
