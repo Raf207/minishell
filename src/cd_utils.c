@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd_utils.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/16 13:08:05 by mucabrin          #+#    #+#             */
+/*   Updated: 2024/10/16 13:08:06 by mucabrin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 void	cd_dir(t_env **env, t_cd *var)
@@ -10,7 +22,7 @@ void	cd_dir(t_env **env, t_cd *var)
 		ft_printf_fd(STDERR_FILENO,
 			"cd: error retrieving current directory: getcwd: cannot");
 		ft_printf_fd(STDERR_FILENO,
-			"access parent directories: No such file or directory\n");
+			" access parent directories: No such file or directory\n");
 		var->env_pwd->value = ft_strjoin(var->env_pwd->value, "/..");
 	}
 	else
@@ -26,9 +38,15 @@ void	cd_oldpwd(t_env **env, t_cd *var)
 		return ;
 	}
 	var->tmp = var->env_oldpwd->value;
+	if (chdir(var->tmp) < 0)
+	{
+		ft_printf_fd(STDERR_FILENO, "bash: cd: %s: %s\n", var->tmp,
+			strerror(errno));
+		g_exitcode = 1;
+		return ;
+	}
 	// free(var->env_oldpwd->value);
 	var->env_oldpwd->value = ft_strdup(var->env_pwd->value);
-	chdir(var->tmp);
 	var->env_pwd->value = getcwd(NULL, 0);
 	printf("%s\n", var->tmp);
 }
