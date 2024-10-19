@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/23 18:10:58 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/10/19 20:05:36 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ void	ft_create_list(char *input, t_env **env, t_token_list **tokens);
 int		ft_append_list(t_token_list **list, t_token_typ	type, char *value);
 char	*ft_expansion(char *str, t_env **env);
 void	ft_cleantoken(t_token_list **list);
+void	ft_update_tok(t_token_list **token);
 
 //execution
 void	ft_runcmd(t_AST *ast, char **envp, int copy_in, int copy_out);

@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 14:49:38 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/25 15:32:04 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/10/19 20:21:12 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,33 @@ void	ft_cleantoken(t_token_list **list)
 		current = temp;
 	}
 	*list = NULL;
+}
+
+void	ft_update_tok(t_token_list **token)
+{
+	t_token_list	*temp;
+	int				i;
+
+	temp = *token;
+	while (temp->next)
+	{
+		if (ft_strncmp("$?", temp->value, 2) == 0)
+		{
+			free(temp->next->value);
+			temp->next->value = ft_strdup("numero de exit");
+		}
+		if (ft_strncmp("echo", temp->value, 5) == 0)
+		{
+			if (temp->next->value[0] == '-' && temp->next->value[1] == 'n')
+			{
+				i = 1;
+				while (temp->next->value[++i])
+					if (temp->next->value[i] != 'n')
+						return ;
+				free(temp->next->value);
+				temp->next->value = ft_strdup("-n");
+			}
+		}
+		temp = temp->next;
+	}
 }

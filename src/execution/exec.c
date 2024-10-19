@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:02:30 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/25 15:35:37 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/10/10 17:10:22 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	ft_heredoc(t_AST *ast, char **envp, int copy_in, int copy_out)
 		ft_panic("pipe");
 	if (ft_fork1() == 0)
 	{
+		close(STDIN_FILENO);
+		close(STDOUT_FILENO);
 		if (dup2(copy_in, STDIN_FILENO) == -1)
 			ft_panic("dup2");
 		close(copy_in);

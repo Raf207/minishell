@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 19:06:24 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/25 15:33:00 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/10/19 20:06:01 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,4 +146,5 @@ void	ft_create_list(char *input, t_env **env, t_token_list **tokens)
 		ft_exit_tokens(tokens, "malloc");
 	if (enfin.in_quote)
 		ft_exit_tokens(tokens, "syntax");
+	ft_update_tok(tokens);
 }
