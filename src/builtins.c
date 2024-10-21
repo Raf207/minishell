@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/17 13:05:22 by mucabrin          #+#    #+#             */
+/*   Updated: 2024/10/21 14:50:49 by mucabrin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 int	ft_builtins(t_token_list *token, t_env **env) // t_env env
@@ -19,9 +31,21 @@ int	ft_builtins(t_token_list *token, t_env **env) // t_env env
 	{
 		while (node)
 		{
-			printf("%s=%s\n", node->name, node->value);
+			if (node->value)
+				printf("%s=%s\n", node->name, node->value);
 			node = node->next;
 		}
+	}
+	else if (ft_strncmp(token->value, "exit", INT_MAX) == 0)
+	{
+		exit_built(token);
+		return (0);
+	}
+	else if (ft_strncmp(token->value, "echo", INT_MAX) == 0
+		&& ft_strncmp(token->next->value, "$?", INT_MAX) == 0)
+	{
+		echo_built();
+		return (0);
 	}
 	else
 		printf("NOT YET\n");
