@@ -6,13 +6,13 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 13:05:22 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/10/21 14:50:49 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/10/22 17:19:13 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	ft_builtins(t_token_list *token, t_env **env) // t_env env
+int	ft_builtins(t_token_list *token, t_env **env)
 {
 	t_env	*node;
 
@@ -25,6 +25,11 @@ int	ft_builtins(t_token_list *token, t_env **env) // t_env env
 	else if (ft_strncmp(token->value, "pwd", INT_MAX) == 0)
 	{
 		pwd(env);
+		return (0);
+	}
+	else if (ft_strncmp(token->value, "export", INT_MAX) == 0)
+	{
+		export(token, env);
 		return (0);
 	}
 	else if (ft_strncmp(token->value, "env", INT_MAX) == 0)
