@@ -14,7 +14,7 @@ OBJ_DIR = obj/
 BONUS_SRC_DIR = src_bonus/
 BONUS_OBJ_DIR = obj_bonus/
 
-SRC_FILES = main lexer ast1 env builtins pwd cd cd_utils exit echo export
+SRC_FILES = main lexer ast1 env builtins pwd cd cd_utils exit echo export export_sort
 BONUS_SRC_FILES = main
 
 OBJ = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
