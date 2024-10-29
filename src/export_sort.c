@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 18:00:06 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/10/24 18:44:18 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/10/29 18:14:37 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,3 +101,21 @@ void	sort_env(t_env *top)
 	print_list(list);
 	//	free_env_list(list);
 }
+//void	free_list(t_node *list)
+//{
+//	t_node	*tmp;
+
+//	if (!list)
+//		return ;
+//	while (list)
+//	{
+//		tmp = (list)->next;
+//		(list)->next = NULL;
+//		free(list);
+//		list = tmp;
+//	}
+//	list = NULL;
+//	if (print)
+//		write(2, "Error\n", 6);
+//	exit(print);
+//}
