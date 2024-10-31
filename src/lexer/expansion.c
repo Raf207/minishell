@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 19:46:58 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/10/19 20:15:10 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/10/22 18:32:23 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	ft_lenexp(char *str, t_env **env)
 	while (str[++i])
 	{
 		start = *env;
-		if (str[i] == '$' && str[i +1] != '?' && str[i +1] != '\0')
+		if (str[i] == '$' && str[i + 1] != '?' && str[i + 1] != '\0')
 		{
 			len -= ft_len(str, i) + 1;
 			while (start)
@@ -71,7 +71,7 @@ void	ft_newstr(char *str, t_env **env, char	*rep)
 	while (str[++i])
 	{
 		start = *env;
-		if (str[i] == '$' && str[i +1] != '?' && str[i +1] != '\0')
+		if (str[i] == '$' && str[i + 1] != '?' && str[i + 1] != '\0')
 		{
 			while (start)
 			{

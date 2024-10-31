@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:19:17 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/17 18:04:51 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/10/26 23:09:15 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,15 @@
 void	ft_heredoc_input(int pipe[2], char *limiter)
 {
 	char	*line;
+	int		*i;
 
 	close(pipe[0]);
 	while (1)
 	{
+		i =  ft_boolhere(0);
+		signal(SIGINT, &ft_hered_sig_handler);
 		line = get_next_line(0);
-		if (!line)
+		if (!line || (*i))
 			exit(EXIT_FAILURE);
 		if ((ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
 			&& (line[ft_strlen(limiter)] == '\n'))

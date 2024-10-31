@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 21:04:10 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/10/19 19:38:41 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/10/26 17:06:18 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ static int	append_list(t_env **env_list, char *str)
 	node->next = NULL;
 	len = find_char(str, '=');
 	node->name = ft_substr(str, 0, len);
+	//ajouter une condition pour check le SHLVL
 	node->value = ft_substr(str, len + 1, INT_MAX);
 	if (!node->name || !node->value)
 		return (0);
@@ -99,5 +100,6 @@ t_env	*make_envlist(char	**env)
 		if (!append_list(&env_list, env[i]))
 			return (ft_free_env(&env_list), NULL);
 	}
+	
 	return (env_list);
 }

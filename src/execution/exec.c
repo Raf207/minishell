@@ -6,11 +6,28 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:02:30 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/10/10 17:10:22 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/10/24 17:30:03 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+int G_pid = 0;
+
+
+int	ft_find_here(t_AST *ast)
+{
+	t_AST	*tmp;
+
+	tmp = ast;
+	while (tmp->subcmd)
+	{
+		if (tmp->type == N_HEREDOC)
+			return (1);
+		tmp = tmp->subcmd;
+	}
+	return (0);
+}
 
 void	ft_redir(t_AST *ast, char **envp, int copy_in, int copy_out)
 {
@@ -58,17 +75,21 @@ void	ft_heredoc(t_AST *ast, char **envp, int copy_in, int copy_out)
 
 void	ft_pipe(t_AST *ast, char **envp, int copy_in, int copy_out)
 {
-	int	p[2];
+	int		p[2];
+	pid_t	pls;
 
 	if (pipe(p) < 0)
 		ft_panic("pipe");
-	if (ft_fork1() == 0)
+	pls = ft_fork1();
+	if (pls == 0)
 	{
 		dup2(p[1], STDOUT_FILENO);
 		close(p[0]);
 		close(p[1]);
 		ft_runcmd(ast->right, envp, copy_in, copy_out);
 	}
+	if (ft_find_here(ast->right))
+		waitpid(pls, NULL, 0);
 	if (ft_fork1() == 0)
 	{
 		dup2(p[0], STDIN_FILENO);

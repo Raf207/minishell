@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 19:06:24 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/10/19 20:06:01 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/10/22 17:32:31 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,20 @@
 void	new_tok(t_token_list **tokens, char *value, t_enfin *enfin,
 			t_token_typ type)
 {
+	char	*temp;
+
 	if (!value)
 	{
 		if (enfin->word_len > 0)
 		{
 			enfin->current[enfin->word_len] = '\0';
-			if (!ft_append_list(tokens, type,
-					ft_expansion(enfin->current, enfin->env)))
+			temp = ft_expansion(enfin->current, enfin->env);
+			if (!ft_append_list(tokens, type, temp))
+			{
+				free(temp);
 				ft_exit_tokens(tokens, "malloc");
+			}
+			free(temp);
 			enfin->word_len = 0;
 		}
 	}
@@ -93,7 +99,8 @@ int	new_pass(t_token_list **tokens, char *input, t_enfin *enfin)
 
 int	quotes_tok(t_token_list **tokens, char *input, t_enfin *enfin)
 {
-	if (input[enfin->i] == '\'' || input[enfin->i] == '"')
+	if ((input[enfin->i] == '\'' || input[enfin->i] == '"')
+		&& (enfin->i == 0 || (enfin->i != 0 && input[enfin->i - 1] != '\\')))
 	{
 		if (!enfin->in_quote)
 		{
@@ -132,6 +139,8 @@ void	ft_create_list(char *input, t_env **env, t_token_list **tokens)
 	enfin.env = env;
 	while (input[++enfin.i])
 	{
+		if (input[enfin.i] == '\\')
+			enfin.i++;
 		if (quotes_tok(tokens, input, &enfin))
 			continue ;
 		if (new_pass(tokens, input, &enfin))

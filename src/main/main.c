@@ -6,19 +6,49 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:16:16 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/10/10 17:21:17 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/10/31 17:07:24 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	ft_sig_handler(int sig)
+int pidt = 0;
+
+t_env	*get_shell(void)
+{
+	static t_env	env;
+	return (&env);
+}
+
+int	*ft_boolhere(int i)
+{
+	static int	boole = 0;
+
+	if (i != 0)
+		boole = i;
+	return (&boole);
+}
+
+void	ft_hered_sig_handler(int sig)
 {
 	(void)sig;
+	ft_boolhere(1);
+	printf("boum\n");
+}
+
+void	ft_main_sig_handler(int sig)
+{
+	int	*bool_here;
+
+	(void) sig;
+	bool_here = ft_boolhere(0);
+	if ((*bool_here) == 2)
+		return ;
 	rl_replace_line("", 0);
 	printf("\n");
 	rl_on_new_line();
 	rl_redisplay();
+
 }
 
 char	*ft_input(void)
@@ -28,6 +58,8 @@ char	*ft_input(void)
 	input = readline("minishell$ ");
 	if (input && *input)
 		add_history(input);
+	if (!input)
+		printf("exit\n");
 	return (input);
 }
 
@@ -89,9 +121,12 @@ void	ft_read_input(t_env **env)
 	t_AST			*ast;
 	t_token_list	*tokens;
 	char			**envp;
+	int				bool_here;
 
 	tokens = NULL;
-	signal(SIGINT, ft_sig_handler);
+	signal(SIGINT, ft_main_sig_handler);
+	signal(SIGQUIT, SIG_IGN);
+	bool_here = 0;
 	while (1)
 	{
 		envp = build_env(env);
@@ -99,20 +134,18 @@ void	ft_read_input(t_env **env)
 			continue ;
 		input = ft_input();
 		if (!input)
-		{
-			printf("exit\n");
 			break ;
-		}
+		ft_create_list(input, env, &tokens);
+		ast = ft_parsing(&tokens);
+		if (ft_find_here(tokens))
+			ft_boolhere(2);
+		ft_cleantoken(&tokens);
 		if (input[0] != 0 && ft_fork1() == 0)
-		{
-			ft_create_list(input, env, &tokens);
-			ast = ft_parsing(&tokens);
-			ft_cleantoken(&tokens);
 			ft_runcmd(ast, envp, dup(0), dup(1));
-		}
 		ft_free(envp);
 		wait(0);
 		free(input);
+		ft_boolhere(3);
 	}
 	ft_free_env(env);
 }

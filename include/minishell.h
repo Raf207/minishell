@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/10/19 20:05:36 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/10/31 16:33:02 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # include <fcntl.h>
 # include "../libft/include/libft.h"
 
-typedef enum e_toke
+typedef enum e_token
 {
 	END,
 	WORD,
@@ -92,6 +92,9 @@ char	**build_env(t_env	**env);
 
 int		ft_fork1(void);
 int		ft_isspace(char c);
+void	ft_main_sig_handler(int sig);
+void	ft_hered_sig_handler(int sig);
+int		*ft_boolhere(int i);
 
 //lexer
 void	ft_create_list(char *input, t_env **env, t_token_list **tokens);
@@ -118,6 +121,7 @@ char	**ft_addargv(char **argv, char *arg);
 //tools
 void	ft_panic(char *s);
 void	ft_free(char **s);
+int		ft_find_here(t_AST *ast);
 void	ft_exit_tokens(t_token_list **tokens, char *s);
 void	ft_free_ast(t_AST *node);
 void	ft_free_env(t_env **list);

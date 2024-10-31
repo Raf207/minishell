@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 18:26:18 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/10 19:22:54 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/09/29 17:39:25 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,11 +105,26 @@ char	**ft_addargv(char **argv, char *arg)
 	return (rep);
 }
 
+void	ft_test2(int *a)
+{
+	*a = 3;
+}
+
+void	ft_test1(int *a)
+{
+	*a = 2;
+	ft_test2(a);
+}
+
 int	main(void)
 {
 	t_AST	*ast;
+	int		check;
 
 	(void) ast;
+	check = 1;
+	ft_test1(&check);
+	printf("check : %d\n", check);
 	printf("mode : %d\n", O_WRONLY | O_TRUNC | O_CREAT);
 	// ast = malloc(sizeof(*ast));
 	// ft_memset(ast, 0, sizeof(*ast));
