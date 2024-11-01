@@ -6,13 +6,13 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 18:00:06 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/10/29 18:14:37 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/10/30 18:23:16 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static void	swap_env_node(t_env *a, t_env *b)
+static void	swap_list(t_env *a, t_env *b)
 {
 	char	*temp_name;
 	char	*temp_value;
@@ -27,26 +27,25 @@ static void	swap_env_node(t_env *a, t_env *b)
 
 static void	sort_list(t_env *top)
 {
-	int		swapped;
-	t_env	*traveling_node;
+	int		i;
+	int		len;
+	t_env	*list;
 
 	if (!top)
 		return ;
-	swapped = 1;
-	while (swapped)
+	i = 0;
+	len = listlen(top);
+	while (i < len)
 	{
-		swapped = 0;
-		traveling_node = top;
-		while (traveling_node->next)
+		list = top;
+		while (list->next)
 		{
-			if (ft_strncmp(traveling_node->name, traveling_node->next->name,
+			if (ft_strncmp(list->name, list->next->name,
 					INT_MAX) > 0)
-			{
-				swap_env_node(traveling_node, traveling_node->next);
-				swapped = 1;
-			}
-			traveling_node = traveling_node->next;
+				swap_list(list, list->next);
+			list = list->next;
 		}
+		i++;
 	}
 }
 
@@ -79,8 +78,6 @@ static t_env	*copy_list(t_env *top)
 
 static void	print_list(t_env *top)
 {
-	if (!top)
-		ft_printf_fd(2, "no empty top \n");
 	while (top)
 	{
 		if (!top->value)
@@ -89,7 +86,7 @@ static void	print_list(t_env *top)
 			ft_printf_fd(1, "declare -x %s=\"%s\"\n", top->name, top->value);
 		top = top->next;
 	}
-	ft_printf_fd(1, "declare -x _=/usr/bin/env\n");
+	//ft_printf_fd(1, "declare -x _=/usr/bin/env\n"); Not sure
 }
 
 void	sort_env(t_env *top)
@@ -99,23 +96,5 @@ void	sort_env(t_env *top)
 	list = copy_list(top);
 	sort_list(list);
 	print_list(list);
-	//	free_env_list(list);
+	free_list(list);
 }
-//void	free_list(t_node *list)
-//{
-//	t_node	*tmp;
-
-//	if (!list)
-//		return ;
-//	while (list)
-//	{
-//		tmp = (list)->next;
-//		(list)->next = NULL;
-//		free(list);
-//		list = tmp;
-//	}
-//	list = NULL;
-//	if (print)
-//		write(2, "Error\n", 6);
-//	exit(print);
-//}

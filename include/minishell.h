@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/10/24 18:14:22 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/10/30 20:01:55 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # include <term.h>
 # include <unistd.h>
 
-int g_exitcode; // mucabrin
+extern int g_exitcode; // mucabrin
 
 typedef enum e_toke
 {
@@ -76,6 +76,7 @@ typedef struct s_env
 	struct s_env		*next;
 	char				*name;
 	char				*value;
+	bool				equal;
 }						t_env;
 
 // mucabrin
@@ -108,6 +109,8 @@ void					exit_built(t_token_list *token);
 void					echo_built(void);
 void					export(t_token_list *token, t_env **env);
 void					sort_env(t_env *top);
+int						listlen(t_env *list);
+void					free_list(t_env *list);
 
 t_token_list			*ft_create_list(char *input);
 t_AST					*parsecmd(t_token_list *tokens, t_env *env);

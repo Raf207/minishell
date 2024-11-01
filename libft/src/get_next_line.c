@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:18:38 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/06/19 21:27:30 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/10/30 13:26:33 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ char	*read_file(int fd, char *res)
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer[OPEN_MAX];
+	static char	*buffer[_SC_OPEN_MAX];
 	char		*line;
 
 	ft_putstr_fd("> ", 1);

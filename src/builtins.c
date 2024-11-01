@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 13:05:22 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/10/24 18:15:43 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/01 19:49:59 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@ int	ft_builtins(t_token_list *token, t_env **env)
 	else if (ft_strncmp(token->value, "export", INT_MAX) == 0)
 	{
 		export(token, env);
+		return (0);
+	}
+	else if (ft_strncmp(token->value, "unset", INT_MAX) == 0)
+	{
+		unset(token, env);
 		return (0);
 	}
 	else if (ft_strncmp(token->value, "env", INT_MAX) == 0)

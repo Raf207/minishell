@@ -6,11 +6,13 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:16:16 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/10/17 13:36:04 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/10/30 14:16:39 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+int	g_exitcode;
 
 void	ft_sig_handler(int sig)
 {
