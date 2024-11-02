@@ -1,52 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export_utils.c                                     :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 14:05:23 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/01 21:12:32 by mucabrin         ###   ########.fr       */
+/*   Created: 2024/11/01 21:34:54 by mucabrin          #+#    #+#             */
+/*   Updated: 2024/11/01 21:34:58 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	listlen(t_env *list)
+void	unset(t_token_list *token, t_env **env)
 {
-	int	i;
-
-	if (!list)
-		return (0);
-	i = 0;
-	while (list)
-	{
-		list = list->next;
-		i++;
-	}
-	return (i);
-}
-
-static void	free_node(t_env *node)
-{
-	if (!node)
-		return ;
-	if (node->name)
-		free(node->name);
-	if (node->value)
-		free(node->value);
-	free(node);
-}
-
-void	free_list(t_env *list)
-{
-	t_env	*tmp;
-
-	while (list)
-	{
-		tmp = list;
-		list = list->next;
-		free_node(tmp);
-		tmp = NULL;
-	}
+    if (!env || !token->next->value)
+        return ;
+    printf("token : %s\n", token->value);
 }
