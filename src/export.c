@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 15:12:48 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/01 17:21:08 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/02 18:57:54 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,47 +37,66 @@ static int	find_char(const char *str, int c)
 	return (i);
 }
 
-static int	exist(char *str, t_env *env)
-{
-	int		i;
-	int		j;
-	t_env	*tmp;
+//static int	exist(char *str, t_env *env)
+//{
+//	int		i;
+//	int		j;
+//	t_env	*tmp;
 
-	if (!env)
-		return (-1);
-	i = 0;
-	while (str[i] && str[i] != '=')
-		i++;
-	j = 0;
-	tmp = env;
-	if (!ft_strncmp(tmp->name, str, i))
-		return (j);
-	tmp = tmp->next;
-	j++;
-	while (tmp)
-	{
-		if (!ft_strncmp(tmp->name, str, i))
-			return (j);
-		tmp = tmp->next;
-		j++;
-	}
-	return (-1);
-}
+//	if (!env)
+//		return (-1);
+//	i = 0;
+//	//while (str[i] && str[i] != '=')
+//	//	i++;
+//	j = 0;
+//	tmp = env;
+//	if (!ft_strncmp(tmp->name, str, i))
+//		return (j);
+//	tmp = tmp->next;
+//	j++;
+//	while (tmp)
+//	{
+//		if (!ft_strncmp(tmp->name, str, i))
+//			return (j);
+//		tmp = tmp->next;
+//		j++;
+//	}
+//	return (-1);
+//}
 
 static void	set_var(char *str, t_env **env)
 {
-	int		pos;
 	int		i;
 	int		len;
+	char	*name;
 	char	*value;
+	t_env	*head;
 
-	// pos = exist(str, (*env));
 	len = find_char(str, '=');
 	printf("token : %s\n", str);
+	name = ft_substr(str, 0, len);
 	value = ft_substr(str, len + 1, INT_MAX);
-	printf("value : %s\n", value);
-	// if (!value)
-	// 	return ;
+	printf("name : %s | value : %s\n", name, value);
+	if (!value)
+		return ;
+	head = *env;
+	while ((*env)->next)
+	{
+		if (!ft_strncmp((*env)->name, name, INT_MAX))
+		{
+			free((*env)->value);
+			(*env)->value = value;
+			break ;
+		}
+		else
+		{
+			printf("append\n");
+			//append(name, value, env);
+			break ;
+		}
+		(*env) = (*env)->next;
+	}
+	*env = head; // free ??
 	// if (pos >= 0)
 	// {
 	// 	i = 0;
@@ -107,21 +126,21 @@ void	export(t_token_list *token, t_env **env)
 	}
 	token = token->next;
 	printf("token : %s\n", token->value);
-	// while (token->next)
-	// {
-	// 	// if (!check_identifier(token->value))
-	// 	// {
-	// 	// 	ft_printf_fd(2, "bash: export: %s: not a valid identifier\n",
-	// 	// 		token->value);
-	// 	// 	g_exitcode = 1;
-	// 	// 	return ;
-	// 	// }
-	// 	// else
-	// 	// {
-	// 		set_var(token->value, env);
-	// 	// }
-	// 	token = token->next;
-		// else if (!export(!token->next->value[i], env))
-		// 	return (print_error(ERR_MALLOC));
-	// }
+	 while (token->next)
+	 {
+	 	 if (!check_identifier(token->value))
+	 	 {
+	 	 	ft_printf_fd(2, "bash: export: %s: not a valid identifier\n",
+	 	 		token->value);
+	 	 	g_exitcode = 1;
+	 	 }
+	 	 else
+	 	 {
+	 		set_var(token->value, env);
+	 	 }
+	 	token = token->next;
+		// else if (!export(!token->value, env))
+		// 	return (print_error);
+	 }
+	 printf("end\n");
 }

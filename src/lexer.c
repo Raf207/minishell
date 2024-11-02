@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 19:06:24 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/15 01:00:18 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/02 18:54:39 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ void	ft_cleantoken(t_token_list **list)
 	}
 	*list = NULL;
 }
-
-
 
 t_token_list	*ft_create_list(char *input)
 {
@@ -180,17 +178,17 @@ t_token_list	*ft_create_list(char *input)
 			continue ;
 		}
 
-		if (input[i] == '=')
-		{
-			if (word_len > 0)
-			{
-				current[word_len] = '\0';
-				ft_append_list(&tokens, ASSIGNEMENT, current);
-				word_len = 0;
-			}
-			ft_append_list(&tokens, EQUALS, "="); 
-			continue ;
-		}
+		//if (input[i] == '=')
+		//{
+		//	if (word_len > 0)
+		//	{
+		//		current[word_len] = '\0';
+		//		ft_append_list(&tokens, ASSIGNEMENT, current);
+		//		word_len = 0;
+		//	}
+		//	ft_append_list(&tokens, EQUALS, "="); 
+		//	continue ;
+		//}
 
 		current[word_len++] = input[i];
 	}

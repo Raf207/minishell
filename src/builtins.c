@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 13:05:22 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/01 21:23:29 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/02 18:26:57 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,3 +63,5 @@ int	ft_builtins(t_token_list *token, t_env **env)
 		printf("NOT YET\n");
 	return (1);
 }
+//check "command" '(' g_exitcode = 258
+// and all error in the exec ¿g_exitcode = 1?

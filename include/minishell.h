@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/01 21:18:03 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/02 17:50:50 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ void					export(t_token_list *token, t_env **env);
 void					sort_env(t_env *top);
 int						listlen(t_env *list);
 void					free_list(t_env *list);
+void					free_node(t_env *node);
 void					unset(t_token_list *token, t_env **env);
 
 t_token_list			*ft_create_list(char *input);
