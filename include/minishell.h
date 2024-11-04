@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/02 17:50:50 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/04 22:47:50 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,10 @@ typedef struct s_cd
 	const char			*path;
 	char				*tmp;
 	DIR					*dir;
-}						t_cd;
+	int					len;
+	char				*name;
+	char				*value;
+}						t_built;
 
 t_token_list			*ft_create_list(char *input);
 t_AST					*parsecmd(t_token_list *tokens, t_env *env);
@@ -101,9 +104,9 @@ int						ft_builtins(t_token_list *token, t_env **env);
 void					pwd(t_env **env);
 void					cd(t_token_list *token, t_env **env);
 t_env					*ft_findnode(t_env *env, char *name);
-void					cd_home(t_env **env, t_cd *var);
-void					cd_oldpwd(t_env **env, t_cd *var);
-void					cd_dir(t_env **env, t_cd *var);
+void					cd_home(t_env **env, t_built *var);
+void					cd_oldpwd(t_env **env, t_built *var);
+void					cd_dir(t_env **env, t_built *var);
 int						diff_dir(const char *path);
 void					exit_built(t_token_list *token);
 void					echo_built(void);
@@ -113,6 +116,7 @@ int						listlen(t_env *list);
 void					free_list(t_env *list);
 void					free_node(t_env *node);
 void					unset(t_token_list *token, t_env **env);
+void					append_list(t_env **env_list, char *str); //raf
 
 t_token_list			*ft_create_list(char *input);
 t_AST					*parsecmd(t_token_list *tokens, t_env *env);

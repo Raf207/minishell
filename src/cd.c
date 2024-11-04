@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 13:07:48 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/10/16 14:51:59 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/04 22:47:00 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_env	*ft_findnode(t_env *env, char *name)
 
 void	cd(t_token_list *token, t_env **env)
 {
-	t_cd	var;
+	t_built	var;
 
 	var.path = token->next->value;
 	if (var.path && ft_strncmp(var.path, "--", INT_MAX) == 0)

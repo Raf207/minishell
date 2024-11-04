@@ -6,13 +6,13 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 13:08:05 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/10/16 13:08:06 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/04 22:47:00 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	cd_dir(t_env **env, t_cd *var)
+void	cd_dir(t_env **env, t_built *var)
 {
 	free(var->env_oldpwd->value);
 	var->env_oldpwd->value = ft_strdup(var->env_pwd->value);
@@ -29,7 +29,7 @@ void	cd_dir(t_env **env, t_cd *var)
 		var->env_pwd->value = getcwd(NULL, 0);
 }
 
-void	cd_oldpwd(t_env **env, t_cd *var)
+void	cd_oldpwd(t_env **env, t_built *var)
 {
 	if (var->env_oldpwd->value == NULL)
 	{
@@ -51,7 +51,7 @@ void	cd_oldpwd(t_env **env, t_cd *var)
 	printf("%s\n", var->tmp);
 }
 
-void	cd_home(t_env **env, t_cd *var)
+void	cd_home(t_env **env, t_built *var)
 {
 	free(var->env_oldpwd->value);
 	var->env_oldpwd->value = ft_strdup(var->env_pwd->value);

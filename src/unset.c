@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 21:34:54 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/02 18:25:04 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/04 22:59:19 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,12 @@ static int	check_identifier(char *str)
 static void	unset_var(char *str, t_env **env)
 {
 	t_env	*head;
+    t_env   *tmp;
 
 	// int index;
 	// index = exist(str, (*env));
 	head = *env;
-	while ((*env)->next)
+	while ((*env))
 	{
 		if (!ft_strncmp((*env)->next->name, str, INT_MAX))
 		{

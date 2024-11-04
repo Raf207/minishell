@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 21:04:10 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/01 17:13:33 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/04 22:33:32 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ static int	find_char(const char *str, int c)
 /*
 	ajoute une ligne de l'environnement en tant que node dans la liste
 */
-static void	append_list(t_env **env_list, char *str)
+
+void	append_list(t_env **env_list, char *str)
 {
 	t_env	*node;
 	t_env	*last_node;
@@ -51,7 +52,10 @@ static void	append_list(t_env **env_list, char *str)
 		return ;
 	node->next = NULL;
 	len = find_char(str, '=');
-	node->equal = true;
+	if (ft_strchr(str, '='))
+		node->equal = true;
+	else
+		node->equal = false;
 	node->name = ft_substr(str, 0, len);
 	if (ft_strncmp(node->name, "OLDPWD", INT_MAX) != 0)
 		node->value = ft_substr(str, len + 1, INT_MAX);

@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 15:12:48 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/02 18:57:54 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/04 22:59:55 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,20 @@ static int	find_char(const char *str, int c)
 		;
 	return (i);
 }
-
+static int envchr(char *name, t_env *env)
+{
+	t_env *tmp;
+	if (!env)
+		return (0);
+	tmp = env;
+	while (tmp->next)
+	{
+		if (!ft_strncmp(tmp->next->name, name, INT_MAX))
+			return (1);
+		tmp = tmp->next;
+	}
+	return (0);
+}
 //static int	exist(char *str, t_env *env)
 //{
 //	int		i;
@@ -64,54 +77,69 @@ static int	find_char(const char *str, int c)
 //	return (-1);
 //}
 
+static int	exist(char *str, t_env *env)
+{
+	int		j;
+	t_env	*tmp;
+
+	if (!env)
+		return (-1);
+	j = 0;
+	tmp = env;
+	while (tmp)
+	{
+		if (!ft_strncmp(tmp->name, str, INT_MAX))
+			return (j);
+		tmp = tmp->next;
+		j++;
+	}
+	return (-1);
+}
+
+// void	append(char *name, char *value, t_env **env, t_env *head)
+// {
+// 	t_env *new_node;
+	
+// 	*env = head;
+// 	new_node = malloc(sizeof(t_env));
+// 		if (!new_node)
+// 			return (NULL);
+// 	new_node->name = ft_strdup(name);
+// 	new_node->value = ft_strdup(value);
+// 	new_node->next = NULL;
+// 	while ((*env)->next)
+// 		env = (*env)->next;
+// 	(*env)->next = new_node;
+// }
+
+
 static void	set_var(char *str, t_env **env)
 {
-	int		i;
-	int		len;
-	char	*name;
-	char	*value;
-	t_env	*head;
+	t_env	*top;
+	t_built var;
 
-	len = find_char(str, '=');
-	printf("token : %s\n", str);
-	name = ft_substr(str, 0, len);
-	value = ft_substr(str, len + 1, INT_MAX);
-	printf("name : %s | value : %s\n", name, value);
-	if (!value)
+	var.len = find_char(str, '=');
+	var.name = ft_substr(str, 0, var.len);
+	var.value = ft_substr(str, var.len + 1, INT_MAX);
+	if (!var.value)
 		return ;
-	head = *env;
-	while ((*env)->next)
+	top = *env;
+	if (envchr(var.name, *env))
 	{
-		if (!ft_strncmp((*env)->name, name, INT_MAX))
+		while ((*env))
 		{
-			free((*env)->value);
-			(*env)->value = value;
-			break ;
+			if (!ft_strncmp((*env)->name, var.name, INT_MAX))
+			{
+				free((*env)->value);
+				(*env)->value = var.value;
+				break ;
+			}
+			(*env) = (*env)->next;
 		}
-		else
-		{
-			printf("append\n");
-			//append(name, value, env);
-			break ;
-		}
-		(*env) = (*env)->next;
 	}
-	*env = head; // free ??
-	// if (pos >= 0)
-	// {
-	// 	i = 0;
-	// 	while (i < pos)
-	// 	{
-	// 		(*env) = (*env)->next;
-	// 		i++;
-	// 	}
-	// 	free((*env)->value);
-	// 	(*env)->value = value;
-	// }
-	// else
-	// 	printf("append\n");
-	// else if (pos == -1)
-	// 	append(env, value);
+	else
+		append_list(env, str);
+	*env = top; // free ??
 }
 
 
@@ -125,7 +153,7 @@ void	export(t_token_list *token, t_env **env)
 		return ;
 	}
 	token = token->next;
-	printf("token : %s\n", token->value);
+	// printf("token : %s\n", token->value);
 	 while (token->next)
 	 {
 	 	 if (!check_identifier(token->value))
