@@ -144,12 +144,14 @@ static void	set_var(char *str, t_env **env)
 	else
 		append_list(env, str);
 	*env = top; // free ??
+	printf("OK\n");
 }
 
 
 void	export(t_token_list *token, t_env **env)
 {
 	t_env	*export;
+	t_env	*top;
 
 	if (!token->next->value)
 	{
@@ -174,5 +176,6 @@ void	export(t_token_list *token, t_env **env)
 		// else if (!export(!token->value, env))
 		// 	return (print_error);
 	 }
+
 	 printf("end\n");
 }

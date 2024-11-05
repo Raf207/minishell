@@ -39,15 +39,15 @@ int	ft_builtins(t_token_list *token, t_env **env)
 		unset(token, env);
 		return (0); 
 	}
-	else if (ft_strncmp(token->value, "env", INT_MAX) == 0)
-	{
-		while (node)
-		{
-			if (node->value)
-				printf("%s=%s\n", node->name, node->value);
-			node = node->next;
-		}
-	}
+	// else if (ft_strncmp(token->value, "env", INT_MAX) == 0)
+	// {
+	// 	while (node)
+	// 	{
+	// 		if (node->value)
+	// 			printf("%s=%s\n", node->name, node->value);
+	// 		node = node->next;
+	// 	}
+	// }
 	else if (ft_strncmp(token->value, "exit", INT_MAX) == 0)
 	{
 		exit_built(token);

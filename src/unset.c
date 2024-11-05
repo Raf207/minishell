@@ -53,13 +53,21 @@ static void	unset_var(char *str, t_env **env)
 
 	// int index;
 	// index = exist(str, (*env));
-	head = *env;
+	if (*env&& !ft_strncmp((*env)->name, str, INT_MAX))
+		{
+			tmp = (*env);
+			(*env) = (*env)->next;
+			free_node(tmp);
+			return ;
+		}
+		head = *env;
 	while ((*env))
 	{
-		if (!ft_strncmp((*env)->next->name, str, INT_MAX))
+		if ((*env)->next && !ft_strncmp((*env)->next->name, str, INT_MAX))
 		{
-			free_node((*env)->next);
+			tmp = (*env)->next;
 			(*env)->next = (*env)->next->next;
+			free_node(tmp);
 			break ;
 		}
 		(*env) = (*env)->next;
