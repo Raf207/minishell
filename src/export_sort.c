@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 18:00:06 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/10/30 18:23:16 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/05 21:17:35 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,9 @@ static void	print_list(t_env *top)
 {
 	while (top)
 	{
-		if (!top->value)
+		printf("name %s | value %s | equal %d \n", (top)->name,
+				(top)->value, (top)->equal);
+		if (!top->value && top->equal) //|| top->equal == false)
 			ft_printf_fd(1, "declare -x %s\n", top->name);
 		else if (ft_strncmp(top->name, "_", INT_MAX))
 			ft_printf_fd(1, "declare -x %s=\"%s\"\n", top->name, top->value);
