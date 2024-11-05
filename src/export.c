@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 15:12:48 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/04 22:59:55 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/04 23:29:21 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static int	check_identifier(char *str)
 	}
 	return (1);
 }
+
 static int	find_char(const char *str, int c)
 {
 	int	i;
@@ -36,20 +37,27 @@ static int	find_char(const char *str, int c)
 		;
 	return (i);
 }
-static int envchr(char *name, t_env *env)
+
+static int	envchr(char *str, t_env *env)
 {
-	t_env *tmp;
+	t_env	*tmp;
+	int		i;
+
 	if (!env)
 		return (0);
+	i = 0;
+	while (str[i] && str[i] != '=')
+		i++;
 	tmp = env;
 	while (tmp->next)
 	{
-		if (!ft_strncmp(tmp->next->name, name, INT_MAX))
+		if (!ft_strncmp(tmp->next->name, str, i))
 			return (1);
 		tmp = tmp->next;
 	}
 	return (0);
 }
+
 //static int	exist(char *str, t_env *env)
 //{
 //	int		i;
@@ -77,66 +85,62 @@ static int envchr(char *name, t_env *env)
 //	return (-1);
 //}
 
-static int	exist(char *str, t_env *env)
-{
-	int		j;
-	t_env	*tmp;
-
-	if (!env)
-		return (-1);
-	j = 0;
-	tmp = env;
-	while (tmp)
-	{
-		if (!ft_strncmp(tmp->name, str, INT_MAX))
-			return (j);
-		tmp = tmp->next;
-		j++;
-	}
-	return (-1);
-}
-
-// void	append(char *name, char *value, t_env **env, t_env *head)
+// static int	exist(char *str, t_env *env)
 // {
-// 	t_env *new_node;
-	
-// 	*env = head;
-// 	new_node = malloc(sizeof(t_env));
-// 		if (!new_node)
-// 			return (NULL);
-// 	new_node->name = ft_strdup(name);
-// 	new_node->value = ft_strdup(value);
-// 	new_node->next = NULL;
-// 	while ((*env)->next)
-// 		env = (*env)->next;
-// 	(*env)->next = new_node;
+// 	int		j;
+// 	t_env	*tmp;
+
+// 	if (!env)
+// 		return (-1);
+// 	j = 0;
+// 	tmp = env;
+// 	while (tmp)
+// 	{
+// 		if (!ft_strncmp(tmp->name, str, INT_MAX))
+// 			return (j);
+// 		tmp = tmp->next;
+// 		j++;
+// 	}
+// 	return (-1);
 // }
+
+static void	set_value(char	*str, t_env **env)
+{
+	  	int      len;
+        char    *name;
+        char    *value;
+
+        len = find_char(str, '=');
+        printf("token : %s\n", str);
+        name = ft_substr(str, 0, len);
+        value = ft_substr(str, len + 1, INT_MAX);
+        printf("name : %s | value : %s\n", name, value);
+        if (!value)
+                return ;
+			while ((*env))
+		{
+			if (!ft_strncmp((*env)->name, name, INT_MAX))
+			{
+				free((*env)->value);
+				(*env)->value = value;
+				if (ft_strchr(str, '='))
+					(*env)->equal = true;
+				else
+					(*env)->equal = false;
+				break ;
+			}
+			(*env) = (*env)->next;
+		}
+}
 
 
 static void	set_var(char *str, t_env **env)
 {
 	t_env	*top;
-	t_built var;
 
-	var.len = find_char(str, '=');
-	var.name = ft_substr(str, 0, var.len);
-	var.value = ft_substr(str, var.len + 1, INT_MAX);
-	if (!var.value)
-		return ;
 	top = *env;
-	if (envchr(var.name, *env))
-	{
-		while ((*env))
-		{
-			if (!ft_strncmp((*env)->name, var.name, INT_MAX))
-			{
-				free((*env)->value);
-				(*env)->value = var.value;
-				break ;
-			}
-			(*env) = (*env)->next;
-		}
-	}
+	if (envchr(str, *env))
+		set_value(str, *env);
 	else
 		append_list(env, str);
 	*env = top; // free ??

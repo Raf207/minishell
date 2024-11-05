@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/04 22:47:50 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/04 23:15:51 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,9 @@ typedef struct s_cd
 	const char			*path;
 	char				*tmp;
 	DIR					*dir;
-	int					len;
-	char				*name;
-	char				*value;
+	// int					len;
+	// char				*name;
+	// char				*value;
 }						t_built;
 
 t_token_list			*ft_create_list(char *input);
