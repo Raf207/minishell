@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 13:07:48 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/04 22:47:00 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/06 23:00:27 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,15 @@
 t_env	*ft_findnode(t_env *env, char *name)
 {
 	int	i;
+	t_env *tmp;
 
 	i = -1;
-	while (env)
+	tmp = env;
+	while (tmp)
 	{
-		if (ft_strncmp(env->name, name, INT_MAX) == 0)
-			return (env);
-		env = env->next;
+		if (ft_strncmp(tmp->name, name, INT_MAX) == 0)
+			return (tmp);
+		tmp = tmp->next;
 	}
 	return (NULL);
 }
@@ -36,6 +38,12 @@ void	cd(t_token_list *token, t_env **env)
 	var.dir = opendir(var.path);
 	var.env_oldpwd = ft_findnode(*env, "OLDPWD");
 	var.env_pwd = ft_findnode(*env, "PWD");
+	printf("check 1\n");
+	if (!var.env_pwd)
+	{
+		var.env_pwd = malloc(sizeof(t_env));
+		var.env_pwd->value = getcwd(NULL, 0);
+	}
 	var.env_home = ft_findnode(*env, "HOME");
 	if (var.path && !var.dir && !diff_dir(var.path))
 	{

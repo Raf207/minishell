@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 13:08:05 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/04 22:47:00 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/06 16:44:56 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,11 @@ void	cd_oldpwd(t_env **env, t_built *var)
 
 void	cd_home(t_env **env, t_built *var)
 {
+	if (!var->env_home->value && !var->path)
+	{
+		printf("bash: cd: HOME not set\n");
+		return ;
+	}
 	free(var->env_oldpwd->value);
 	var->env_oldpwd->value = ft_strdup(var->env_pwd->value);
 	free(var->env_pwd->value);

@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 21:04:10 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/04 22:33:32 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/06 23:48:22 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,12 @@ void	append_list(t_env **env_list, char *str)
 	else
 		node->equal = false;
 	node->name = ft_substr(str, 0, len);
+	// printf("p : %s | name : %s\n", p, node->name);
 	if (ft_strncmp(node->name, "OLDPWD", INT_MAX) != 0)
 		node->value = ft_substr(str, len + 1, INT_MAX);
 	else
 		node->value = NULL;
+	printf("name : %s | value : %s | equal %d \n",node->name, node->value, node->equal);
 	if (!(*env_list))
 		*env_list = node;
 	else

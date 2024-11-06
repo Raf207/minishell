@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 15:12:48 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/05 21:14:04 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/07 00:02:08 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ static int	envchr(char *str, t_env *env)
 	i = 0;
 	while (str[i] && str[i] != '=')
 		i++;
+		// len = find_char(str, '=');
+	// name = ft_substr(str, 0, len);
 	tmp = env;
 	while (tmp->next)
 	{
@@ -166,6 +168,8 @@ static void	set_var(char *str, t_env **env)
 	t_env	*top;
 
 	// top = *env;
+	// len = find_char(str, '=');
+	// name = ft_substr(str, 0, len);
 	if (envchr(str, *env))
 		set_value(str, *env);
 	else
