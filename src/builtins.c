@@ -6,13 +6,13 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 13:05:22 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/06 23:01:00 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/07 21:15:46 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	ft_builtins(t_token_list *token, t_env **env)
+int	ft_builtins(t_token_list *token, t_env **env, t_env *tmp_env)
 {
 	t_env	*node;
 
@@ -37,17 +37,21 @@ int	ft_builtins(t_token_list *token, t_env **env)
 	else if (ft_strncmp(token->value, "unset", INT_MAX) == 0)
 	{
 		unset(token, env);
-		return (0); 
+		return (0);
 	}
-	// else if (ft_strncmp(token->value, "env", INT_MAX) == 0)
-	// {
-	// 	while (node)
-	// 	{
-	// 		if (node->value)
-	// 			printf("%s=%s\n", node->name, node->value);
-	// 		node = node->next;
-	// 	}
-	// }
+	else if (ft_strncmp(token->value, "ven", INT_MAX) == 0)
+	{
+		while (node)
+		{
+			if (node->value)
+				ft_printf_fd(1, "%s=%s\n", node->name, node->value);
+			else if (!node->value && node->equal)
+				ft_printf_fd(1, "%s=\n", node->name);
+			node = node->next;
+		}
+		ft_printf_fd(1, "_=/usr/bin/env\n");
+		return (0);
+	}
 	else if (ft_strncmp(token->value, "exit", INT_MAX) == 0)
 	{
 		exit_built(token);
@@ -59,9 +63,7 @@ int	ft_builtins(t_token_list *token, t_env **env)
 		echo_built();
 		return (0);
 	}
-	else
-		printf("NOT YET\n");
 	return (1);
 }
-//check "command" '(' g_exitcode = 258
+// check "command" '(' g_exitcode = 258
 // and all error in the exec ¿g_exitcode = 1?

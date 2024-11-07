@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 18:00:06 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/06 23:39:55 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/07 20:42:43 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,19 @@
 
 static void	swap_list(t_env *a, t_env *b)
 {
-	char	*temp_name;
-	char	*temp_value;
+	char	*tmp_name;
+	char	*tmp_value;
+	int		tmp_equal;
 
-	temp_name = a->name;
-	temp_value = a->value;
+	tmp_name = a->name;
+	tmp_value = a->value;
+	tmp_equal = a->equal;
 	a->name = b->name;
 	a->value = b->value;
-	b->name = temp_name;
-	b->value = temp_value;
+	a->equal = b->equal;
+	b->name = tmp_name;
+	b->value = tmp_value;
+	b->equal = tmp_equal;
 }
 
 static void	sort_list(t_env *top)
@@ -81,15 +85,14 @@ static void	print_list(t_env *top)
 {
 	while (top)
 	{
-		// printf("name %s | value %s | equal %d \n", (top)->name,
-		// 		(top)->value, (top)->equal);
-		if (!top->value || top->equal == false) //|| top->equal == false)
+		if (!top->value && !top->equal)
 			ft_printf_fd(1, "declare -x %s\n", top->name);
+		else if (!top->value && top->equal)
+			ft_printf_fd(1, "declare -x %s=\n", top->name);
 		else if (ft_strncmp(top->name, "_", INT_MAX))
 			ft_printf_fd(1, "declare -x %s=\"%s\"\n", top->name, top->value);
 		top = top->next;
 	}
-	//ft_printf_fd(1, "declare -x _=/usr/bin/env\n"); Not sure
 }
 
 void	sort_env(t_env *top)

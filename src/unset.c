@@ -6,13 +6,13 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 21:34:54 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/05 19:11:01 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/07 20:15:54 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static int	check_identifier(char *str)
+int	check_identifier(char *str)
 {
 	int	i;
 
@@ -27,32 +27,12 @@ static int	check_identifier(char *str)
 	}
 	return (1);
 }
-// static int	exist(char *str, t_env *env)
-//{
-//	int		j;
-//	t_env	*tmp;
-
-//	if (!env)
-//		return (-1);
-//	j = 0;
-//	tmp = env;
-//	while (tmp)
-//	{
-//		if (!ft_strncmp(tmp->name, str, INT_MAX))
-//			return (j);
-//		tmp = tmp->next;
-//		j++;
-//	}
-//	return (-1);
-//}
 
 static void	unset_var(char *str, t_env **env)
 {
 	t_env	*head;
 	t_env	*tmp;
 
-	// int index;
-	// index = exist(str, (*env));
 	if (*env && !ft_strncmp((*env)->name, str, INT_MAX))
 	{
 		tmp = (*env);
@@ -72,7 +52,7 @@ static void	unset_var(char *str, t_env **env)
 		}
 		(*env) = (*env)->next;
 	}
-	*env = head; // free ??
+	*env = head;
 }
 
 void	unset(t_token_list *token, t_env **env)
@@ -82,7 +62,6 @@ void	unset(t_token_list *token, t_env **env)
 	token = token->next;
 	while (token->next)
 	{
-		printf("tok : %s\n", token->value);
 		if (!check_identifier(token->value))
 		{
 			ft_printf_fd(2, "bash: unset: %s: not a valid identifier\n",
@@ -90,9 +69,7 @@ void	unset(t_token_list *token, t_env **env)
 			g_exitcode = 1;
 		}
 		else
-		{
 			unset_var(token->value, env);
-		}
 		token = token->next;
 	}
 }

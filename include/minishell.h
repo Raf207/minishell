@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/06 23:01:18 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/07 21:04:09 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ char					**build_env(t_env **env);
 
 // mucabrin
 
-int						ft_builtins(t_token_list *token, t_env **env);
+int						ft_builtins(t_token_list *token, t_env **env, t_env *tmp_env);
 void					pwd(t_env **env);
 void					cd(t_token_list *token, t_env **env);
 t_env					*ft_findnode(t_env *env, char *name);
@@ -115,8 +115,10 @@ void					sort_env(t_env *top);
 int						listlen(t_env *list);
 void					free_list(t_env *list);
 void					free_node(t_env *node);
+int						check_identifier(char *str);
 void					unset(t_token_list *token, t_env **env);
 void					append_list(t_env **env_list, char *str); //raf
+
 
 t_token_list			*ft_create_list(char *input);
 t_AST					*parsecmd(t_token_list *tokens, t_env *env);
