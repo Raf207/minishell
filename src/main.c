@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:16:16 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/07 21:02:43 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/07 21:26:15 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,10 @@ void	ft_read_input(t_env **env)
 	t_token_list	*tokens;
 	t_AST			*ast;
 	char			**envp;
-	t_env			*tmp_env;
+	t_env			**tmp_env;
 
 	signal(SIGINT, ft_sig_handler);
+	tmp_env = env;
 	while (1)
 	{
 		input = ft_input();
@@ -103,7 +104,6 @@ void	ft_read_input(t_env **env)
 		}
 		tokens = ft_create_list(input);
 		if (tokens->type == WORD)
-			tmp_env = *env;
 			if (ft_builtins(tokens, env, tmp_env))
 			{
 				ast = ft_parsing(tokens);

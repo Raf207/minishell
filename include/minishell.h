@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/07 21:04:09 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/07 21:22:27 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ char					**build_env(t_env **env);
 
 // mucabrin
 
-int						ft_builtins(t_token_list *token, t_env **env, t_env *tmp_env);
+int						ft_builtins(t_token_list *token, t_env **env, t_env **tmp_env);
 void					pwd(t_env **env);
 void					cd(t_token_list *token, t_env **env);
 t_env					*ft_findnode(t_env *env, char *name);
