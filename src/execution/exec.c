@@ -6,28 +6,11 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:02:30 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/10/24 17:30:03 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/07 12:39:28 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-int G_pid = 0;
-
-
-int	ft_find_here(t_AST *ast)
-{
-	t_AST	*tmp;
-
-	tmp = ast;
-	while (tmp->subcmd)
-	{
-		if (tmp->type == N_HEREDOC)
-			return (1);
-		tmp = tmp->subcmd;
-	}
-	return (0);
-}
 
 void	ft_redir(t_AST *ast, char **envp, int copy_in, int copy_out)
 {
@@ -40,36 +23,30 @@ void	ft_redir(t_AST *ast, char **envp, int copy_in, int copy_out)
 		exit(1);
 	}
 	if (dup2(fd, ast->fd) == -1)
+	{
+		close(fd);
 		ft_panic("dup2");
+	}
 	close(fd);
 	ft_runcmd(ast->subcmd, envp, copy_in, copy_out);
 }
 
 void	ft_heredoc(t_AST *ast, char **envp, int copy_in, int copy_out)
 {
-	int	p_h[2];
+	int	fd;
 
-	if (pipe(p_h) < 0)
-		ft_panic("pipe");
-	if (ft_fork1() == 0)
+	fd = open(".heredoc", O_RDONLY, 0644);
+	if (fd < 0)
 	{
-		close(STDIN_FILENO);
-		close(STDOUT_FILENO);
-		if (dup2(copy_in, STDIN_FILENO) == -1)
-			ft_panic("dup2");
-		close(copy_in);
-		if (dup2(copy_out, STDOUT_FILENO) == -1)
-			ft_panic("dup2");
-		close(copy_out);
-		ft_heredoc_input(p_h, ast->file);
+		ft_putendl_fd(ft_strjoin(ast->file, " failed to open"), 2);
+		exit(1);
 	}
-	else
+	if (dup2(fd, ast->fd) == -1)
 	{
-		close(p_h[1]);
-		dup2(p_h[0], STDIN_FILENO);
-		close(p_h[0]);
-		wait(NULL);
+		close(fd);
+		ft_panic("dup2");
 	}
+	close(fd);
 	ft_runcmd(ast->subcmd, envp, copy_in, copy_out);
 }
 
@@ -88,8 +65,6 @@ void	ft_pipe(t_AST *ast, char **envp, int copy_in, int copy_out)
 		close(p[1]);
 		ft_runcmd(ast->right, envp, copy_in, copy_out);
 	}
-	if (ft_find_here(ast->right))
-		waitpid(pls, NULL, 0);
 	if (ft_fork1() == 0)
 	{
 		dup2(p[0], STDIN_FILENO);

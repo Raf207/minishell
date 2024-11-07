@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 13:28:15 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/08/27 22:49:51 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/07 13:41:50 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,6 @@ void		ft_copyline(char *str, t_gnllist *list);
 char		*ft_lastpart(t_gnllist *list);
 void		ft_cleanlist(t_gnllist **list, char *last);
 char		*ft_strstr(const char *s1, const char *s2);
+int			ft_strcmp(char *s1, char *s2);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/10/31 16:33:02 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/07 17:21:12 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <limits.h>
 # include <signal.h>
 # include <fcntl.h>
+# include <termios.h>
 # include "../libft/include/libft.h"
 
 typedef enum e_token
@@ -92,8 +93,6 @@ char	**build_env(t_env	**env);
 
 int		ft_fork1(void);
 int		ft_isspace(char c);
-void	ft_main_sig_handler(int sig);
-void	ft_hered_sig_handler(int sig);
 int		*ft_boolhere(int i);
 
 //lexer
@@ -107,7 +106,7 @@ void	ft_update_tok(t_token_list **token);
 void	ft_runcmd(t_AST *ast, char **envp, int copy_in, int copy_out);
 void	ft_execution(char **cmd, char **envp);
 int		ft_findenv(char **envp, char *name);
-void	ft_heredoc_input(int pipe[2], char *limiter);
+int		ft_heredoc_input(int fd, char *limiter);
 
 //parsing
 t_AST	*ft_parsing(t_token_list **mlist);
@@ -125,5 +124,10 @@ int		ft_find_here(t_AST *ast);
 void	ft_exit_tokens(t_token_list **tokens, char *s);
 void	ft_free_ast(t_AST *node);
 void	ft_free_env(t_env **list);
+
+//signals
+void	ft_hered_sig_handler(int sig);
+void	ft_main_sig_handler(int sig);
+void	ft_exec_sig_handler(int sig);
 
 #endif

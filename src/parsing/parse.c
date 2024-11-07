@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:00:24 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/29 23:40:00 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/03 19:49:18 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,11 @@ t_AST	*ft_parsepipe(t_token_list **list)
 
 t_AST	*ft_parsing(t_token_list **list)
 {
-	t_AST	*cmd;
+	t_AST			*cmd;
+	t_token_list	*tmp;
 
-	cmd = ft_parsepipe(list);
+	tmp = *list;
+	cmd = ft_parsepipe(&tmp);
 	if (!cmd)
 		return (NULL);
 	return (cmd);

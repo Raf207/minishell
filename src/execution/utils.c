@@ -6,35 +6,35 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:19:17 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/10/26 23:09:15 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/07 17:14:40 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	ft_heredoc_input(int pipe[2], char *limiter)
+int	ft_heredoc_input(int fd, char *limiter)
 {
 	char	*line;
-	int		*i;
+	int		*handle_ctlc;
 
-	close(pipe[0]);
 	while (1)
 	{
-		i =  ft_boolhere(0);
-		signal(SIGINT, &ft_hered_sig_handler);
+		signal(SIGINT, ft_hered_sig_handler);
+		signal(SIGQUIT, SIG_IGN);
+		handle_ctlc = ft_boolhere(0);
 		line = get_next_line(0);
-		if (!line || (*i))
-			exit(EXIT_FAILURE);
+		if (!line && (*handle_ctlc) == 1)
+			break ;
+		else if (!line)
+			return (1);
 		if ((ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
 			&& (line[ft_strlen(limiter)] == '\n'))
-		{
-			close(pipe[1]);
-			free(line);
-			exit(EXIT_SUCCESS);
-		}
-		ft_putstr_fd(line, pipe[1]);
+			return (close(fd), free(line), 1);
+		ft_putstr_fd(line, fd);
 		free(line);
 	}
+	ft_boolhere(3);
+	return (0);
 }
 
 int	ft_findenv(char **envp, char *name)

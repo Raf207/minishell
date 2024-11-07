@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 19:06:24 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/10/22 17:32:31 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/07 14:54:42 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	new_tok(t_token_list **tokens, char *value, t_enfin *enfin,
 			if (!ft_append_list(tokens, type, temp))
 			{
 				free(temp);
-				ft_exit_tokens(tokens, "malloc");
+				ft_exit_tokens(tokens, "malloc error");
 			}
 			free(temp);
 			enfin->word_len = 0;
@@ -35,7 +35,7 @@ void	new_tok(t_token_list **tokens, char *value, t_enfin *enfin,
 	else
 	{
 		if (!ft_append_list(tokens, type, value))
-			ft_exit_tokens(tokens, "malloc");
+			ft_exit_tokens(tokens, "malloc error");
 	}
 }
 
@@ -79,14 +79,7 @@ int	new_pass(t_token_list **tokens, char *input, t_enfin *enfin)
 	{
 		new_tok(tokens, NULL, enfin, WORD);
 		if (!ft_append_list(tokens, PIPE, "|"))
-			ft_exit_tokens(tokens, "malloc");
-		return (1);
-	}
-	if (input[enfin->i] == '=')
-	{
-		new_tok(tokens, NULL, enfin, ASSIGNEMENT);
-		if (!ft_append_list(tokens, EQUALS, "="))
-			ft_exit_tokens(tokens, "malloc");
+			ft_exit_tokens(tokens, "malloc error");
 		return (1);
 	}
 	if (ft_isspace(input[enfin->i]))
@@ -115,7 +108,7 @@ int	quotes_tok(t_token_list **tokens, char *input, t_enfin *enfin)
 			if (enfin->word_len > 0 && enfin->quote == '\'')
 			{
 				if (!ft_append_list(tokens, WORD, enfin->current))
-					ft_exit_tokens(tokens, "malloc");
+					ft_exit_tokens(tokens, "malloc error");
 			}
 			else if (enfin->quote == '"')
 				new_tok(tokens, NULL, enfin, WORD);
@@ -152,7 +145,7 @@ void	ft_create_list(char *input, t_env **env, t_token_list **tokens)
 	new_tok(tokens, NULL, &enfin, WORD);
 	free(enfin.current);
 	if (!ft_append_list(tokens, END, NULL))
-		ft_exit_tokens(tokens, "malloc");
+		ft_exit_tokens(tokens, "malloc error");
 	if (enfin.in_quote)
 		ft_exit_tokens(tokens, "syntax");
 	ft_update_tok(tokens);

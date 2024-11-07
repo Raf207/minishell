@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:55:27 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/10/10 16:12:21 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/07 16:04:05 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,28 @@ t_AST	*ft_execnode(void)
 t_AST	*ft_heredocnode(t_AST *subcmd, char *limiter)
 {
 	t_AST	*cmd;
+	int		fd;
 
+	fd = open(".heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd < 0)
+		return (ft_free_ast(subcmd), NULL);
 	cmd = malloc(sizeof(*cmd));
 	if (!cmd)
 	{
+		close(fd);
 		ft_free_ast(subcmd);
+		return (NULL);
+	}
+	if (ft_heredoc_input(fd, limiter) == 0)
+	{
+		close(fd);
+		ft_free_ast(subcmd);
+		free(cmd);
 		return (NULL);
 	}
 	ft_memset(cmd, 0, sizeof(*cmd));
 	cmd->type = N_HEREDOC;
 	cmd->subcmd = subcmd;
-	cmd->file = limiter;
 	return (cmd);
 }
 

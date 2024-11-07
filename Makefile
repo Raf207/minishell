@@ -16,7 +16,7 @@ EXECUTION = exec utils
 PARSING = ast parse utils
 TOOLS = exit fork
 LEXER = lexer expansion utils
-MAIN = main
+MAIN = main signals
 BUILTINS = env
 
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
