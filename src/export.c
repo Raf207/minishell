@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 15:12:48 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/08 21:11:09 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/10 00:41:48 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ static void	set_value(char *name, char *value, t_env **env, int p)
 
 static void	set_var(char *str, t_env **env)
 {
-	t_env	*top;
 	int		len;
 	char	*name;
 	char	*value;
@@ -80,9 +79,6 @@ static void	set_var(char *str, t_env **env)
 
 void	export(t_token_list *token, t_env **env)
 {
-	t_env	*export;
-	t_env	*top;
-
 	if (!token->next->value)
 	{
 		sort_env(*env);

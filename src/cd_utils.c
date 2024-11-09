@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 13:08:05 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/09 23:38:21 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/10 00:38:10 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	cd_oldpwd(t_env **env, t_built *var)
 		return ;
 	}
 	var->tmp = var->env_oldpwd->value;
+	var->tmp2 = getcwd(NULL, 0);
 	if (chdir(var->tmp) < 0)
 	{
 		ft_printf_fd(STDERR_FILENO, "bash: cd: %s: %s\n", var->tmp,
@@ -83,24 +84,34 @@ void	cd_oldpwd(t_env **env, t_built *var)
 		return ;
 	}
 	// free(var->env_oldpwd->value);
-	var->env_oldpwd->value = ft_strdup(var->env_pwd->value);
-	var->env_pwd->value = getcwd(NULL, 0);
+	if (var->env_pwd)
+	{
+		var->env_oldpwd->value = ft_strdup(var->env_pwd->value);
+		var->env_pwd->value = getcwd(NULL, 0);
+	}
+	else
+		var->env_oldpwd->value = ft_strdup(var->tmp2);
+	var->tmp2 = getcwd(NULL, 0);
 	printf("%s\n", var->tmp);
 }
 
-void	cd_home(t_env **env, t_built *var)
+static int	cd_homecheck(t_built *var)
 {
 	if (!ft_strncmp(var->path, "~", INT_MAX) && !var->env_home)
-	{
 		var->path = getenv("HOME");
-		printf("getenv : %s\n", var->path);
-	}
 	else if (!var->env_home)
 	{
 		ft_printf_fd(2, "bash: cd: HOME not set\n");
 		g_exitcode = 1;
-		return ;
+		return (0);
 	}
+	return (1);
+}
+
+void	cd_home(t_env **env, t_built *var)
+{
+	if (!cd_homecheck(var))
+		return ;
 	if (var->env_oldpwd)
 	{
 		free(var->env_oldpwd->value);
@@ -116,14 +127,13 @@ void	cd_home(t_env **env, t_built *var)
 			var->env_pwd->value = ft_strdup(var->env_home->value);
 		else
 			var->env_pwd->value = ft_strdup(var->path);
-		printf("name : %s value : %s\n", var->env_pwd->name, var->env_pwd->value);
 		chdir(var->env_pwd->value);
 	}
 	else
 		if (var->env_home)
 			chdir(var->env_home->value);
-		else
-			chdir(var->path);
+	else
+		chdir(var->path);
 }
 
 int	diff_dir(const char *path)

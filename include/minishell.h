@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/07 21:22:27 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/10 00:34:49 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,14 @@ typedef struct s_env
 }						t_env;
 
 // mucabrin
-typedef struct s_cd
+typedef struct s_built
 {
 	t_env				*env_oldpwd;
 	t_env				*env_pwd;
 	t_env				*env_home;
 	const char			*path;
 	char				*tmp;
+	char				*tmp2;
 	DIR					*dir;
 	// int					len;
 	// char				*name;
@@ -100,7 +101,7 @@ char					**build_env(t_env **env);
 
 // mucabrin
 
-int						ft_builtins(t_token_list *token, t_env **env, t_env **tmp_env);
+int						ft_builtins(t_token_list *token, t_env **env);
 void					pwd(t_env **env);
 void					cd(t_token_list *token, t_env **env);
 t_env					*ft_findnode(t_env *env, char *name);
@@ -118,7 +119,6 @@ void					free_node(t_env *node);
 int						check_identifier(char *str);
 void					unset(t_token_list *token, t_env **env);
 void					append_list(t_env **env_list, char *str); //raf
-
 
 t_token_list			*ft_create_list(char *input);
 t_AST					*parsecmd(t_token_list *tokens, t_env *env);
