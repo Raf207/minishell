@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 18:26:18 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/09/10 19:22:54 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/09 21:37:08 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,15 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 	return (strlen(s));
 }
 
-char	*ft_strdup(const char *s)
-{
-	char	*dst;
-
-	dst = (char *) malloc((strlen(s) + 1) * sizeof(char));
-	if (!dst)
-		return (NULL);
-	ft_strlcpy(dst, s, strlen(s) + 1);
-	return (dst);
-}
+// char	*ft_strdup(const char *s)
+// {
+// 	char	*dst;
+// 	dst = (char *) malloc((strlen(s) + 1) * sizeof(char));
+// 	if (!dst)
+// 		return (NULL);
+// 	ft_strlcpy(dst, s, strlen(s) + 1);
+// 	return (dst);
+// }
 
 // int	main(int ac, char **av, char **envp)
 // {

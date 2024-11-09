@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 13:07:48 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/07 21:22:38 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/09 23:36:22 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_env	*ft_findnode(t_env *env, char *name)
 {
 	t_env	*tmp;
-	printf("check 2\n");
+
 	tmp = env;
 	while (tmp)
 	{
@@ -26,6 +26,23 @@ t_env	*ft_findnode(t_env *env, char *name)
 	return (NULL);
 }
 
+void	cd_error(t_env **env, t_built *var)
+{
+	var->dir = opendir(var->path);
+	var->env_oldpwd = ft_findnode(*env, "OLDPWD");
+	var->env_pwd = ft_findnode(*env, "PWD");
+	var->env_home = ft_findnode(*env, "HOME");
+	if (var->path && !var->dir && !diff_dir(var->path))
+	{
+		if (errno)
+		{
+			ft_printf_fd(2, "bash: cd: %s: %s\n", var->path, strerror(errno));
+			g_exitcode = 1;
+			return ;
+		}
+	}
+}
+
 void	cd(t_token_list *token, t_env **env)
 {
 	t_built	var;
@@ -33,26 +50,13 @@ void	cd(t_token_list *token, t_env **env)
 	var.path = token->next->value;
 	if (var.path && ft_strncmp(var.path, "--", INT_MAX) == 0)
 		var.path = token->next->next->value;
-	var.dir = opendir(var.path);
-	var.env_oldpwd = ft_findnode(*env, "OLDPWD");
-	var.env_pwd = ft_findnode(*env, "PWD");
-	printf("check 1\n");
-	//if (!var.env_pwd)
-	//{
-	//	var.env_pwd = malloc(sizeof(t_env));
-	//	var.env_pwd->value = getcwd(NULL, 0);
-	//}
-	var.env_home = ft_findnode(*env, "HOME");
-	printf("check 2\n");
-	if (var.path && !var.dir && !diff_dir(var.path))
+	else if (token->next->next->value)
 	{
-		if (errno)
-		{
-			ft_printf_fd(2, "bash: cd: %s: %s\n", var.path, strerror(errno));
-			g_exitcode = 1;
-			return ;
-		}
+		ft_printf_fd(2, "bash: cd: too many arguments\n");
+		g_exitcode = 1;
+		return ;
 	}
+	cd_error(env, &var);
 	if (!var.path || ft_strncmp(var.path, "~", INT_MAX) == 0
 		|| ft_strncmp(var.path, "#", INT_MAX) == 0)
 		cd_home(env, &var);

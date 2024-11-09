@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 13:05:22 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/07 21:23:58 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/09 23:40:38 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	ft_builtins(t_token_list *token, t_env **env, t_env **tmp_env)
 
 	if (!token)
 		return (1);
+	g_exitcode = 0;
 	node = *env;
 	if (ft_strncmp(token->value, "cd", INT_MAX) == 0)
 	{
