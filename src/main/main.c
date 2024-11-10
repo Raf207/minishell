@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:16:16 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/10 20:51:40 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/10 21:07:51 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,8 @@ void	ft_read_input(t_env **env)
 		ft_free(envp);
 		unlink(".heredoc");
 		free(input);
+		ft_free_ast(ast);
+		system("leaks minishell");
 	}
 	ft_free_env(env);
 }

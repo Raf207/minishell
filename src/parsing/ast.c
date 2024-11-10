@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:55:27 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/07 16:04:05 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/10 21:08:42 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,11 @@ t_AST	*ft_pipenode(t_AST *right, t_AST *left)
 	if (!left)
 	{
 		ft_free_ast(right);
+		return (NULL);
+	}
+	if (!right)
+	{
+		ft_free_ast(left);
 		return (NULL);
 	}
 	cmd = malloc (sizeof(*cmd));

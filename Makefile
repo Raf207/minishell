@@ -3,7 +3,7 @@ BONUS_NAME = pipex_bonus
 
 LIBFT = ./libft/libft.a
 
-CC = gcc -fsanitize=address -g
+CC = gcc
 CFLAGS = -Wall -Wextra -Werror $(CPPFLAGS)
 LINK = -lreadline $(LDFLAGS)
 

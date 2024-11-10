@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 21:04:10 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/10 20:26:48 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/10 20:57:41 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void	ft_shlvl(t_env **env)
 	lvl = ft_atoi(last->value);
 	lvl++;
 	free(last->value);
-	last->value = ft_strdup(ft_itoa(lvl));
+	last->value = ft_itoa(lvl);
 }
 
 /*
