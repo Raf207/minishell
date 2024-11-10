@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 15:12:48 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/10 00:41:48 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/10 14:45:44 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,23 +79,23 @@ static void	set_var(char *str, t_env **env)
 
 void	export(t_token_list *token, t_env **env)
 {
-	if (!token->next->value)
+	if (!token->next->value) // if (!token[1])
 	{
 		sort_env(*env);
 		return ;
 	}
-	token = token->next;
-	while (token->next)
+	token = token->next; // i = 1;
+	while (token->next) //while (token[i]) 
 	{
-		if (!check_identifier(token->value))
+		if (!check_identifier(token->value)) // if (!check_identifier(token[i]))
 		{
 			ft_printf_fd(2, "bash: export: %s: not a valid identifier\n",
-				token->value);
+				token->value); // ft_printf_fd(2, "bash: export: %s: not a valid identifier\n", token[i]); 
 			g_exitcode = 1;
 		}
 		else
-			set_var(token->value, env);
-		token = token->next;
+			set_var(token->value, env); // set_var(token[i], env);
+		token = token->next; // i++;
 		// else if (!export(!token->value, env))
 		// 	return (print_error);
 	}

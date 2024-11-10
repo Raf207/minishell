@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 12:51:17 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/10/21 14:49:44 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/10 15:05:25 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,23 +46,29 @@ void	exit_built(t_token_list *token)
 	long	n;
 	int		overflow;
 
-	arg = token->next->value;
-	overflow = 0;
-	n = ft_atol(arg, &overflow);
-	//printf("n : %ld\n", n);
-	if (overflow)
+	if (!token->next->value) // if(!token[1])
 	{
-		ft_printf_fd(2, "bash: exit: %s: numeric argument required\n", arg);
-		g_exitcode = 255;
+		ft_printf_fd(1, "exit\n");
 		exit(g_exitcode);
 	}
-	if (token->next->next->value)
+	arg = token->next->value; // arg = ft_strdup(token[1]);
+	overflow = 0;
+	n = ft_atol(arg, &overflow);
+	if (overflow)
+	{
+		ft_printf_fd(1, "exit\n");
+		ft_printf_fd(2, "bash: exit: %s: numeric argument required\n", arg);
+		exit(g_exitcode = 255);
+	}
+	if (token->next->next->value) // if (token[2])
+	{
 		ft_printf_fd(2, "bash: exit: too many arguments\n");
+		g_exitcode = 1;
+	}
 	else
 	{
-		g_exitcode = n % 256;
-		//printf("g_code : %d\n", g_exitcode);
-		exit(g_exitcode);
+		ft_printf_fd(1, "exit\n");
+		exit(g_exitcode = n % 256);
 	}
 }
 // FREE ALL

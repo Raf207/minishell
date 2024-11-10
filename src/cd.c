@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 13:07:48 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/10 00:40:42 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/10 14:38:37 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ void	cd(t_token_list *token, t_env **env)
 {
 	t_built	var;
 
-	var.path = token->next->value;
+	var.path = token->next->value; // ft_strdup(token[1]);
 	if (var.path && ft_strncmp(var.path, "--", INT_MAX) == 0)
-		var.path = token->next->next->value;
-	else if (token->next->next->value)
+		var.path = token->next->next->value; // ft_strdup(token[2]);
+	else if (token->next->next->value) // else if (token[2])
 	{
 		ft_printf_fd(2, "bash: cd: too many arguments\n");
 		g_exitcode = 1;

@@ -6,41 +6,41 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 13:05:22 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/09 23:45:11 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/10 15:05:58 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	ft_builtins(t_token_list *token, t_env **env)
+int	ft_builtins(t_token_list *token, t_env **env) // int	ft_builtins(char **token, t_env **env)
 {
 	t_env	*node;
 
 	if (!token)
 		return (1);
-	g_exitcode = 0;
+	//g_exitcode = 0; ???
 	node = *env;
-	if (ft_strncmp(token->value, "cd", INT_MAX) == 0)
+	if (ft_strncmp(token->value, "cd", INT_MAX) == 0) // if (ft_strncmp(token[0], "cd", INT_MAX) == 0) 
 	{
 		cd(token, env);
 		return (0);
 	}
-	else if (ft_strncmp(token->value, "pwd", INT_MAX) == 0)
+	else if (ft_strncmp(token->value, "pwd", INT_MAX) == 0) // // if (ft_strncmp(token[0], "pwd", INT_MAX) == 0) 
 	{
 		pwd(env);
 		return (0);
 	}
-	else if (ft_strncmp(token->value, "export", INT_MAX) == 0)
+	else if (ft_strncmp(token->value, "export", INT_MAX) == 0) // if (ft_strncmp(token[0], "export", INT_MAX) == 0) 
 	{
 		export(token, env);
 		return (0);
 	}
-	else if (ft_strncmp(token->value, "unset", INT_MAX) == 0)
+	else if (ft_strncmp(token->value, "unset", INT_MAX) == 0) // if (ft_strncmp(token[0], "unset", INT_MAX) == 0) 
 	{
 		unset(token, env);
 		return (0);
 	}
-	else if (ft_strncmp(token->value, "ven", INT_MAX) == 0)
+	else if (ft_strncmp(token->value, "ven", INT_MAX) == 0) // if (ft_strncmp(token[0], "env", INT_MAX) == 0) 
 	{
 		while (node)
 		{
@@ -53,7 +53,7 @@ int	ft_builtins(t_token_list *token, t_env **env)
 		ft_printf_fd(1, "_=/usr/bin/env\n");
 		return (0);
 	}
-	else if (ft_strncmp(token->value, "exit", INT_MAX) == 0)
+	else if (ft_strncmp(token->value, "exit", INT_MAX) == 0) // if (ft_strncmp(token[0], "exit", INT_MAX) == 0) 
 	{
 		exit_built(token);
 		return (0);

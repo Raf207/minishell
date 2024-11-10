@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 21:34:54 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/07 20:15:54 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/10 14:48:42 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,19 +57,19 @@ static void	unset_var(char *str, t_env **env)
 
 void	unset(t_token_list *token, t_env **env)
 {
-	if (!env || !token->next->value)
+	if (!env || !token->next->value) // if (!env || !token[1]) 
 		return ;
-	token = token->next;
-	while (token->next)
+	token = token->next; // i = 1;
+	while (token->next) //while (token[i]) 
 	{
-		if (!check_identifier(token->value))
+		if (!check_identifier(token->value)) // if (!check_identifier(token[i]))
 		{
 			ft_printf_fd(2, "bash: unset: %s: not a valid identifier\n",
-				token->value);
+				token->value); // ft_printf_fd(2, "bash: export: %s: not a valid identifier\n", token[i]); 
 			g_exitcode = 1;
 		}
 		else
-			unset_var(token->value, env);
-		token = token->next;
+			unset_var(token->value, env); // set_var(token[i], env);
+		token = token->next; // i++;
 	}
 }
