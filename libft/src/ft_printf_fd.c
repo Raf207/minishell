@@ -1,28 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_printf_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/12 20:07:17 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/10 17:19:23 by rafnasci         ###   ########.fr       */
+/*   Created: 2024/10/29 18:05:50 by mucabrin          #+#    #+#             */
+/*   Updated: 2024/11/10 17:18:12 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strchr(const char *s, int c)
+int	ft_printf_fd(int fd, const char *format, ...)
 {
-	int	i;
+	va_list	args;
+	int		i;
 
-	if (!s)
-		return (NULL);
 	i = 0;
-	while (s[i] && s[i] != (const char) c)
+	va_start(args, format);
+	while (format[i])
+	{
+		if (format[i] == '%')
+		{
+			i++;
+			if (format[i] == 's')
+				ft_putstr_fd(va_arg(args, char *), fd);
+			else if (format[i] == 'd')
+				ft_putnbr_fd(va_arg(args, int), fd);
+		}
+		else
+			ft_putchar_fd(format[i], fd);
 		i++;
-	if (s[i] == (char) c)
-		return ((char *) s + i);
-	else
-		return (NULL);
+	}
+	va_end(args);
+	return (1);
 }

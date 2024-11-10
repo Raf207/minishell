@@ -17,7 +17,7 @@ PARSING = ast parse utils
 TOOLS = exit fork
 LEXER = lexer expansion utils
 MAIN = main signals
-BUILTINS = env
+BUILTINS = env builtins cd_utils cd echo exit export_sort export_utils export pwd unset
 
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 SRC = $(addprefix src/lexer/, $(addsuffix .c, $(LEXER)))\

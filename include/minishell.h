@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/07 17:21:12 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/10 18:44:54 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@
 # include <fcntl.h>
 # include <termios.h>
 # include "../libft/include/libft.h"
+# include <dirent.h>
+# include <errno.h>
+
+extern int	g_exitcode;
 
 typedef enum e_token
 {
@@ -75,6 +79,7 @@ typedef struct s_env
 	struct s_env	*next;
 	char			*name;
 	char			*value;
+	bool			equal;
 }	t_env;
 
 typedef struct s_enfin
@@ -86,6 +91,17 @@ typedef struct s_enfin
 	char			quote;
 	t_env			**env;
 }	t_enfin;
+
+typedef struct s_built
+{
+	t_env				*env_oldpwd;
+	t_env				*env_pwd;
+	t_env				*env_home;
+	const char			*path;
+	char				*tmp;
+	char				*tmp2;
+	DIR					*dir;
+}						t_built;
 
 t_AST	*parsecmd(t_token_list *tokens, t_env *env);
 t_env	*make_envlist(char	**env);
@@ -103,7 +119,7 @@ void	ft_cleantoken(t_token_list **list);
 void	ft_update_tok(t_token_list **token);
 
 //execution
-void	ft_runcmd(t_AST *ast, char **envp, int copy_in, int copy_out);
+void	ft_runcmd(t_AST *ast, char **envp, t_env **env);
 void	ft_execution(char **cmd, char **envp);
 int		ft_findenv(char **envp, char *name);
 int		ft_heredoc_input(int fd, char *limiter);
@@ -116,6 +132,7 @@ t_AST	*ft_heredocnode(t_AST *subcmd, char *limiter);
 t_AST	*ft_execnode(void);
 t_AST	*ft_addredir(t_AST *cmd, t_token_list **list);
 char	**ft_addargv(char **argv, char *arg);
+char	*ft_findexec(t_AST	*cmd);
 
 //tools
 void	ft_panic(char *s);
@@ -129,5 +146,26 @@ void	ft_free_env(t_env **list);
 void	ft_hered_sig_handler(int sig);
 void	ft_main_sig_handler(int sig);
 void	ft_exec_sig_handler(int sig);
+
+//builtins
+int		ft_builtins(char **token, t_env **env);
+void	pwd(t_env **env);
+void	cd(char **token, t_env **env);
+t_env	*ft_findnode(t_env *env, char *name);
+void	cd_home(t_built *var);
+void	cd_oldpwd(t_built *var);
+void	cd_dir(t_built *var);
+int		diff_dir(const char *path);
+void	exit_built(char **token);
+void	echo_built(void);
+void	export(char **token, t_env **env);
+void	sort_env(t_env *top);
+int		listlen(t_env *list);
+void	free_list(t_env *list);
+void	free_node(t_env *node);
+int		check_identifier(char *str);
+void	unset(char **token, t_env **env);
+void	append_list(t_env **env_list, char *str);
+int		ft_isbuiltin(char *str);
 
 #endif

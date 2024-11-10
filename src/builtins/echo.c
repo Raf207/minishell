@@ -1,28 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/12 20:07:17 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/10 17:19:23 by rafnasci         ###   ########.fr       */
+/*   Created: 2024/10/19 15:40:16 by mucabrin          #+#    #+#             */
+/*   Updated: 2024/11/10 17:46:55 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../include/minishell.h"
 
-char	*ft_strchr(const char *s, int c)
+void	echo_built(void)
 {
-	int	i;
-
-	if (!s)
-		return (NULL);
-	i = 0;
-	while (s[i] && s[i] != (const char) c)
-		i++;
-	if (s[i] == (char) c)
-		return ((char *) s + i);
-	else
-		return (NULL);
+	printf("%d\n", g_exitcode);
 }

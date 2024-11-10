@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 14:49:38 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/10/22 17:28:48 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/10 20:37:57 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	ft_update_tok(t_token_list **token)
 		if (ft_strncmp("$?", temp->value, 2) == 0)
 		{
 			free(temp->next->value);
-			temp->value = ft_strdup("numero de exit");
+			temp->value = ft_itoa(g_exitcode);
 		}
 		if (ft_strncmp("echo", temp->value, 5) == 0 && temp->next->value)
 		{

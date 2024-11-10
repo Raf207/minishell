@@ -6,11 +6,21 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:20:40 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/07 12:20:42 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/10 18:22:42 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+char	*ft_findexec(t_AST	*cmd)
+{
+	t_AST	*tmp;
+
+	tmp = cmd;
+	while (tmp->type != EXEC)
+		tmp = tmp->subcmd;
+	return (tmp->argv[0]);
+}
 
 t_AST	*ft_addredir(t_AST *cmd, t_token_list **list)
 {

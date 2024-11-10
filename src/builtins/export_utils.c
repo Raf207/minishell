@@ -1,28 +1,52 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/12 20:07:17 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/10 17:19:23 by rafnasci         ###   ########.fr       */
+/*   Created: 2024/10/30 14:05:23 by mucabrin          #+#    #+#             */
+/*   Updated: 2024/11/10 17:47:06 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../include/minishell.h"
 
-char	*ft_strchr(const char *s, int c)
+int	listlen(t_env *list)
 {
 	int	i;
 
-	if (!s)
-		return (NULL);
+	if (!list)
+		return (0);
 	i = 0;
-	while (s[i] && s[i] != (const char) c)
+	while (list)
+	{
+		list = list->next;
 		i++;
-	if (s[i] == (char) c)
-		return ((char *) s + i);
-	else
-		return (NULL);
+	}
+	return (i);
+}
+
+void	free_node(t_env *node)
+{
+	if (!node)
+		return ;
+	if (node->name)
+		free(node->name);
+	if (node->value)
+		free(node->value);
+	free(node);
+}
+
+void	free_list(t_env *list)
+{
+	t_env	*tmp;
+
+	while (list)
+	{
+		tmp = list;
+		list = list->next;
+		free_node(tmp);
+		tmp = NULL;
+	}
 }

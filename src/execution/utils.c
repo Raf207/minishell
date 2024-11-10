@@ -6,11 +6,13 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:19:17 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/07 17:14:40 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/10 18:19:49 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+
 
 int	ft_heredoc_input(int fd, char *limiter)
 {

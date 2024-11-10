@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:51:36 by rafnasci          #+#    #+#             */
-/*   Updated: 2023/10/30 16:20:56 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/10 17:19:52 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*dst;
 
-	if (!s)
+	if (!s || s[start] == '\0')
 		return (NULL);
 	if (start > ft_strlen(s))
 		start = ft_strlen(s);
