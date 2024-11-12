@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/10 18:44:54 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/12 18:24:41 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ void	cd_oldpwd(t_built *var);
 void	cd_dir(t_built *var);
 int		diff_dir(const char *path);
 void	exit_built(char **token);
-void	echo_built(void);
+void	echo_built(char **token);
 void	export(char **token, t_env **env);
 void	sort_env(t_env *top);
 int		listlen(t_env *list);

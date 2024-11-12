@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 21:54:52 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/07 17:37:26 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/12 18:28:10 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	ft_hered_sig_handler(int sig)
 		ft_boolhere(1);
 		printf("\n");
 		close(STDIN_FILENO);
+		g_exitcode = 1;
 	}
 	tcgetattr(1, &term);
 	term.c_lflag &= ~ECHOCTL;
@@ -54,6 +55,7 @@ void	ft_main_sig_handler(int sig)
 		printf("\n");
 		rl_on_new_line();
 		rl_redisplay();
+		g_exitcode = 1;
 	}
 	tcgetattr(1, &term);
 	term.c_lflag &= ~ECHOCTL;
@@ -67,5 +69,6 @@ void	ft_exec_sig_handler(int sig)
 	{
 		rl_on_new_line();
 		rl_replace_line("", 0);
+		g_exitcode = 130;
 	}
 }

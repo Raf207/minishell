@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 14:49:38 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/10 20:37:57 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/12 18:20:11 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,55 +75,17 @@ void	ft_cleantoken(t_token_list **list)
 	*list = NULL;
 }
 
-void	ft_remove_n(t_token_list *temp)
-{
-	int				i;
-	t_token_list	*first;
-
-	first = temp;
-	temp = temp->next;
-	while (temp->value && temp->type == WORD)
-	{
-		if (temp->value[0] == '-' && temp->value[1] == 'n')
-		{
-			i = 1;
-			while (temp->value[++i])
-				if (temp->value[i] != 'n')
-					return ;
-			free(temp->value);
-			first->next = temp->next;
-			temp = first->next;
-		}
-		else
-			return ;
-	}
-}
-
 void	ft_update_tok(t_token_list **token)
 {
 	t_token_list	*temp;
-	int				i;
 
 	temp = *token;
 	while (temp->value)
 	{
 		if (ft_strncmp("$?", temp->value, 2) == 0)
 		{
-			free(temp->next->value);
+			free(temp->value);
 			temp->value = ft_itoa(g_exitcode);
-		}
-		if (ft_strncmp("echo", temp->value, 5) == 0 && temp->next->value)
-		{
-			if (temp->next->value[0] == '-' && temp->next->value[1] == 'n')
-			{
-				i = 1;
-				while (temp->next->value[++i])
-					if (temp->next->value[i] != 'n')
-						return ;
-				free(temp->next->value);
-				temp->next->value = ft_strdup("-n");
-				ft_remove_n(temp->next);
-			}
 		}
 		temp = temp->next;
 	}

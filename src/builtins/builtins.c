@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 13:05:22 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/10 18:45:23 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/12 18:23:23 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_builtins(char **token, t_env **env)
 
 	if (!token)
 		return (1);
-	//g_exitcode = 0; ???
+	g_exitcode = 0;
 	node = *env;
 	if (ft_strncmp(token[0], "cd", INT_MAX) == 0)
 	{
@@ -67,6 +67,11 @@ int	ft_builtins(char **token, t_env **env)
 	else if (ft_strncmp(token[0], "exit", INT_MAX) == 0)
 	{
 		exit_built(token);
+		return (0);
+	}
+	else if (ft_strncmp(token[0], "echo", INT_MAX) == 0)
+	{
+		echo_built(token);
 		return (0);
 	}
 	return (1);
