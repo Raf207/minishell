@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 13:05:22 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/11 21:12:51 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/12 15:49:53 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,17 @@ int	ft_builtins(t_token_list *token, t_env **env) // int	ft_builtins(char **toke
 	else if (ft_strncmp(token->value, "echo", INT_MAX) == 0)
 	{ 
 		int j = 0;
-		char **argv;
-
+		char **argv = NULL;
+		//argv = ft_split(token->value, " ");
+		//printf("argv %s\n", argv);
+		argv = malloc(sizeof(char *) + 1);
 		while(token)
 		{
 			argv[j] = ft_strdup(token->value);
 			j++;
 			token = token->next;
 		}
+		argv[j] = 0;
 		echo_built(argv);
 		return (0);
 	}
