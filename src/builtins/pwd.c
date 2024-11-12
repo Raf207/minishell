@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 14:53:03 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/10 17:47:12 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/12 18:57:43 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,11 @@ void	pwd(t_env **env)
 			return ;
 		}
 		pwd = tmp->value;
+		printf("%s\n", pwd);
+		return ;
 	}
 	printf("%s\n", pwd);
+	free(pwd);
 }
 /* In Bash, the `pwd` (print working directory) command relies on the underlying system call `getcwd()` to retrieve the current working directory.
 

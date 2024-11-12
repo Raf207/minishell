@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 13:08:05 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/10 17:46:51 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/12 18:53:14 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	cd_dir(t_built *var)
 {
+	char	*tmp;
+
 	if (var->env_oldpwd)
 	{
 		free(var->env_oldpwd->value);
@@ -23,19 +25,18 @@ void	cd_dir(t_built *var)
 			var->env_oldpwd->value = getcwd(NULL, 0);
 	}
 	chdir(var->path);
-	if (var->env_pwd)
-	{
-		if (!getcwd(NULL, 0))
-		{
-			ft_printf_fd(STDERR_FILENO,
-				"cd: error retrieving current directory: getcwd: cannot");
-			ft_printf_fd(STDERR_FILENO,
-				" access parent directories: No such file or directory\n");
-			var->env_pwd->value = ft_strjoin(var->env_pwd->value, "/..");
-		}
-		else
-			var->env_pwd->value = getcwd(NULL, 0);
-	}
+	if (!var->env_pwd)
+		return ;
+	tmp = var->env_pwd->value;
+	free(var->env_pwd->value);
+	var->env_pwd->value = getcwd(NULL, 0);
+	if (var->env_pwd->value)
+		return ;
+	ft_printf_fd(STDERR_FILENO,
+		"cd: error retrieving current directory: getcwd: cannot");
+	ft_printf_fd(STDERR_FILENO,
+		" access parent directories: No such file or directory\n");
+	var->env_pwd->value = ft_strjoin(tmp, "/..");
 }
 
 void	cd_oldpwd(t_built *var)
