@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/10 00:34:49 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/11 19:55:37 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void					cd_oldpwd(t_env **env, t_built *var);
 void					cd_dir(t_env **env, t_built *var);
 int						diff_dir(const char *path);
 void					exit_built(t_token_list *token);
-void					echo_built(void);
+void					echo_built(char **argv);
 void					export(t_token_list *token, t_env **env);
 void					sort_env(t_env *top);
 int						listlen(t_env *list);
