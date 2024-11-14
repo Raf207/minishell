@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 15:12:48 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/10 18:36:50 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/14 16:12:51 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,18 @@ static void	set_value(char *name, char *value, t_env **env, int p)
 	t_env	*top;
 
 	top = *env;
-	while ((*env) && p)
+	while (top && p)
 	{
-		if (!ft_strncmp((*env)->name, name, INT_MAX))
+		if (!ft_strncmp(top->name, name, INT_MAX))
 		{
-			free((*env)->value);
-			(*env)->value = value;
-			(*env)->equal = p;
-			break ;
+			free(top->value);
+			top->value = value;
+			top->equal = p;
+			return ;
 		}
-		(*env) = (*env)->next;
+		top = top->next;
 	}
-	*env = top;
+	free(value);
 }
 
 static void	set_var(char *str, t_env **env)
@@ -72,9 +72,11 @@ static void	set_var(char *str, t_env **env)
 	else
 		p = 0;
 	if (envchr(name, *env))
-		set_value(name, value, env, p);
+		return (set_value(name, value, env, p), free(name));
 	else
 		append_list(env, str);
+	free(name);
+	free(value);
 }
 
 void	export(char **token, t_env **env)

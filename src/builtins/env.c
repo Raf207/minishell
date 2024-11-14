@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 21:04:10 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/10 20:57:41 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/13 16:57:07 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,6 @@ t_env	*make_envlist(char **env)
 		if (ft_strncmp(env[i], "SHLVL", 5) == 0)
 			ft_shlvl(&env_list);
 	}
-	append_list(&env_list, "OLDPWD");
+	append_list(&env_list, "OLDPWD"); // CHECK 
 	return (env_list);
 }

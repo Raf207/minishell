@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 13:08:05 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/12 18:53:14 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/14 16:49:33 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,31 +41,31 @@ void	cd_dir(t_built *var)
 
 void	cd_oldpwd(t_built *var)
 {
-	if (!var->env_oldpwd || !var->env_oldpwd->value)
+	if (!var->env_oldpwd || !var->env_oldpwd->value
+		|| !var->env_oldpwd->value[0])
 	{
 		printf("bash: cd: OLDPWD not set\n");
 		g_exitcode = 1;
 		return ;
 	}
-	var->tmp = var->env_oldpwd->value;
-	var->tmp2 = getcwd(NULL, 0);
-	if (chdir(var->tmp) < 0)
+	var->tmp = getcwd(NULL, 0);
+	if (chdir(var->env_oldpwd->value) < 0)
 	{
-		ft_printf_fd(STDERR_FILENO, "bash: cd: %s: %s\n", var->tmp,
-			strerror(errno));
 		g_exitcode = 1;
-		return ;
+		return (ft_printf_fd(2, "bash: cd: %s: %s\n", var->env_oldpwd->value,
+				strerror(errno)), free(var->tmp));
 	}
-	// free(var->env_oldpwd->value);
+	printf("%s\n", var->env_oldpwd->value);
+	free(var->env_oldpwd->value);
 	if (var->env_pwd)
 	{
 		var->env_oldpwd->value = ft_strdup(var->env_pwd->value);
+		free(var->env_pwd->value);
 		var->env_pwd->value = getcwd(NULL, 0);
 	}
 	else
-		var->env_oldpwd->value = ft_strdup(var->tmp2);
-	var->tmp2 = getcwd(NULL, 0);
-	printf("%s\n", var->tmp);
+		var->env_oldpwd->value = ft_strdup(var->tmp);
+	free(var->tmp);
 }
 
 static int	cd_homecheck(t_built *var)

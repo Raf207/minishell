@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 21:34:54 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/10 18:38:44 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/13 17:00:18 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	unset_var(char *str, t_env **env)
 		return ;
 	}
 	head = *env;
-	while ((*env))
+	while (*env)
 	{
 		if ((*env)->next && !ft_strncmp((*env)->next->name, str, INT_MAX))
 		{

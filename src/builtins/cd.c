@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 13:07:48 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/10 20:17:46 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/14 16:31:33 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_env	*ft_findnode(t_env *env, char *name)
 	return (NULL);
 }
 
-void	cd_error(t_env **env, t_built *var)
+static int	cd_error(t_env **env, t_built *var)
 {
 	var->dir = opendir(var->path);
 	var->env_oldpwd = ft_findnode(*env, "OLDPWD");
@@ -34,13 +34,13 @@ void	cd_error(t_env **env, t_built *var)
 	var->env_home = ft_findnode(*env, "HOME");
 	if (var->path && !var->dir && !diff_dir(var->path))
 	{
-		if (errno)
-		{
-			ft_printf_fd(2, "bash: cd: %s: %s\n", var->path, strerror(errno));
-			g_exitcode = 1;
-			return ;
-		}
+		ft_printf_fd(2, "bash: cd: %s: %s\n", var->path, strerror(errno));
+		g_exitcode = 1;
+		return (0);
 	}
+	if (var->dir)
+		closedir(var->dir);
+	return (1);
 }
 
 void	cd(char **token, t_env **env)
@@ -56,7 +56,8 @@ void	cd(char **token, t_env **env)
 		g_exitcode = 1;
 		return ;
 	}
-	cd_error(env, &var);
+	if (!cd_error(env, &var))
+		return ;
 	if (!var.path || ft_strncmp(var.path, "~", INT_MAX) == 0
 		|| ft_strncmp(var.path, "#", INT_MAX) == 0)
 		cd_home(&var);

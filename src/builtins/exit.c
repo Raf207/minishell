@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 12:51:17 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/10 18:39:50 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/14 16:59:59 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static long	ft_atol(const char *str, int *overflow)
 			sign *= -1;
 	while (str[i] >= '0' && str[i] <= '9' && !*overflow)
 	{
-		num = (num * 10 + (str[i++] - 48)) * sign;
+		num = (num * 10) + (str[i++] - 48) * sign;
 		if ((buf > num && sign > 0) || (buf < num && sign < 0))
 			*overflow = 1;
 		buf = num;
@@ -70,5 +70,6 @@ void	exit_built(char **token)
 		ft_printf_fd(1, "exit\n");
 		exit(g_exitcode = n % 256);
 	}
+	free(arg);
 }
 // FREE ALL

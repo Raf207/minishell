@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:16:16 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/12 18:18:30 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/14 16:51:31 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void	ft_read_input(t_env **env)
 		unlink(".heredoc");
 		free(input);
 		ft_free_ast(ast);
-		system("leaks minishell");
+		//system("leaks minishell");
 	}
 	ft_free_env(env);
 }
