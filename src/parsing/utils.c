@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:20:40 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/10 18:22:42 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/16 20:01:48 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,26 @@ char	*ft_findexec(t_AST	*cmd)
 t_AST	*ft_addredir(t_AST *cmd, t_token_list **list)
 {
 	t_token_typ	tok;
+	char		*file;
 
 	tok = (*list)->type;
 	(*list) = (*list)->next;
 	if ((*list)->type != WORD)
-		ft_panic("missing file for redirection");
+	{
+		ft_printf_fd(1, "minishell: missing file for redirection\n");
+		g_exitcode = 258;
+	}
+	file = ft_strdup((*list)->value);
 	if (tok == RED_IN)
-		cmd = ft_redirnode(cmd, (*list)->value, O_RDONLY, 0);
+		cmd = ft_redirnode(cmd, file, O_RDONLY, 0);
 	else if (tok == RED_OUT)
-		cmd = ft_redirnode(cmd, (*list)->value,
+		cmd = ft_redirnode(cmd, file,
 				O_WRONLY | O_CREAT | O_TRUNC, 1);
 	else if (tok == RED_APPEND)
-		cmd = ft_redirnode(cmd, (*list)->value,
+		cmd = ft_redirnode(cmd, file,
 				O_WRONLY | O_CREAT | O_APPEND, 1);
 	else if (tok == HEREDOC)
-		cmd = ft_heredocnode(cmd, (*list)->value);
+		cmd = ft_heredocnode(cmd, file);
 	return (cmd);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
+/*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/14 16:49:29 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/16 18:20:07 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # include <dirent.h>
 # include <errno.h>
 
-extern int	g_exitcode;
+int	g_exitcode;
 
 typedef enum e_token
 {
@@ -111,7 +111,7 @@ int		ft_isspace(char c);
 int		*ft_boolhere(int i);
 
 //lexer
-void	ft_create_list(char *input, t_env **env, t_token_list **tokens);
+int		ft_create_list(char *input, t_env **env, t_token_list **tokens);
 int		ft_append_list(t_token_list **list, t_token_typ	type, char *value);
 char	*ft_expansion(char *str, t_env **env);
 void	ft_cleantoken(t_token_list **list);

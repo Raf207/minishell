@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 19:06:24 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/07 14:54:42 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/16 20:34:21 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ void	new_tok(t_token_list **tokens, char *value, t_enfin *enfin,
 
 	if (!value)
 	{
-		if (enfin->word_len > 0)
+		if (enfin->word_len >= 0)
 		{
 			enfin->current[enfin->word_len] = '\0';
 			temp = ft_expansion(enfin->current, enfin->env);
 			if (!ft_append_list(tokens, type, temp))
 			{
 				free(temp);
-				ft_exit_tokens(tokens, "malloc error");
+				ft_exit_tokens(tokens, "minishell: malloc error");
 			}
 			free(temp);
 			enfin->word_len = 0;
@@ -35,7 +35,7 @@ void	new_tok(t_token_list **tokens, char *value, t_enfin *enfin,
 	else
 	{
 		if (!ft_append_list(tokens, type, value))
-			ft_exit_tokens(tokens, "malloc error");
+			ft_exit_tokens(tokens, "minishell: malloc error");
 	}
 }
 
@@ -79,12 +79,17 @@ int	new_pass(t_token_list **tokens, char *input, t_enfin *enfin)
 	{
 		new_tok(tokens, NULL, enfin, WORD);
 		if (!ft_append_list(tokens, PIPE, "|"))
-			ft_exit_tokens(tokens, "malloc error");
+			ft_exit_tokens(tokens, "minishell: malloc error");
 		return (1);
 	}
 	if (ft_isspace(input[enfin->i]))
 	{
-		new_tok(tokens, NULL, enfin, WORD);
+		if (enfin->i == 0)
+			enfin->word_len = 0;
+		else if ((input[enfin->i - 1] != '"' && enfin->word_len == 0) || (input[enfin->i - 1] != '\'' && enfin->word_len == 0))
+			enfin->word_len = 0;
+		else
+			new_tok(tokens, NULL, enfin, WORD);
 		return (1);
 	}
 	return (0);
@@ -92,6 +97,7 @@ int	new_pass(t_token_list **tokens, char *input, t_enfin *enfin)
 
 int	quotes_tok(t_token_list **tokens, char *input, t_enfin *enfin)
 {
+	(void) tokens;
 	if ((input[enfin->i] == '\'' || input[enfin->i] == '"')
 		&& (enfin->i == 0 || (enfin->i != 0 && input[enfin->i - 1] != '\\')))
 	{
@@ -104,25 +110,16 @@ int	quotes_tok(t_token_list **tokens, char *input, t_enfin *enfin)
 		else if (enfin->in_quote && input[enfin->i] == enfin->quote)
 		{
 			enfin->in_quote--;
-			enfin->current[enfin->word_len] = '\0';
-			if (enfin->word_len > 0 && enfin->quote == '\'')
-			{
-				if (!ft_append_list(tokens, WORD, enfin->current))
-					ft_exit_tokens(tokens, "malloc error");
-			}
-			else if (enfin->quote == '"')
-				new_tok(tokens, NULL, enfin, WORD);
-			enfin->word_len = 0;
-			enfin->quote = '\0';
 			return (1);
 		}
 	}
 	return (0);
 }
 
-void	ft_create_list(char *input, t_env **env, t_token_list **tokens)
+int	ft_create_list(char *input, t_env **env, t_token_list **tokens)
 {
 	t_enfin	enfin;
+	t_token_list *tmp;
 
 	enfin.current = (char *) malloc (sizeof(char) * (ft_strlen(input) + 1));
 	enfin.word_len = 0;
@@ -145,8 +142,15 @@ void	ft_create_list(char *input, t_env **env, t_token_list **tokens)
 	new_tok(tokens, NULL, &enfin, WORD);
 	free(enfin.current);
 	if (!ft_append_list(tokens, END, NULL))
-		ft_exit_tokens(tokens, "malloc error");
+		ft_exit_tokens(tokens, "minishell: malloc error");
 	if (enfin.in_quote)
-		ft_exit_tokens(tokens, "syntax");
+		return (ft_cleantoken(tokens), printf("minishell: syntax error\n"), 1);
 	ft_update_tok(tokens);
+	tmp = *tokens;
+	while (tmp)
+	{
+		printf("cal :%s\n", tmp->value);
+		tmp = tmp->next;
+	}
+	return (0);
 }

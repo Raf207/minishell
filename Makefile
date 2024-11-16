@@ -3,9 +3,9 @@ BONUS_NAME = pipex_bonus
 
 LIBFT = ./libft/libft.a
 #-fsanitize=address -g
-CC = gcc 
-CFLAGS = -Wall -Wextra -Werror -I /Users/$(shell whoami)/.brew/opt/readline/include
-LINK = -lreadline -L /Users/$(shell whoami)/.brew/opt/readline/lib
+CC = gcc -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror $(CPPFLAGS)
+LINK = -lreadline $(LDFLAGS)
 
 
 RM = rm -rf

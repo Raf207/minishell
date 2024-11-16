@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:02:30 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/12 16:14:00 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/16 19:02:08 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ void	ft_redir(t_AST *ast, char **envp, t_env **env)
 	fd = open(ast->file, ast->mode, 0644);
 	if (fd < 0)
 	{
-		ft_putendl_fd(ft_strjoin(ast->file, " failed to open"), 2);
+		ft_printf_fd(2, "minishell: %s: failed to open\n", ast->file);
 		exit(1);
 	}
 	if (dup2(fd, ast->fd) == -1)
 	{
 		close(fd);
-		ft_panic("dup2");
+		ft_panic("minishell: dup2 error");
 	}
 	close(fd);
 	ft_runcmd(ast->subcmd, envp, env);
@@ -38,13 +38,13 @@ void	ft_heredoc(t_AST *ast, char **envp, t_env **env)
 	fd = open(".heredoc", O_RDONLY, 0644);
 	if (fd < 0)
 	{
-		ft_putendl_fd(ft_strjoin(ast->file, " failed to open"), 2);
+		ft_printf_fd(2, "minishell: %s: failed to open\n", ast->file);
 		exit(1);
 	}
 	if (dup2(fd, ast->fd) == -1)
 	{
 		close(fd);
-		ft_panic("dup2");
+		ft_panic("minishell: dup2");
 	}
 	close(fd);
 	ft_runcmd(ast->subcmd, envp, env);
@@ -63,7 +63,7 @@ void	ft_pipe(t_AST *ast, char **envp, t_env **env)
 		close(p[1]);
 		ft_runcmd(ast->right, envp, env);
 		ft_free_ast(ast);
-		exit(0);
+		exit(127);
 	}
 	if (ft_fork1() == 0)
 	{
@@ -71,11 +71,16 @@ void	ft_pipe(t_AST *ast, char **envp, t_env **env)
 		close(p[0]);
 		close(p[1]);
 		ft_runcmd(ast->left, envp, env);
+		// ft_free_ast(ast);
+		// exit(127);
 	}
 	close(p[0]);
 	close(p[1]);
 	wait(0);
 	wait(0);
+	// waitpid(pid, &status, 0);
+	// ft_printf_fd(2, "sortie : %d\n", status / 256);
+	// exit(status);
 }
 
 void	ft_exec(t_AST *ast, char **envp, t_env **env)
@@ -86,7 +91,6 @@ void	ft_exec(t_AST *ast, char **envp, t_env **env)
 		return ;
 	else
 		ft_execution(ast->argv, envp);
-	ft_putendl_fd(ft_strjoin(ast->argv[0], " failed to exec"), 2);
 }
 
 void	ft_runcmd(t_AST *ast, char **envp, t_env **env)
@@ -102,5 +106,8 @@ void	ft_runcmd(t_AST *ast, char **envp, t_env **env)
 	else if (ast->type == N_PIPE)
 		ft_pipe(ast, envp, env);
 	else
-		ft_panic("runcmd");
+	{
+		// ft_free_ast(ast);
+		ft_panic("minishell: runcmd");
+	}
 }

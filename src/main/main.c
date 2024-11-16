@@ -3,22 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
+/*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:16:16 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/16 17:08:54 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/16 19:01:40 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int g_exitcode;
-
-t_env	*get_shell(void)
-{
-	static t_env	env;
-	return (&env);
-}
+int	g_exitcode;
 
 char	*ft_input(void)
 {
@@ -98,6 +92,7 @@ void	ft_read_input(t_env **env)
 	copy_out = dup(1);
 	while (1)
 	{
+		
 		signal(SIGINT, ft_main_sig_handler);
 		signal(SIGQUIT, SIG_IGN);
 		envp = build_env(env);
@@ -106,11 +101,17 @@ void	ft_read_input(t_env **env)
 		input = ft_input();
 		if (!input)
 			break ;
-		ft_create_list(input, env, &tokens);
+		if (ft_create_list(input, env, &tokens))
+		{
+			ft_free(envp);
+			free(input);
+			continue ;
+		}
 		ast = ft_parsing(&tokens);
 		ft_cleantoken(&tokens);
 		dup2(copy_in, STDIN_FILENO);
 		signal(SIGINT, ft_exec_sig_handler);
+		signal(SIGQUIT, ft_exec_sig_handler);
 		if (ast && input[0] != 0 && ast->type != N_PIPE
 			&& ft_isbuiltin(ft_findexec(ast)))
 			ft_runcmd(ast, envp, env);

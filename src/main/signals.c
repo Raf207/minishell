@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 21:54:52 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/12 18:28:10 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/16 17:22:38 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	ft_main_sig_handler(int sig)
 	tcsetattr(1, TCSANOW, &term);
 }
 
-
 void	ft_exec_sig_handler(int sig)
 {
 	if (sig == SIGINT)
@@ -70,5 +69,10 @@ void	ft_exec_sig_handler(int sig)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		g_exitcode = 130;
+	}
+	if (sig == SIGQUIT)
+	{
+		ft_printf_fd(2, "^\\Quit : 3\n");
+		g_exitcode = 131;
 	}
 }

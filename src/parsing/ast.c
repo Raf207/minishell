@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:55:27 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/10 21:08:42 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/16 19:59:05 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ t_AST	*ft_redirnode(t_AST *subcmd, char *file, int mode, int fd)
 		ft_free_ast(subcmd);
 		return (NULL);
 	}
+	printf("file : %s\n", file);
 	ft_memset(cmd, 0, sizeof(*cmd));
 	cmd->type = REDIR;
 	cmd->subcmd = subcmd;

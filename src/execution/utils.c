@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:19:17 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/10 18:19:49 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/16 17:59:41 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,8 @@ void	ft_execution(char **cmd, char **envp)
 			execve(path, cmd, envp);
 		free(path);
 	}
-	ft_putstr_fd("pipex: command not found: ", 2);
-	ft_putendl_fd(cmd[0], 2);
-	ft_free(cmd);
+	ft_printf_fd(2, "minishell: %s: command not found\n", cmd[0]);
 	ft_free(all_paths);
 	free(path_envp);
-	exit(EXIT_FAILURE);
 }
 
