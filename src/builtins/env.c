@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 21:04:10 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/13 16:57:07 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/16 15:32:55 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	**build_env(t_env **env)
 	node = *env;
 	while (node && ++len)
 	{
-		//printf("env->name : %s\n env->value : %s\n", node->name,
+		// printf("env->name : %s\n env->value : %s\n", node->name,
 		//	node->value);
 		node = node->next;
 	}
@@ -91,7 +91,7 @@ char	**build_env(t_env **env)
 	len = 0;
 	while (node)
 	{
-		if(node->value != NULL)
+		if (node->value != NULL)
 		{
 			tmp = ft_strjoin(node->name, "=");
 			envp[len] = ft_strjoin(tmp, node->value);
@@ -135,6 +135,6 @@ t_env	*make_envlist(char **env)
 		if (ft_strncmp(env[i], "SHLVL", 5) == 0)
 			ft_shlvl(&env_list);
 	}
-	append_list(&env_list, "OLDPWD"); // CHECK 
+	append_list(&env_list, "OLDPWD"); // CHECK
 	return (env_list);
 }

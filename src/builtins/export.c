@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 15:12:48 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/14 16:12:51 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/16 17:05:12 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,5 @@ void	export(char **token, t_env **env)
 		else
 			set_var(token[i], env);
 		i++;
-		// else if (!export(!token->value, env))
-		// 	return (print_error);
 	}
 }

@@ -6,11 +6,26 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 12:51:17 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/14 16:59:59 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/16 15:11:39 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+static void	ft_exit(char *arg, long n)
+{
+	if (arg)
+	{
+		ft_printf_fd(1, "exit\n");
+		ft_printf_fd(2, "bash: exit: %s: numeric argument required\n", arg);
+		exit(g_exitcode = 255);
+	}
+	else
+	{
+		ft_printf_fd(1, "exit\n");
+		exit(g_exitcode = n % 256);
+	}
+}
 
 static long	ft_atol(const char *str, int *overflow)
 {
@@ -55,21 +70,14 @@ void	exit_built(char **token)
 	overflow = 0;
 	n = ft_atol(arg, &overflow);
 	if (overflow)
-	{
-		ft_printf_fd(1, "exit\n");
-		ft_printf_fd(2, "bash: exit: %s: numeric argument required\n", arg);
-		exit(g_exitcode = 255);
-	}
+		ft_exit(arg, n);
 	if (token[2])
 	{
 		ft_printf_fd(2, "bash: exit: too many arguments\n");
 		g_exitcode = 1;
 	}
 	else
-	{
-		ft_printf_fd(1, "exit\n");
-		exit(g_exitcode = n % 256);
-	}
+		ft_exit(NULL, n);
 	free(arg);
 }
 // FREE ALL
