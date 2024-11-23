@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 19:06:24 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/23 06:48:19 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/23 17:32:49 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int	ft_create_list(char *input, t_env **env, t_token_list **tokens)
 	enfin.input = input;
 	while (input[++enfin.i])
 	{
-		if (input[enfin.i] == '\\')
+		if (input[enfin.i] == '\\' && input[enfin.i + 1])
 			enfin.i++;
 		if (quotes_tok(tokens, input, &enfin))
 			continue ;

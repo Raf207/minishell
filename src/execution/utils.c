@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:19:17 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/23 06:52:28 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/23 17:38:02 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,9 @@ void	ft_execution(char **cmd, char **envp)
 
 	if (access(cmd[0], X_OK) == 0)
 		execve(cmd[0], cmd, envp);
+	if (ft_findenv(envp, "PATH") == -1
+		&& ft_printf_fd(2, "minishel: %s: No such file or directory\n", cmd[0]))
+		exit(127);
 	path_envp = ft_substr(envp[ft_findenv(envp, "PATH")], 5, 4654654);
 	all_paths = ft_split(path_envp, ":");
 	i = -1;
@@ -66,10 +69,10 @@ void	ft_execution(char **cmd, char **envp)
 	{
 		path = ft_strjoin(ft_strjoin(ft_strdup(all_paths[i]), "/"), cmd[0]);
 		if (access(path, X_OK) == 0)
-			g_exitcode = execve(path, cmd, envp);
+			execve(path, cmd, envp);
 		free(path);
 	}
-	ft_printf_fd(2, "minishell: %s: command not found\n", cmd[0]);
+	ft_printf_fd(2, "minishel: %s: No such file or directory\n", cmd[0]);
 	ft_free(all_paths);
 	free(path_envp);
 	exit(127);

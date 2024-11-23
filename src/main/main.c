@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:16:16 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/23 16:57:01 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/23 17:45:59 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ void	ft_read_input(t_env **env)
 			free(input);
 			continue ;
 		}
+		g_exitcode = 0;
 		ast = ft_parsing(&tokens);
 		ft_cleantoken(&tokens);
 		dup2(copy_in, STDIN_FILENO);
@@ -131,7 +132,8 @@ void	ft_read_input(t_env **env)
 				exit(0);
 			}
 			waitpid(pid, &status, 0);
-			g_exitcode = status / 256;
+			if (g_exitcode != 131)
+				g_exitcode = status / 256;
 		}
 		printf("exit_code : %d\n", g_exitcode);
 		ft_free(envp);

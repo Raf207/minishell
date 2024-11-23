@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 21:54:52 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/16 17:22:38 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/23 17:02:58 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	ft_exec_sig_handler(int sig)
 	}
 	if (sig == SIGQUIT)
 	{
-		ft_printf_fd(2, "^\\Quit : 3\n");
+		ft_printf_fd(2, "Quit : 3\n");
 		g_exitcode = 131;
 	}
 }
