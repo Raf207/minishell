@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:19:17 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/20 18:23:35 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/23 06:52:28 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,6 @@ void	ft_execution(char **cmd, char **envp)
 	ft_printf_fd(2, "minishell: %s: command not found\n", cmd[0]);
 	ft_free(all_paths);
 	free(path_envp);
+	exit(127);
 }
 

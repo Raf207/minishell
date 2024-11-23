@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 19:46:58 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/23 06:19:43 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/23 06:48:05 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ static int	ft_lenexp(char *str, t_env **env)
 			}
 		}
 	}
-	printf("len : %d\n", len);
 	return (len);
 }
 
@@ -131,6 +130,5 @@ char	*ft_expansion(char *str, t_env **env)
 	rep[tot] = 0;
 	ft_newstr(str, env, rep);
 	free(str);
-	printf("rep : %s\n", rep);
 	return (rep);
 }

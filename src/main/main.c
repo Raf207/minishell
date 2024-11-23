@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:16:16 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/23 06:19:59 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/23 07:04:25 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ void	ft_read_input(t_env **env)
 	char			**envp;
 	int				copy_in;
 	int				copy_out;
-	int status;
+	int				status;
+	pid_t			pid;
 
 	tokens = NULL;
 	copy_in = dup(0);
@@ -120,14 +121,18 @@ void	ft_read_input(t_env **env)
 		if (ast && input[0] != 0 && ast->type != N_PIPE
 			&& ft_isbuiltin(ft_findexec(ast)))
 			ft_runcmd(ast, envp, env);
-		else if (ast && input[0] != 0 && ft_fork1() == 0)
+		else if (ast && input[0] != 0)
 		{
-			ft_runcmd(ast, envp, env);
-			ft_free_ast(ast);
-			exit(0);
+			pid = ft_fork1();
+			if (!pid)
+			{
+				ft_runcmd(ast, envp, env);
+				ft_free_ast(ast);
+				exit(0);
+			}
+			waitpid(pid, &status, 0);
+			g_exitcode = status / 256;
 		}
-		wait(&status);
-		printf("status : %d\n", status);
 		printf("exit_code : %d\n", g_exitcode);
 		ft_free(envp);
 		unlink(".heredoc");
