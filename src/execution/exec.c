@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:02:30 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/16 19:02:08 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/20 18:32:25 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_redir(t_AST *ast, char **envp, t_env **env)
 	fd = open(ast->file, ast->mode, 0644);
 	if (fd < 0)
 	{
-		ft_printf_fd(2, "minishell: %s: failed to open\n", ast->file);
+		ft_printf_fd(2, "minishell: %s: No such file or directory\n", ast->file);
 		exit(1);
 	}
 	if (dup2(fd, ast->fd) == -1)
@@ -38,7 +38,7 @@ void	ft_heredoc(t_AST *ast, char **envp, t_env **env)
 	fd = open(".heredoc", O_RDONLY, 0644);
 	if (fd < 0)
 	{
-		ft_printf_fd(2, "minishell: %s: failed to open\n", ast->file);
+		ft_printf_fd(2, "minishell: %s: No such file or directory\n", ast->file);
 		exit(1);
 	}
 	if (dup2(fd, ast->fd) == -1)

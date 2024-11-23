@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 19:46:58 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/10/22 18:32:23 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/23 06:19:43 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,28 @@ static int	ft_lenexp(char *str, t_env **env)
 	int		i;
 	int		len;
 	t_env	*start;
+	int		coma;
+	char	c;
 
 	i = -1;
 	len = ft_strlen(str);
+	coma = 0;
+	c = '0';
 	while (str[++i])
 	{
 		start = *env;
-		if (str[i] == '$' && str[i + 1] != '?' && str[i + 1] != '\0')
+		if (coma == 0 && (str[i] == '\'' || str[i] == '"'))
+		{
+			c = str[i];
+			coma = 1;
+		}
+		else if (str[i] == c && (str[i] == '\'' || str[i] == '"'))
+		{
+			c = '0';
+			coma = 0;
+		}
+		if (c != '\'' && str[i] == '$' && str[i + 1] != '?'
+			&& str[i + 1] != '"' && str[i + 1] != '\'' && str[i + 1] != '\0')
 		{
 			len -= ft_len(str, i) + 1;
 			while (start)
@@ -50,6 +65,7 @@ static int	ft_lenexp(char *str, t_env **env)
 			}
 		}
 	}
+	printf("len : %d\n", len);
 	return (len);
 }
 
@@ -65,13 +81,28 @@ void	ft_newstr(char *str, t_env **env, char	*rep)
 	int		i;
 	int		tot;
 	t_env	*start;
+	int		coma;
+	char	c;
 
+	coma = 0;
 	i = -1;
 	tot = 0;
+	c = '0';
 	while (str[++i])
 	{
 		start = *env;
-		if (str[i] == '$' && str[i + 1] != '?' && str[i + 1] != '\0')
+		if (coma == 0 && (str[i] == '\'' || str[i] == '"'))
+		{
+			c = str[i];
+			coma = 1;
+		}
+		else if (str[i] == c && (str[i] == '\'' || str[i] == '"'))
+		{
+			c = '0';
+			coma = 0;
+		}
+		if (c != '\'' && str[i] == '$' && str[i + 1] != '?'
+			&& str[i + 1] != '"' && str[i + 1] != '\'' && str[i + 1] != '\0')
 		{
 			while (start)
 			{
@@ -99,5 +130,7 @@ char	*ft_expansion(char *str, t_env **env)
 		return (NULL);
 	rep[tot] = 0;
 	ft_newstr(str, env, rep);
+	free(str);
+	printf("rep : %s\n", rep);
 	return (rep);
 }

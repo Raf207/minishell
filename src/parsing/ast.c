@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:55:27 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/16 19:59:05 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/20 18:41:29 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ t_AST	*ft_heredocnode(t_AST *subcmd, char *limiter)
 		return (NULL);
 	}
 	ft_memset(cmd, 0, sizeof(*cmd));
+	cmd->file = limiter;
 	cmd->type = N_HEREDOC;
 	cmd->subcmd = subcmd;
 	return (cmd);

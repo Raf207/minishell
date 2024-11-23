@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:19:17 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/16 17:59:41 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/20 18:23:35 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,9 @@ void	ft_execution(char **cmd, char **envp)
 	i = -1;
 	while (all_paths[++i])
 	{
-		path = ft_strjoin(ft_strjoin(all_paths[i], "/"), cmd[0]);
+		path = ft_strjoin(ft_strjoin(ft_strdup(all_paths[i]), "/"), cmd[0]);
 		if (access(path, X_OK) == 0)
-			execve(path, cmd, envp);
+			g_exitcode = execve(path, cmd, envp);
 		free(path);
 	}
 	ft_printf_fd(2, "minishell: %s: command not found\n", cmd[0]);

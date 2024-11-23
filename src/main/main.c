@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:16:16 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/16 19:01:40 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/23 06:19:59 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,13 @@ void	ft_read_input(t_env **env)
 	char			**envp;
 	int				copy_in;
 	int				copy_out;
+	int status;
 
 	tokens = NULL;
 	copy_in = dup(0);
 	copy_out = dup(1);
 	while (1)
 	{
-		
 		signal(SIGINT, ft_main_sig_handler);
 		signal(SIGQUIT, SIG_IGN);
 		envp = build_env(env);
@@ -100,7 +100,11 @@ void	ft_read_input(t_env **env)
 			continue ;
 		input = ft_input();
 		if (!input)
+		{
+			ft_free(envp);
 			break ;
+		}
+		input = ft_expansion(input, env);
 		if (ft_create_list(input, env, &tokens))
 		{
 			ft_free(envp);
@@ -112,6 +116,7 @@ void	ft_read_input(t_env **env)
 		dup2(copy_in, STDIN_FILENO);
 		signal(SIGINT, ft_exec_sig_handler);
 		signal(SIGQUIT, ft_exec_sig_handler);
+		dup2(copy_out, STDOUT_FILENO);
 		if (ast && input[0] != 0 && ast->type != N_PIPE
 			&& ft_isbuiltin(ft_findexec(ast)))
 			ft_runcmd(ast, envp, env);
@@ -121,15 +126,15 @@ void	ft_read_input(t_env **env)
 			ft_free_ast(ast);
 			exit(0);
 		}
-		dup2(copy_out, STDOUT_FILENO);
-		wait(0);
+		wait(&status);
+		printf("status : %d\n", status);
+		printf("exit_code : %d\n", g_exitcode);
 		ft_free(envp);
 		unlink(".heredoc");
 		free(input);
 		ft_free_ast(ast);
-		//system("leaks minishell");
+		// system("leaks minishell");
 	}
-	ft_free_env(env);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -145,5 +150,6 @@ int	main(int ac, char **av, char **envp)
 		return (1);
 	}
 	ft_read_input(&env);
+	ft_free_env(&env);
 	return (0);
 }
