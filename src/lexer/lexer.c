@@ -6,22 +6,23 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 19:06:24 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/23 20:59:14 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/23 21:51:29 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 void	new_tok(t_token_list **tokens, char *value, t_enfin *enfin,
-			t_token_typ type)
+		t_token_typ type)
 {
 	char	*temp;
 
 	if (!value)
 	{
-		if ((enfin->word_len > 0
-			|| (enfin->i != 0 && enfin->input[enfin->i - 1] == '"' && enfin->word_len == 0)
-				|| (enfin->i != 0 && enfin->input[enfin->i - 1] == '\'' && enfin->word_len == 0)))
+		if ((enfin->word_len > 0 || (enfin->i != 0 && enfin->input[enfin->i
+					- 1] == '"' && enfin->word_len == 0) || (enfin->i != 0
+					&& enfin->input[enfin->i - 1] == '\''
+					&& enfin->word_len == 0)))
 		{
 			enfin->current[enfin->word_len] = '\0';
 			temp = ft_strdup(enfin->current);
@@ -97,9 +98,9 @@ int	new_pass(t_token_list **tokens, char *input, t_enfin *enfin)
 
 int	quotes_tok(t_token_list **tokens, char *input, t_enfin *enfin)
 {
-	(void) tokens;
-	if ((input[enfin->i] == '\'' || input[enfin->i] == '"')
-		&& (enfin->i == 0 || (enfin->i != 0 && input[enfin->i - 1] != '\\')))
+	(void)tokens;
+	if ((input[enfin->i] == '\'' || input[enfin->i] == '"') && (enfin->i == 0
+			|| (enfin->i != 0 && input[enfin->i - 1] != '\\')))
 	{
 		if (!enfin->in_quote)
 		{
@@ -120,7 +121,7 @@ int	ft_create_list(char *input, t_env **env, t_token_list **tokens)
 {
 	t_enfin	enfin;
 
-	enfin.current = (char *) malloc (sizeof(char) * (ft_strlen(input) + 1));
+	enfin.current = (char *)malloc(sizeof(char) * (ft_strlen(input) + 1));
 	enfin.word_len = 0;
 	enfin.i = -1;
 	enfin.quote = '\0';

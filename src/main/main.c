@@ -6,13 +6,13 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:16:16 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/23 20:54:34 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/23 21:52:13 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	g_exitcode;
+int		g_exitcode;
 
 char	*ft_input(void)
 {
@@ -29,7 +29,7 @@ char	*ft_input(void)
 // void ft_display_ast(t_AST *node, int level)
 // {
 //     if (node == NULL)
-//         return;
+//         return ;
 
 //     // Print indentation based on the level of the node in the tree
 //     for (int i = 0; i < level; i++)
@@ -58,9 +58,11 @@ char	*ft_input(void)
 //         else if (node->mode && O_WRONLY)
 //         {
 //             if (node->mode == O_TRUNC)
-//                 printf("Output redirection (truncate) to file: %s\n", node->file);
+//                 printf("Output redirection (truncate) to file: %s\n",
+	//node->file);
 //             else
-//                 printf("Output redirection (append) to file: %s\n", node->file);
+//                 printf("Output redirection (append) to file: %s\n",
+	//node->file);
 //         }
 //         ft_display_ast(node->subcmd, level + 1);
 //     }
@@ -148,8 +150,8 @@ int	main(int ac, char **av, char **envp)
 {
 	t_env	*env;
 
-	(void) av;
-	(void) ac;
+	(void)av;
+	(void)ac;
 	env = make_envlist(envp);
 	if (!env)
 	{

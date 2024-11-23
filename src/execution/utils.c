@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:19:17 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/23 17:38:02 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/23 21:46:10 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-
 
 int	ft_heredoc_input(int fd, char *limiter)
 {
@@ -77,4 +75,3 @@ void	ft_execution(char **cmd, char **envp)
 	free(path_envp);
 	exit(127);
 }
-
