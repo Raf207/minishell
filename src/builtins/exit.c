@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 12:51:17 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/16 15:11:39 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/23 21:06:22 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ static void	ft_exit(char *arg, long n)
 	if (arg)
 	{
 		ft_printf_fd(1, "exit\n");
-		ft_printf_fd(2, "bash: exit: %s: numeric argument required\n", arg);
+		ft_printf_fd(2, "minishell: exit: %s: numeric argument required\n",
+			arg);
 		exit(g_exitcode = 255);
 	}
 	else
@@ -73,7 +74,7 @@ void	exit_built(char **token)
 		ft_exit(arg, n);
 	if (token[2])
 	{
-		ft_printf_fd(2, "bash: exit: too many arguments\n");
+		ft_printf_fd(2, "minishell: exit: too many arguments\n");
 		g_exitcode = 1;
 	}
 	else

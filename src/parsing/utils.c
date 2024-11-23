@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:20:40 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/16 20:01:48 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/23 20:44:05 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ char	*ft_findexec(t_AST	*cmd)
 	tmp = cmd;
 	while (tmp->type != EXEC)
 		tmp = tmp->subcmd;
-	return (tmp->argv[0]);
+	if (tmp->argv)
+		return (tmp->argv[0]);
+	else
+		return (NULL);
 }
 
 t_AST	*ft_addredir(t_AST *cmd, t_token_list **list)

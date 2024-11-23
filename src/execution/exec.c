@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:02:30 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/23 06:57:16 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/23 20:58:02 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ void	ft_redir(t_AST *ast, char **envp, t_env **env)
 		ft_panic("minishell: dup2 error");
 	}
 	close(fd);
-	ft_runcmd(ast->subcmd, envp, env);
+	if (!ast->subcmd)
+		ft_runcmd(ast->subcmd, envp, env);
+	else
+		exit(0);
 }
 
 void	ft_heredoc(t_AST *ast, char **envp, t_env **env)
@@ -47,7 +50,10 @@ void	ft_heredoc(t_AST *ast, char **envp, t_env **env)
 		ft_panic("minishell: dup2");
 	}
 	close(fd);
-	ft_runcmd(ast->subcmd, envp, env);
+	if (!ast->subcmd)
+		ft_runcmd(ast->subcmd, envp, env);
+	else
+		exit(0);
 }
 
 void	ft_pipe(t_AST *ast, char **envp, t_env **env)
@@ -90,7 +96,7 @@ void	ft_pipe(t_AST *ast, char **envp, t_env **env)
 
 void	ft_exec(t_AST *ast, char **envp, t_env **env)
 {
-	if (!ast->argv[0])
+	if (!ast->argv && !ast->argv[0])
 		exit(1);
 	if (ft_builtins(ast->argv, env) == 0)
 		return ;

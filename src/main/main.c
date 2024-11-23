@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:16:16 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/23 18:03:48 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/23 20:54:34 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,9 +115,9 @@ void	ft_read_input(t_env **env)
 		g_exitcode = 0;
 		ast = ft_parsing(&tokens);
 		ft_cleantoken(&tokens);
-		dup2(copy_in, STDIN_FILENO);
 		signal(SIGINT, ft_exec_sig_handler);
 		signal(SIGQUIT, ft_exec_sig_handler);
+		dup2(copy_in, STDIN_FILENO);
 		dup2(copy_out, STDOUT_FILENO);
 		if (ast && input[0] != 0 && ast->type != N_PIPE
 			&& ft_isbuiltin(ft_findexec(ast)))

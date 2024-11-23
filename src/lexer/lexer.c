@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 19:06:24 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/23 17:32:49 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/23 20:59:14 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,6 @@ int	quotes_tok(t_token_list **tokens, char *input, t_enfin *enfin)
 int	ft_create_list(char *input, t_env **env, t_token_list **tokens)
 {
 	t_enfin	enfin;
-	// t_token_list *tmp;
 
 	enfin.current = (char *) malloc (sizeof(char) * (ft_strlen(input) + 1));
 	enfin.word_len = 0;
@@ -147,11 +146,5 @@ int	ft_create_list(char *input, t_env **env, t_token_list **tokens)
 	if (enfin.in_quote)
 		return (ft_cleantoken(tokens), printf("minishell: syntax error\n"), 1);
 	ft_update_tok(tokens);
-	// tmp = *tokens;
-	// while (tmp)
-	// {
-	// 	printf("cal :%s\n", tmp->value);
-	// 	tmp = tmp->next;
-	// }
 	return (0);
 }

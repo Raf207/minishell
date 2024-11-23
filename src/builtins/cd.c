@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 13:07:48 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/16 19:17:26 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/23 21:04:56 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	cd_error(t_env **env, t_built *var)
 	var->env_home = ft_findnode(*env, "HOME");
 	if (var->path && !var->dir && !diff_dir(var->path))
 	{
-		ft_printf_fd(2, "bash: cd: %s: %s\n", var->path, strerror(errno));
+		ft_printf_fd(2, "minishell: cd: %s: %s\n", var->path, strerror(errno));
 		g_exitcode = 1;
 		return (0);
 	}
@@ -52,7 +52,7 @@ void	cd(char **token, t_env **env)
 		var.path = token[2];
 	else if (var.path && token[2])
 	{
-		ft_printf_fd(2, "bash: cd: too many arguments\n");
+		ft_printf_fd(2, "minishell: cd: too many arguments\n");
 		g_exitcode = 1;
 		return ;
 	}

@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 13:08:05 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/14 16:49:33 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/23 21:25:24 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	cd_oldpwd(t_built *var)
 	if (!var->env_oldpwd || !var->env_oldpwd->value
 		|| !var->env_oldpwd->value[0])
 	{
-		printf("bash: cd: OLDPWD not set\n");
+		printf("minishell: cd: OLDPWD not set\n");
 		g_exitcode = 1;
 		return ;
 	}
@@ -52,8 +52,8 @@ void	cd_oldpwd(t_built *var)
 	if (chdir(var->env_oldpwd->value) < 0)
 	{
 		g_exitcode = 1;
-		return (ft_printf_fd(2, "bash: cd: %s: %s\n", var->env_oldpwd->value,
-				strerror(errno)), free(var->tmp));
+		return (ft_printf_fd(2, "minishell: cd: %s: %s\n",
+				var->env_oldpwd->value, strerror(errno)), free(var->tmp));
 	}
 	printf("%s\n", var->env_oldpwd->value);
 	free(var->env_oldpwd->value);
@@ -74,7 +74,7 @@ static int	cd_homecheck(t_built *var)
 		var->path = getenv("HOME");
 	else if (!var->env_home)
 	{
-		ft_printf_fd(2, "bash: cd: HOME not set\n");
+		ft_printf_fd(2, "minishell: cd: HOME not set\n");
 		g_exitcode = 1;
 		return (0);
 	}
@@ -102,9 +102,8 @@ void	cd_home(t_built *var)
 			var->env_pwd->value = ft_strdup(var->path);
 		chdir(var->env_pwd->value);
 	}
-	else
-		if (var->env_home)
-			chdir(var->env_home->value);
+	else if (var->env_home)
+		chdir(var->env_home->value);
 	else
 		chdir(var->path);
 }

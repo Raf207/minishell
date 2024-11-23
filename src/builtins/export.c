@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 15:12:48 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/16 17:05:12 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/23 21:04:56 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	export(char **token, t_env **env)
 	{
 		if (!check_identifier(token[i]))
 		{
-			ft_printf_fd(2, "bash: export: %s: not a valid identifier\n",
+			ft_printf_fd(2, "minishell: export: %s: not a valid identifier\n",
 				token[i]);
 			g_exitcode = 1;
 		}

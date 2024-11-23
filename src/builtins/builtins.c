@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 13:05:22 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/16 15:33:57 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/23 20:44:39 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	ft_isbuiltin(char *str)
 {
+	if (!str)
+		return (0);
 	if (ft_strcmp(str, "echo") == 0 || ft_strcmp(str, "cd") == 0
 		|| ft_strcmp(str, "export") == 0 || ft_strcmp(str, "exit") == 0
 		|| ft_strcmp(str, "unset") == 0 || ft_strcmp(str, "pwd") == 0
