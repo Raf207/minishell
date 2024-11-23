@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:02:30 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/16 19:02:08 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/23 06:57:16 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_redir(t_AST *ast, char **envp, t_env **env)
 	fd = open(ast->file, ast->mode, 0644);
 	if (fd < 0)
 	{
-		ft_printf_fd(2, "minishell: %s: failed to open\n", ast->file);
+		ft_printf_fd(2, "minishell: %s: No such file or directory\n", ast->file);
 		exit(1);
 	}
 	if (dup2(fd, ast->fd) == -1)
@@ -38,7 +38,7 @@ void	ft_heredoc(t_AST *ast, char **envp, t_env **env)
 	fd = open(".heredoc", O_RDONLY, 0644);
 	if (fd < 0)
 	{
-		ft_printf_fd(2, "minishell: %s: failed to open\n", ast->file);
+		ft_printf_fd(2, "minishell: %s: No such file or directory\n", ast->file);
 		exit(1);
 	}
 	if (dup2(fd, ast->fd) == -1)
@@ -53,10 +53,15 @@ void	ft_heredoc(t_AST *ast, char **envp, t_env **env)
 void	ft_pipe(t_AST *ast, char **envp, t_env **env)
 {
 	int		p[2];
+	int		stat1;
+	int		stat2;
+	pid_t	pid1;
+	pid_t	pid2;
 
 	if (pipe(p) < 0)
 		ft_panic("pipe");
-	if (ft_fork1() == 0)
+	pid1 = ft_fork1();
+	if (pid1 == 0)
 	{
 		dup2(p[1], STDOUT_FILENO);
 		close(p[0]);
@@ -65,22 +70,22 @@ void	ft_pipe(t_AST *ast, char **envp, t_env **env)
 		ft_free_ast(ast);
 		exit(127);
 	}
-	if (ft_fork1() == 0)
+	pid2 = ft_fork1();
+	if (pid2 == 0)
 	{
 		dup2(p[0], STDIN_FILENO);
 		close(p[0]);
 		close(p[1]);
 		ft_runcmd(ast->left, envp, env);
-		// ft_free_ast(ast);
-		// exit(127);
+		ft_free_ast(ast);
+		exit(127);
 	}
 	close(p[0]);
 	close(p[1]);
-	wait(0);
-	wait(0);
-	// waitpid(pid, &status, 0);
-	// ft_printf_fd(2, "sortie : %d\n", status / 256);
-	// exit(status);
+	waitpid(pid1, &stat1, 0);
+	waitpid(pid2, &stat2, 0);
+	ft_printf_fd(2, "sortieee : %d\n", stat2 / 256);
+	exit(stat2 / 256);
 }
 
 void	ft_exec(t_AST *ast, char **envp, t_env **env)
@@ -107,7 +112,6 @@ void	ft_runcmd(t_AST *ast, char **envp, t_env **env)
 		ft_pipe(ast, envp, env);
 	else
 	{
-		// ft_free_ast(ast);
 		ft_panic("minishell: runcmd");
 	}
 }

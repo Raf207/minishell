@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:41:32 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/07 13:15:11 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/20 18:39:04 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	ft_free_ast(t_AST *node)
 	}
 	else if (node->type == REDIR || node->type == N_HEREDOC)
 	{
+		free(node->file);
 		ft_free_ast(node->subcmd);
 		free(node);
 	}

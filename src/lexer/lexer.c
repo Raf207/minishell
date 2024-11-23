@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 19:06:24 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/16 20:34:21 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/23 06:48:19 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,12 @@ void	new_tok(t_token_list **tokens, char *value, t_enfin *enfin,
 
 	if (!value)
 	{
-		if (enfin->word_len >= 0)
+		if ((enfin->word_len > 0
+			|| (enfin->i != 0 && enfin->input[enfin->i - 1] == '"' && enfin->word_len == 0)
+				|| (enfin->i != 0 && enfin->input[enfin->i - 1] == '\'' && enfin->word_len == 0)))
 		{
 			enfin->current[enfin->word_len] = '\0';
-			temp = ft_expansion(enfin->current, enfin->env);
+			temp = ft_strdup(enfin->current);
 			if (!ft_append_list(tokens, type, temp))
 			{
 				free(temp);
@@ -86,8 +88,6 @@ int	new_pass(t_token_list **tokens, char *input, t_enfin *enfin)
 	{
 		if (enfin->i == 0)
 			enfin->word_len = 0;
-		else if ((input[enfin->i - 1] != '"' && enfin->word_len == 0) || (input[enfin->i - 1] != '\'' && enfin->word_len == 0))
-			enfin->word_len = 0;
 		else
 			new_tok(tokens, NULL, enfin, WORD);
 		return (1);
@@ -119,7 +119,7 @@ int	quotes_tok(t_token_list **tokens, char *input, t_enfin *enfin)
 int	ft_create_list(char *input, t_env **env, t_token_list **tokens)
 {
 	t_enfin	enfin;
-	t_token_list *tmp;
+	// t_token_list *tmp;
 
 	enfin.current = (char *) malloc (sizeof(char) * (ft_strlen(input) + 1));
 	enfin.word_len = 0;
@@ -127,6 +127,7 @@ int	ft_create_list(char *input, t_env **env, t_token_list **tokens)
 	enfin.quote = '\0';
 	enfin.in_quote = 0;
 	enfin.env = env;
+	enfin.input = input;
 	while (input[++enfin.i])
 	{
 		if (input[enfin.i] == '\\')
@@ -146,11 +147,11 @@ int	ft_create_list(char *input, t_env **env, t_token_list **tokens)
 	if (enfin.in_quote)
 		return (ft_cleantoken(tokens), printf("minishell: syntax error\n"), 1);
 	ft_update_tok(tokens);
-	tmp = *tokens;
-	while (tmp)
-	{
-		printf("cal :%s\n", tmp->value);
-		tmp = tmp->next;
-	}
+	// tmp = *tokens;
+	// while (tmp)
+	// {
+	// 	printf("cal :%s\n", tmp->value);
+	// 	tmp = tmp->next;
+	// }
 	return (0);
 }

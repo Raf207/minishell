@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/16 18:20:07 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/20 18:01:36 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # include <dirent.h>
 # include <errno.h>
 
-int	g_exitcode;
+extern int	g_exitcode;
 
 typedef enum e_token
 {
@@ -86,6 +86,7 @@ typedef struct s_enfin
 {
 	int				i;
 	char			*current;
+	char			*input;
 	int				word_len;
 	int				in_quote;
 	char			quote;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
+/*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 21:04:10 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/16 15:32:55 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/20 18:21:52 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,11 @@ char	**build_env(t_env **env)
 	{
 		if (node->value != NULL)
 		{
-			tmp = ft_strjoin(node->name, "=");
+			tmp = ft_strjoin(ft_strdup(node->name), "=");
 			envp[len] = ft_strjoin(tmp, node->value);
 			if (!tmp || !envp[len++])
 				// ici il faut free tmp seulement si envp[len] retourne NULL mais j'ai pas les lignes faudra voir comment faire;
 				return (NULL);
-			free(tmp);
 		}
 		node = node->next;
 	}
