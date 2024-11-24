@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 13:05:22 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/23 20:44:39 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/24 17:53:08 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,5 @@ int	ft_builtins(char **token, t_env **env)
 		return (echo_built(token), 0);
 	return (1);
 }
-// check "command" '(' g_exitcode = 258
+// check "command" '(' || '<' g_exitcode = 258
 // and all error in the exec ¿g_exitcode = 1?

@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 13:07:48 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/23 21:04:56 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/24 16:48:13 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,12 @@ t_env	*ft_findnode(t_env *env, char *name)
 		tmp = tmp->next;
 	}
 	return (NULL);
+}
+
+static int	diff_dir(const char *path)
+{
+	return (NULL || ft_strncmp(path, "#", INT_MAX) == 0 || ft_strncmp(path, "-",
+			INT_MAX) == 0);
 }
 
 static int	cd_error(t_env **env, t_built *var)
@@ -58,8 +64,7 @@ void	cd(char **token, t_env **env)
 	}
 	if (!cd_error(env, &var))
 		return ;
-	if (!var.path || ft_strncmp(var.path, "~", INT_MAX) == 0
-		|| ft_strncmp(var.path, "#", INT_MAX) == 0)
+	if (!var.path || ft_strncmp(var.path, "#", INT_MAX) == 0)
 		cd_home(&var);
 	else if (ft_strncmp(var.path, "-", INT_MAX) == 0)
 		cd_oldpwd(&var);

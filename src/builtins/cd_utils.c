@@ -6,7 +6,7 @@
 /*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 13:08:05 by mucabrin          #+#    #+#             */
-/*   Updated: 2024/11/23 21:25:24 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/24 16:53:00 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,7 @@ void	cd_oldpwd(t_built *var)
 
 static int	cd_homecheck(t_built *var)
 {
-	if (!ft_strncmp(var->path, "~", INT_MAX) && !var->env_home)
-		var->path = getenv("HOME");
-	else if (!var->env_home)
+	if (!var->env_home)
 	{
 		ft_printf_fd(2, "minishell: cd: HOME not set\n");
 		g_exitcode = 1;
@@ -106,10 +104,4 @@ void	cd_home(t_built *var)
 		chdir(var->env_home->value);
 	else
 		chdir(var->path);
-}
-
-int	diff_dir(const char *path)
-{
-	return (NULL || ft_strncmp(path, "~", INT_MAX) == 0 || ft_strncmp(path, "#",
-			INT_MAX) == 0 || ft_strncmp(path, "-", INT_MAX) == 0);
 }

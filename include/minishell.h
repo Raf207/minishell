@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/20 18:01:36 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/24 16:46:49 by mucabrin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,6 @@ t_env	*ft_findnode(t_env *env, char *name);
 void	cd_home(t_built *var);
 void	cd_oldpwd(t_built *var);
 void	cd_dir(t_built *var);
-int		diff_dir(const char *path);
 void	exit_built(char **token);
 void	echo_built(char **token);
 void	export(char **token, t_env **env);
