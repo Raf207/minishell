@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
+/*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:19:17 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/23 21:46:10 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/26 21:08:07 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_heredoc_input(int fd, char *limiter)
 		if (!line && (*handle_ctlc) == 1)
 			break ;
 		else if (!line)
-			return (1);
+			return (close(fd), 1);
 		if ((ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
 			&& (line[ft_strlen(limiter)] == '\n'))
 			return (close(fd), free(line), 1);

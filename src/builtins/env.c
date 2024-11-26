@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 21:04:10 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/20 18:21:52 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/26 20:04:30 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,9 @@ t_env	*make_envlist(char **env)
 	i = -1;
 	while (env[++i])
 	{
-		if (ft_strncmp(env[i], "OLDPWD", 5))
+		if (ft_strnstr(env[i], "./minishell", 100000000))
+			;
+		else if (ft_strncmp(env[i], "OLDPWD", 5))
 			append_list(&env_list, env[i]);
 		if (ft_strncmp(env[i], "SHLVL", 5) == 0)
 			ft_shlvl(&env_list);

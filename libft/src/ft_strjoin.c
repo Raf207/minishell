@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 17:25:54 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/20 18:16:50 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/26 19:36:23 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		tot_len++;
 	}
 	rep[tot_len] = '\0';
-	free((void *) s1);
-	return (rep);
+	return (free((void *) s1), rep);
 }
 
 // #include <stdio.h>

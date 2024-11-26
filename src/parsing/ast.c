@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 19:55:27 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/20 18:41:29 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/26 21:29:04 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,27 +27,25 @@ t_AST	*ft_execnode(void)
 t_AST	*ft_heredocnode(t_AST *subcmd, char *limiter)
 {
 	t_AST	*cmd;
-	int		fd;
 
-	fd = open(".heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd < 0)
-		return (ft_free_ast(subcmd), NULL);
 	cmd = malloc(sizeof(*cmd));
 	if (!cmd)
+		return (ft_free_ast(subcmd), NULL);
+	ft_memset(cmd, 0, sizeof(*cmd));
+	if (pipe(cmd->pipe) < 0)
 	{
-		close(fd);
-		ft_free_ast(subcmd);
-		return (NULL);
+		ft_printf_fd(2, "minishell : pipe error\n");
+		return (ft_free_ast(subcmd), NULL);
 	}
-	if (ft_heredoc_input(fd, limiter) == 0)
+	if (ft_heredoc_input(cmd->pipe[1], limiter) == 0)
 	{
-		close(fd);
+		close(cmd->pipe[0]);
+		close(cmd->pipe[1]);
 		ft_free_ast(subcmd);
 		free(cmd);
 		return (NULL);
 	}
-	ft_memset(cmd, 0, sizeof(*cmd));
-	cmd->file = limiter;
+	cmd->fd = cmd->pipe[0];
 	cmd->type = N_HEREDOC;
 	cmd->subcmd = subcmd;
 	return (cmd);
@@ -63,7 +61,6 @@ t_AST	*ft_redirnode(t_AST *subcmd, char *file, int mode, int fd)
 		ft_free_ast(subcmd);
 		return (NULL);
 	}
-	printf("file : %s\n", file);
 	ft_memset(cmd, 0, sizeof(*cmd));
 	cmd->type = REDIR;
 	cmd->subcmd = subcmd;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
+/*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/24 16:46:49 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/26 21:28:59 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct s_ast_node
 	char				*file;
 	int					mode;
 	int					fd;
+	int					pipe[2];
 	char				**argv;
 	struct s_ast_node	*left;
 	struct s_ast_node	*right;

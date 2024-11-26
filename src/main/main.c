@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mucabrin <mucabrin@student.s19.be>         +#+  +:+       +#+        */
+/*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:16:16 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/23 21:52:13 by mucabrin         ###   ########.fr       */
+/*   Updated: 2024/11/26 22:04:57 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,32 @@
 
 int		g_exitcode;
 
+int	ft_lastchar(char *str)
+{
+	char	c;
+	int		i;
+
+	if (!str)
+		return (-1);
+	i = -1;
+	c = str[0];
+	while (str[++i])
+	{
+		if (!ft_isspace(str[i]))
+			c = str[i];
+	}
+	return (c);
+}
+
 char	*ft_input(void)
 {
 	char	*input;
 
 	input = readline("minishell$ ");
+	while (ft_lastchar(input) == '|')
+	{
+		input = ft_strjoin(input, readline("> "));
+	}
 	if (input && *input)
 		add_history(input);
 	if (!input)
@@ -59,10 +80,10 @@ char	*ft_input(void)
 //         {
 //             if (node->mode == O_TRUNC)
 //                 printf("Output redirection (truncate) to file: %s\n",
-	//node->file);
+// 	node->file);
 //             else
 //                 printf("Output redirection (append) to file: %s\n",
-	//node->file);
+// 	node->file);
 //         }
 //         ft_display_ast(node->subcmd, level + 1);
 //     }
@@ -98,15 +119,12 @@ void	ft_read_input(t_env **env)
 	{
 		signal(SIGINT, ft_main_sig_handler);
 		signal(SIGQUIT, SIG_IGN);
+		input = ft_input();
+		if (!input)
+			break ;
 		envp = build_env(env);
 		if (!envp)
 			continue ;
-		input = ft_input();
-		if (!input)
-		{
-			ft_free(envp);
-			break ;
-		}
 		input = ft_expansion(input, env);
 		if (ft_create_list(input, env, &tokens))
 		{
@@ -123,7 +141,11 @@ void	ft_read_input(t_env **env)
 		dup2(copy_out, STDOUT_FILENO);
 		if (ast && input[0] != 0 && ast->type != N_PIPE
 			&& ft_isbuiltin(ft_findexec(ast)))
+		{
 			ft_runcmd(ast, envp, env);
+			close(1);
+			dup2(copy_out, STDOUT_FILENO);
+		}
 		else if (ast && input[0] != 0)
 		{
 			pid = ft_fork1();
@@ -137,9 +159,8 @@ void	ft_read_input(t_env **env)
 			if (g_exitcode != 131)
 				g_exitcode = status / 256;
 		}
-		printf("exit_code : %d\n", g_exitcode);
+		// printf("exit_code : %d\n", g_exitcode);
 		ft_free(envp);
-		unlink(".heredoc");
 		free(input);
 		ft_free_ast(ast);
 		// system("leaks minishell");
