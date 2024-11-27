@@ -6,19 +6,11 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 21:54:52 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/23 17:02:58 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/27 04:22:49 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-// void	heredoc_signal(int signal)
-// {
-// 	g_minishell.signal = signal;
-// 	g_minishell.heredoc = true;
-// 	set_env(&g_minishell.envs, "?",
-// 		ft_itoa(128 + g_minishell.signal));
-// }
 
 int	*ft_boolhere(int i)
 {

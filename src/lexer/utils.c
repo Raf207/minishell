@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 14:49:38 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/23 18:18:51 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/27 03:41:32 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,11 @@ void	ft_update_tok(t_token_list **token)
 			temp->value = ft_itoa(g_exitcode);
 		}
 		if (ft_strncmp("~", temp->value, 1) == 0)
+		{
+			free(temp->value);
 			temp->value = ft_strjoin(ft_strdup(getenv("HOME")),
 					&temp->value[1]);
+		}
 		temp = temp->next;
 	}
 }

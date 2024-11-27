@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:16:16 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/26 22:04:57 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/27 04:25:43 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,14 @@ int	ft_lastchar(char *str)
 char	*ft_input(void)
 {
 	char	*input;
+	char	*tmp;
 
 	input = readline("minishell$ ");
 	while (ft_lastchar(input) == '|')
 	{
-		input = ft_strjoin(input, readline("> "));
+		tmp = readline("> ");
+		input = ft_strjoin(input, tmp);
+		free(tmp);
 	}
 	if (input && *input)
 		add_history(input);

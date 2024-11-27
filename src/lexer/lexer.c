@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 19:06:24 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/26 21:45:49 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/27 03:41:11 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,5 @@ int	ft_create_list(char *input, t_env **env, t_token_list **tokens)
 	if (enfin.in_quote)
 		return (ft_cleantoken(tokens), printf("minishell: syntax error\n"), 1);
 	ft_update_tok(tokens);
-	
 	return (0);
 }
