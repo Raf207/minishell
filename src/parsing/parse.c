@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:00:24 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/26 20:01:37 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/28 06:19:03 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,30 @@
 
 t_AST	*ft_parseredir(t_AST *cmd, t_token_list **list)
 {
-	t_AST		**top;
-	t_AST		*temp;
-	t_AST		*temp2;
+	t_parse	parse;
 
-	temp = cmd;
-	top = &temp;
+	parse.temp = cmd;
+	parse.top = &(parse.temp);
 	while ((*list) && ((*list)->type == RED_IN || (*list)->type == RED_APPEND
 			|| (*list)->type == RED_OUT || (*list)->type == HEREDOC))
 	{
-		cmd = (*top);
-		temp2 = temp;
+		cmd = (*(parse.top));
+		parse.temp2 = parse.temp;
 		while (cmd->type == REDIR || cmd->type == N_HEREDOC)
 		{
-			temp2 = cmd;
+			parse.temp2 = cmd;
 			cmd = cmd->subcmd;
 		}
 		cmd = ft_addredir(cmd, list);
 		if (!cmd)
 			return (NULL);
-		if (temp2->subcmd)
-			temp2->subcmd = cmd;
+		if (parse.temp2->subcmd)
+			parse.temp2->subcmd = cmd;
 		else
-			temp = cmd;
+			parse.temp = cmd;
 		(*list) = (*list)->next;
 	}
-	return (*top);
+	return (*(parse.top));
 }
 
 t_AST	*ft_parseexec(t_token_list **list)

@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/26 21:28:59 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/28 07:40:42 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,32 @@ typedef struct s_built
 	const char			*path;
 	char				*tmp;
 	DIR					*dir;
-}						t_built;
+}	t_built;
+
+typedef struct s_parse
+{
+	t_AST	**top;
+	t_AST	*temp;
+	t_AST	*temp2;
+}	t_parse;
+
+typedef struct s_exp
+{
+	int		i;
+	int		tot;
+	t_env	*en;
+	char	c;
+}	t_exp;
+
+typedef struct s_main
+{
+	t_AST			*ast;
+	char			**envp;
+	int				copy_in;
+	int				copy_out;
+	int				status;
+	pid_t			pid;
+}	t_main;
 
 t_AST	*parsecmd(t_token_list *tokens, t_env *env);
 t_env	*make_envlist(char	**env);
@@ -111,6 +136,9 @@ char	**build_env(t_env	**env);
 int		ft_fork1(void);
 int		ft_isspace(char c);
 int		*ft_boolhere(int i);
+int		ft_init(t_env **env, t_main *main);
+char	*ft_input(void);
+void	ft_execpart(t_env **env, t_main *main);
 
 //lexer
 int		ft_create_list(char *input, t_env **env, t_token_list **tokens);
@@ -118,12 +146,18 @@ int		ft_append_list(t_token_list **list, t_token_typ	type, char *value);
 char	*ft_expansion(char *str, t_env **env);
 void	ft_cleantoken(t_token_list **list);
 void	ft_update_tok(t_token_list **token);
+int		ft_endtok(t_token_list **tokens, t_enfin *enfin);
+void	ft_checkcoma(char *str, char *c, int i);
+void	ft_findinenv(t_env *start, char *str, int *len, int i);
+int		ft_len(char	*str, int i);
 
 //execution
 void	ft_runcmd(t_AST *ast, char **envp, t_env **env);
 void	ft_execution(char **cmd, char **envp);
 int		ft_findenv(char **envp, char *name);
 int		ft_heredoc_input(int fd, char *limiter);
+void	ft_pipe1(int p[2], t_AST *ast, char **envp, t_env **env);
+void	ft_pipe2(int p[2], t_AST *ast, char **envp, t_env **env);
 
 //parsing
 t_AST	*ft_parsing(t_token_list **mlist);

@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 19:06:24 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/27 03:41:11 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/28 04:49:49 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	new_tok(t_token_list **tokens, char *value, t_enfin *enfin,
 	if (!value)
 	{
 		if ((enfin->word_len > 0 || (enfin->i != 0 && enfin->input[enfin->i
-					- 1] == '"' && enfin->word_len == 0) || (enfin->i != 0
+						- 1] == '"' && enfin->word_len == 0) || (enfin->i != 0
 					&& enfin->input[enfin->i - 1] == '\''
 					&& enfin->word_len == 0)))
 		{
@@ -142,10 +142,5 @@ int	ft_create_list(char *input, t_env **env, t_token_list **tokens)
 	}
 	new_tok(tokens, NULL, &enfin, WORD);
 	free(enfin.current);
-	if (!ft_append_list(tokens, END, NULL))
-		ft_exit_tokens(tokens, "minishell: malloc error");
-	if (enfin.in_quote)
-		return (ft_cleantoken(tokens), printf("minishell: syntax error\n"), 1);
-	ft_update_tok(tokens);
-	return (0);
+	return (ft_endtok(tokens, &enfin));
 }

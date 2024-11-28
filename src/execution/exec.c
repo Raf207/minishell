@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:02:30 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/27 03:16:54 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/28 04:34:02 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,24 +60,10 @@ void	ft_pipe(t_AST *ast, char **envp, t_env **env)
 		ft_panic("pipe");
 	pid1 = ft_fork1();
 	if (pid1 == 0)
-	{
-		dup2(p[1], STDOUT_FILENO);
-		close(p[0]);
-		close(p[1]);
-		ft_runcmd(ast->right, envp, env);
-		ft_free_ast(ast);
-		exit(127);
-	}
+		ft_pipe1(p, ast, envp, env);
 	pid2 = ft_fork1();
 	if (pid2 == 0)
-	{
-		dup2(p[0], STDIN_FILENO);
-		close(p[0]);
-		close(p[1]);
-		ft_runcmd(ast->left, envp, env);
-		ft_free_ast(ast);
-		exit(127);
-	}
+		ft_pipe2(p, ast, envp, env);
 	close(p[0]);
 	close(p[1]);
 	waitpid(pid1, 0, 0);

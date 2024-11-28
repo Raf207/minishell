@@ -16,8 +16,8 @@ OBJ_DIR = obj/
 EXECUTION = exec utils
 PARSING = ast parse utils
 TOOLS = exit fork
-LEXER = lexer expansion utils
-MAIN = main signals
+LEXER = lexer expansion lex_utils exp_utils
+MAIN = main signals main_utils
 BUILTINS = env builtins cd_utils cd echo exit export_sort export_utils export pwd unset
 
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)

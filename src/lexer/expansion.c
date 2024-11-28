@@ -6,13 +6,13 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 19:46:58 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/26 20:08:03 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/28 07:21:05 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static int	ft_len(char	*str, int i)
+int	ft_len(char	*str, int i)
 {
 	int	j;
 
@@ -29,40 +29,20 @@ static int	ft_lenexp(char *str, t_env **env)
 	int		i;
 	int		len;
 	t_env	*start;
-	int		coma;
 	char	c;
 
 	i = -1;
 	len = ft_strlen(str);
-	coma = 0;
 	c = '0';
 	while (str[++i])
 	{
 		start = *env;
-		if (coma == 0 && (str[i] == '\'' || str[i] == '"'))
-		{
-			c = str[i];
-			coma = 1;
-		}
-		else if (str[i] == c && (str[i] == '\'' || str[i] == '"'))
-		{
-			c = '0';
-			coma = 0;
-		}
+		ft_checkcoma(str, &c, i);
 		if (c != '\'' && str[i] == '$' && str[i + 1] != '?'
 			&& str[i + 1] != '"' && str[i + 1] != '\'' && str[i + 1] != '\0')
 		{
 			len -= ft_len(str, i) + 1;
-			while (start)
-			{
-				if (ft_strncmp(start->name, &str[i + 1], ft_len(str, i)) == 0
-					&& start->name[ft_len(str, i)] == 0)
-				{
-					len += ft_strlen(start->value);
-					break ;
-				}
-				start = start->next;
-			}
+			ft_findinenv(start, str, &len, i);
 		}
 	}
 	return (len);
@@ -77,44 +57,30 @@ static int	ft_exputils(char *rep, t_env *start, int *tot)
 
 void	ft_newstr(char *str, t_env **env, char	*rep)
 {
-	int		i;
-	int		tot;
-	t_env	*start;
-	int		coma;
-	char	c;
+	t_exp	p;
 
-	coma = 0;
-	i = -1;
-	tot = 0;
-	c = '0';
-	while (str[++i])
+	p.i = -1;
+	p.tot = 0;
+	p.c = '0';
+	while (str[++(p.i)])
 	{
-		start = *env;
-		if (coma == 0 && (str[i] == '\'' || str[i] == '"'))
+		p.en = *env;
+		ft_checkcoma(str, &(p.c), p.i);
+		if (p.c != '\'' && str[p.i] == '$' && str[p.i + 1] != '?'
+			&& str[p.i + 1] != '"' && str[p.i + 1] != '\'' && str[p.i + 1])
 		{
-			c = str[i];
-			coma = 1;
-		}
-		else if (str[i] == c && (str[i] == '\'' || str[i] == '"'))
-		{
-			c = '0';
-			coma = 0;
-		}
-		if (c != '\'' && str[i] == '$' && str[i + 1] != '?'
-			&& str[i + 1] != '"' && str[i + 1] != '\'' && str[i + 1] != '\0')
-		{
-			while (start)
+			while (p.en)
 			{
-				if (ft_strncmp(start->name, &str[i + 1], ft_len(str, i)) == 0
-					&& start->name[ft_len(str, i)] == 0
-					&& ft_exputils(rep, start, &tot))
+				if (!ft_strncmp((p.en)->name, &str[p.i + 1], ft_len(str, p.i))
+					&& (p.en)->name[ft_len(str, p.i)] == 0
+					&& ft_exputils(rep, p.en, &(p.tot)))
 					break ;
-				start = start->next;
+				p.en = (p.en)->next;
 			}
-			i += ft_len(str, i);
+			p.i += ft_len(str, p.i);
 		}
 		else
-			rep[tot++] = str[i];
+			rep[(p.tot)++] = str[p.i];
 	}
 }
 
@@ -123,6 +89,8 @@ char	*ft_expansion(char *str, t_env **env)
 	int		tot;
 	char	*rep;
 
+	if (!str)
+		return (NULL);
 	tot = ft_lenexp(str, env);
 	rep = malloc(sizeof(char) * (tot + 1));
 	if (!rep)

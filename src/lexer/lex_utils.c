@@ -6,17 +6,11 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 14:49:38 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/27 03:41:32 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/28 04:49:53 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-int	ft_isspace(char c)
-{
-	return (c == ' ' || c == '\r' || c == '\n'
-		|| c == '\f' || c == '\v' || c == '\t');
-}
 
 t_token_list	*ft_last_token(t_token_list *list)
 {
@@ -95,4 +89,14 @@ void	ft_update_tok(t_token_list **token)
 		}
 		temp = temp->next;
 	}
+}
+
+int	ft_endtok(t_token_list **tokens, t_enfin *enfin)
+{
+	if (!ft_append_list(tokens, END, NULL))
+		ft_exit_tokens(tokens, "minishell: malloc error");
+	if (enfin->in_quote)
+		return (ft_cleantoken(tokens), printf("minishell: syntax error\n"), 1);
+	ft_update_tok(tokens);
+	return (0);
 }
