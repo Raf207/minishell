@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 14:49:38 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/28 22:08:01 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/28 23:58:22 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,6 @@ void	ft_update_tok(t_token_list **token)
 	tm = *token;
 	while (tm->value)
 	{
-		if (ft_isincoma(tm->value),
-			ft_strnstr(tm->value, "$?", ft_strlen(tm->value)))
-			tm->value = ft_addexitcode(tm->value);
 		if (ft_strncmp("~", tm->value, 1) == 0)
 		{
 			free(tm->value);

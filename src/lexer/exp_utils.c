@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 04:36:48 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/28 22:13:32 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/29 00:14:16 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,8 @@ void	ft_checkcoma(char *str, char *c, int i)
 {
 	static int	coma = 0;
 
-	printf("stc : %c\n",str[i]);
 	if (coma == 0 && (str[i] == '\'' || str[i] == '"'))
 	{
-		printf("yo\n");
 		*c = str[i];
 		coma = 1;
 	}
@@ -50,36 +48,28 @@ void	ft_findinenv(t_env *start, char *str, int *len, int i)
 	}
 }
 
-char	*ft_addexitcode(char *value)
+int	ft_addexitcode(char *rep, char *str, int i, t_exp *p)
 {
 	char	*exit_code;
-	char	*temp;
-	char	*temp2;
 
-	exit_code = ft_itoa(g_exitcode);
-	temp2 = ft_strnstr(value, "$?", ft_strlen(value));
-	temp = ft_strjoin(ft_substr(value, 0, temp2 - value), exit_code);
-	free(exit_code);
-	exit_code = value;
-	value = ft_strjoin(temp, temp2 + 2);
-	free(exit_code);
-	return (value);
+	ft_checkcoma(str, &(p->c), p->i);
+	if (p->c != '\'' && str[i] == '$' && str[i + 1] == '?')
+	{
+		exit_code = ft_itoa(g_exitcode);
+		ft_strlcpy(rep, exit_code, ft_strlen(exit_code) + 1);
+		p->tot += ft_strlen(exit_code);
+		p->i += 1;
+		free(exit_code);
+		return (1);
+	}
+	return (0);
 }
 
-int	ft_isincoma(char *str)
+void	ft_exitcode(int *len)
 {
-	int		i;
-	char	c;
+	char	*exit_code;
 
-	i = -1;
-	c = '0';
-	while (str[++i])
-	{
-		ft_checkcoma(str, &c, i);
-		printf("c : %c\n", c);
-		if (c != '\'' && str[i] == '$' && str[i + 1] == '?')
-			return (1);
-	}
-	printf("---------\n");
-	return (0);
+	exit_code = ft_itoa(g_exitcode);
+	(*len) += ft_strlen(exit_code) - 2;
+	free(exit_code);
 }
