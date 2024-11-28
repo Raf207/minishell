@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 19:16:16 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/28 07:41:45 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/28 19:36:11 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	ft_read_input(t_env **env)
 		stock = ft_init(env, &main);
 		if (stock == 0)
 			break ;
-		if (stock == 0)
+		if (stock == 1)
 			continue ;
 		signal(SIGINT, ft_exec_sig_handler);
 		signal(SIGQUIT, ft_exec_sig_handler);

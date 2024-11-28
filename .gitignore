@@ -22,3 +22,6 @@ minishell
 
 # Ignore valgrind files
 *.supp
+
+red
+blue

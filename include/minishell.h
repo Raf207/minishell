@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/28 07:40:42 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/28 19:47:51 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ int		*ft_boolhere(int i);
 int		ft_init(t_env **env, t_main *main);
 char	*ft_input(void);
 void	ft_execpart(t_env **env, t_main *main);
+int		ft_lastchar(char *str);
 
 //lexer
 int		ft_create_list(char *input, t_env **env, t_token_list **tokens);
