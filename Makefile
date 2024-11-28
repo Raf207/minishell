@@ -2,8 +2,7 @@ NAME = minishell
 BONUS_NAME = pipex_bonus
 
 LIBFT = ./libft/libft.a
-#-fsanitize=address -g
-CC = gcc -fsanitize=address -g
+CC = gcc -g
 CFLAGS = -Wall -Wextra -Werror $(CPPFLAGS)
 LINK = -lreadline $(LDFLAGS)
 

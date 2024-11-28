@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 07:02:10 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/28 19:48:45 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/28 20:31:35 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	ft_init(t_env **env, t_main *main)
 {
 	t_token_list	*tokens;
 	char			*input;
+	t_token_list	*tmp;
 
 	tokens = NULL;
 	signal(SIGINT, ft_main_sig_handler);
@@ -42,6 +43,7 @@ int	ft_init(t_env **env, t_main *main)
 	if (ft_create_list(input, env, &tokens))
 		return (ft_free(main->envp), free(input), 1);
 	g_exitcode = 0;
+	tmp = tokens;
 	main->ast = ft_parsing(&tokens);
 	ft_cleantoken(&tokens);
 	return (free(input), 2);
@@ -55,6 +57,7 @@ void	ft_execpart(t_env **env, t_main *main)
 		ft_runcmd(main->ast, main->envp, env);
 		close(1);
 		dup2(main->copy_out, STDOUT_FILENO);
+		dup2(main->copy_in, STDIN_FILENO);
 	}
 	else if (main->ast)
 	{

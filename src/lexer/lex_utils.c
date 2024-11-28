@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   lex_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 14:49:38 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/28 04:49:53 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/28 22:08:01 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,23 +71,20 @@ void	ft_cleantoken(t_token_list **list)
 
 void	ft_update_tok(t_token_list **token)
 {
-	t_token_list	*temp;
+	t_token_list	*tm;
 
-	temp = *token;
-	while (temp->value)
+	tm = *token;
+	while (tm->value)
 	{
-		if (ft_strncmp("$?", temp->value, 2) == 0)
+		if (ft_isincoma(tm->value),
+			ft_strnstr(tm->value, "$?", ft_strlen(tm->value)))
+			tm->value = ft_addexitcode(tm->value);
+		if (ft_strncmp("~", tm->value, 1) == 0)
 		{
-			free(temp->value);
-			temp->value = ft_itoa(g_exitcode);
+			free(tm->value);
+			tm->value = ft_strjoin(ft_strdup(getenv("HOME")), &tm->value[1]);
 		}
-		if (ft_strncmp("~", temp->value, 1) == 0)
-		{
-			free(temp->value);
-			temp->value = ft_strjoin(ft_strdup(getenv("HOME")),
-					&temp->value[1]);
-		}
-		temp = temp->next;
+		tm = tm->next;
 	}
 }
 

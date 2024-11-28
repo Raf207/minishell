@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 19:46:58 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/28 07:21:05 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/28 21:49:55 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	ft_lenexp(char *str, t_env **env)
 	{
 		start = *env;
 		ft_checkcoma(str, &c, i);
-		if (c != '\'' && str[i] == '$' && str[i + 1] != '?'
+		if (c != '\'' && str[i] == '$' && str[i + 1] != '?' && str[i + 1] != ' '
 			&& str[i + 1] != '"' && str[i + 1] != '\'' && str[i + 1] != '\0')
 		{
 			len -= ft_len(str, i) + 1;
@@ -48,11 +48,18 @@ static int	ft_lenexp(char *str, t_env **env)
 	return (len);
 }
 
-static int	ft_exputils(char *rep, t_env *start, int *tot)
+static int	ft_exputils(char *rep, char *str, t_exp *p, int mode)
 {
-	ft_strlcpy(&rep[(*tot)], start->value, ft_strlen(start->value) + 1);
-	(*tot) += ft_strlen(start->value);
-	return (1);
+	if (mode == 0)
+	{
+		ft_strlcpy(&rep[p->tot], p->en->value, ft_strlen(p->en->value) + 1);
+		p->tot += ft_strlen(p->en->value);
+		return (1);
+	}
+	else
+		return (p->c != '\'' && str[p->i] == '$' && str[p->i + 1] != '?'
+			&& str[p->i + 1] != ' '
+			&& str[p->i + 1] != '"' && str[p->i + 1] != '\'' && str[p->i + 1]);
 }
 
 void	ft_newstr(char *str, t_env **env, char	*rep)
@@ -66,14 +73,13 @@ void	ft_newstr(char *str, t_env **env, char	*rep)
 	{
 		p.en = *env;
 		ft_checkcoma(str, &(p.c), p.i);
-		if (p.c != '\'' && str[p.i] == '$' && str[p.i + 1] != '?'
-			&& str[p.i + 1] != '"' && str[p.i + 1] != '\'' && str[p.i + 1])
+		if (ft_exputils(rep, str, &p, 1))
 		{
 			while (p.en)
 			{
 				if (!ft_strncmp((p.en)->name, &str[p.i + 1], ft_len(str, p.i))
 					&& (p.en)->name[ft_len(str, p.i)] == 0
-					&& ft_exputils(rep, p.en, &(p.tot)))
+					&& ft_exputils(rep, str, &p, 0))
 					break ;
 				p.en = (p.en)->next;
 			}

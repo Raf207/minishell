@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:19:17 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/28 04:33:42 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/28 20:20:13 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	ft_pipe1(int p[2], t_AST *ast, char **envp, t_env **env)
 	close(p[1]);
 	ft_runcmd(ast->right, envp, env);
 	ft_free_ast(ast);
-	exit(127);
+	exit(0);
 }
 
 void	ft_pipe2(int p[2], t_AST *ast, char **envp, t_env **env)
@@ -93,5 +93,5 @@ void	ft_pipe2(int p[2], t_AST *ast, char **envp, t_env **env)
 	close(p[1]);
 	ft_runcmd(ast->left, envp, env);
 	ft_free_ast(ast);
-	exit(127);
+	exit(0);
 }
