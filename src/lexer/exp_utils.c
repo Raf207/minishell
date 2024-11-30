@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 04:36:48 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/29 00:14:16 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/30 16:19:17 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,15 @@ int	ft_isspace(char c)
 		|| c == '\f' || c == '\v' || c == '\t');
 }
 
-void	ft_checkcoma(char *str, char *c, int i)
+void	ft_checkcoma(char *str, char *c, int i, int mode)
 {
 	static int	coma = 0;
 
+	if (mode == 0)
+	{
+		coma = 0;
+		return ;
+	}
 	if (coma == 0 && (str[i] == '\'' || str[i] == '"'))
 	{
 		*c = str[i];
@@ -52,7 +57,7 @@ int	ft_addexitcode(char *rep, char *str, int i, t_exp *p)
 {
 	char	*exit_code;
 
-	ft_checkcoma(str, &(p->c), p->i);
+	ft_checkcoma(str, &(p->c), p->i, 1);
 	if (p->c != '\'' && str[i] == '$' && str[i + 1] == '?')
 	{
 		exit_code = ft_itoa(g_exitcode);

@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 21:04:10 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/28 07:51:21 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/30 17:39:03 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	append_list(t_env **env_list, char *str)
 
 	if (!env_list)
 		return ;
-	node = malloc(sizeof(t_env));
+	node = calloc(1, sizeof(t_env));
 	if (!node)
 		return ;
 	node->next = NULL;
@@ -49,7 +49,8 @@ void	append_list(t_env **env_list, char *str)
 	else
 		node->equal = false;
 	node->name = ft_substr(str, 0, len);
-	node->value = ft_substr(str, len + 1, INT_MAX);
+	if (node->equal)
+		node->value = ft_substr(str, len + 1, INT_MAX);
 	if (!(*env_list))
 		*env_list = node;
 	else

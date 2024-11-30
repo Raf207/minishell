@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:04:53 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/29 00:10:37 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/30 16:17:39 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ char	*ft_expansion(char *str, t_env **env);
 void	ft_cleantoken(t_token_list **list);
 void	ft_update_tok(t_token_list **token);
 int		ft_endtok(t_token_list **tokens, t_enfin *enfin);
-void	ft_checkcoma(char *str, char *c, int i);
+void	ft_checkcoma(char *str, char *c, int i, int mode);
 void	ft_findinenv(t_env *start, char *str, int *len, int i);
 int		ft_len(char	*str, int i);
 int		ft_addexitcode(char *rep, char *str, int i, t_exp *p);

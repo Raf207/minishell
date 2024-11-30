@@ -6,7 +6,7 @@
 /*   By: rafnasci <rafnasci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 19:46:58 by rafnasci          #+#    #+#             */
-/*   Updated: 2024/11/29 00:14:09 by rafnasci         ###   ########.fr       */
+/*   Updated: 2024/11/30 16:17:54 by rafnasci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	ft_lenexp(char *str, t_env **env)
 	while (str[++i])
 	{
 		start = *env;
-		ft_checkcoma(str, &c, i);
+		ft_checkcoma(str, &c, i, 1);
 		if (c != '\'' && str[i] == '$' && str[i + 1] == '?')
 			ft_exitcode(&len);
 		if (c != '\'' && str[i] == '$' && str[i + 1] != '?' && str[i + 1] != ' '
